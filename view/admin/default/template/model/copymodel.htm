@@ -1,0 +1,25 @@
+{extend name="public:base" /}
+{block name="cont"}
+<div class="layout cx-mag-b15 cx-fex cx-pad-a5 cx-borbottom">
+<a class="cx-button-s cx-bor-yellow" href="javascript:history.go(-1)"><i class="cx-icon cx-iconxiangzuojiantou cx-mag-r5"></i>返回</a>
+<h6 class="cx-text-black-6">{$list_base.title|default=''}</h6>
+</div>
+<form class="layout layui-form" action="{$list_base.uri|default=''}" method="post">
+    {volist name=":WORMCMS('filed@FiledsToForm',$list_file,$postdb)" id="cx" empty="请先定义字段"}
+    {eq name="cx.group" value="基本信息"}
+    <div class="cx-form-group cx-mag-b10 {eq name='cx.type' value='hidden'} cx-hidden{/eq}">
+        {$cx.title|raw}
+        <div class="cx-form-item">
+            {$cx.value|raw}
+        </div>
+    </div>
+    {/eq}
+    {/volist}
+    <div class="cx-form-group cx-mag-b10">
+        <label class="cx-label"></label>
+        <div class="cx-form-item">
+            <button class="cx-button cx-bg-blue cx-bor-rasmall" lay-submit lay-filter="newbutton">确 定</button>
+        </div>
+    </div>
+</form>
+{/block}

@@ -1,0 +1,10 @@
+<ul>
+    {volist name="_LIST_" id="res" empty=""}
+    <li>
+        <a href="/part-{$res.id|default=''}.html" title="{$res.title|default=''}" class="layout cx-fex cx-fex-itemsc cx-borbottom cx-bor-white-1">
+            <div class="cx-pad-tb15 cx-text-f16">{$res.title|default=''}</div>
+            <i class="cx-icon cx-iconxiangyoujiantou cx-text-f18"></i>
+        </a>
+    </li>
+    {/volist}
+</ul>

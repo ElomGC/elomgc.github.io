@@ -1,0 +1,208 @@
+{extend name="public:base" title="$list_base.title" /}
+{block name="cont"}
+<form class="layout cx-fex-l layui-form" action="{:url('partlist',['id' => $postdb.id])}" lay-filter="articlelist" method="post">
+    <div class="cx-xs16">
+        <div class="layui-tab layui-tab-brief" lay-filter="code">
+            <ul class="layui-tab-title">
+                <li class="layui-this">系统模板</li>
+                <li>自订义模板</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div class="cx-form-group _listlate cx-mag-b10">
+                        <label class="cx-label">模板类型</label>
+                        <div class="cx-form-item">
+                            <input type="radio" name="temptype" value="1" title="单条循环" {eq name="postdb.temptype|default='0'" value="1"}checked{/eq} lay-filter="temptype">
+                            <input type="radio" name="temptype" value="0" title="模块引用" {eq name="postdb.temptype|default='0'" value="0"}checked{/eq} lay-filter="temptype">
+                        </div>
+                    </div>
+                    <div class="cx-form-group cx-mag-b10 ">
+                        <label class="cx-label">展示模板</label>
+                        <div class="cx-form-item cx-fex-column">
+                            <select class="latename" name="latename" lay-filter="onetemplate">
+                                <option value="0">默认模板</option>
+                                {volist name="filelist" id="cx" empty=""}
+                                <option value="{$cx}" {eq name="postdb.latename|default=''" value="$cx"}selected{/eq}>{$cx}</option>
+                                {/volist}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="cx-form-group cx-mag-b10 ">
+                        <label class="cx-label">模板预览</label>
+                        <div class="cx-form-item cx-fex-column">
+                            <div class="cx-fex-c cx-fex-itemsc cx-bor cx-mag-t10" style="width: 50%;">
+                                <img class="onetemplateimg cx-img-responsive" {eq name="postdb.temptype|default='0'" value="1"}src="/public/label/partlist/one/{$postdb.latename|default=''}.jpg"{else /}src="/public/label/partlist/list/{$postdb.latename|default=''}.jpg"{/eq} onerror="this.src='__PUBLIC__/img/imgnone.jpg'">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="cx-form-group cx-mag-b10 ">
+                        <label class="cx-label">模板代码</label>
+                        <div class="cx-form-item cx-fex-column">
+                            <textarea class="cx-ipt cx-text-f16 cx-mag-t10 onetemplateval" rows="10" name="template" style="line-height: 2;">{$postdb.template|default=''|raw}</textarea>
+                            <div class="layout cx-text-black-3">不懂代码请勿修改，代码说明：<a href="//www.wormcms.com" target="_blank">说明文档</a></div>
+                        </div>
+                    </div>
+                    <div class="cx-form-group cx-mag-b10 ">
+                        <label class="cx-label">可用参数</label>
+                        <div class="cx-form-item cx-fex-column">
+                            <div class="layout cx-text-black-6 cx-text-lh">变量名为 $res，如调用栏目名称：{literal} {$res.title|default=''} {/literal}</div>
+                            <table class="layui-table">
+                                <thead>
+                                <tr>
+                                    <th>字段名</th>
+                                    <th>默认值</th>
+                                    <th>是否必填</th>
+                                    <th>备注</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>id</td>
+                                    <td>-</td>
+                                    <td>是</td>
+                                    <td>栏目ID</td>
+                                </tr>
+                                <tr>
+                                    <td>title</td>
+                                    <td>-</td>
+                                    <td>是</td>
+                                    <td>栏目名称</td>
+                                </tr>
+                                <tr>
+                                    <td>uri</td>
+                                    <td>-</td>
+                                    <td>否</td>
+                                    <td>链接地址</td>
+                                </tr>
+                                <tr>
+                                    <td>pid</td>
+                                    <td>0</td>
+                                    <td>否</td>
+                                    <td>上级栏目ID</td>
+                                </tr>
+                                <tr>
+                                    <td>logo</td>
+                                    <td>-</td>
+                                    <td>否</td>
+                                    <td>栏目LOGO</td>
+                                </tr>
+                                <tr>
+                                    <td>banber</td>
+                                    <td>-</td>
+                                    <td>否</td>
+                                    <td>栏目横幅广告</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cx-xs8">
+        <div class="cx-form-group _listlate cx-mag-b10 ">
+            <label class="cx-label" for="title">标签名称</label>
+            <div class="cx-form-item">
+                <input id="title" class="cx-ipt " type="text" placeholder="请输入标签名称" name="title" value="{$postdb.title|default=$postdb.TagName}">
+            </div>
+        </div>
+        <div class="cx-form-group _listlate cx-mag-b10 ">
+            <label class="cx-label">选择模型</label>
+            <div class="cx-form-item cx-pad-t5">
+                {volist name="modellist" id="cx" empty=""}
+                <input class="onemodel" type="checkbox" name="TagMid[]" value="{$cx.id}" title="{$cx.title}" lay-skin="primary" lay-filter="onemodel" {in name="cx.id" value="$postdb.TagMid|default='0'"}checked{/in}>
+                {/volist}
+                <div class="layout cx-text-black-3">如不选择则按默认显示</div>
+            </div>
+        </div>
+        <div class="cx-form-group cx-mag-b10 ">
+            <label class="cx-label">选择栏目</label>
+            <div class="cx-form-item cx-fex-column cx-pad-t5">
+                <div class="layout cx-bor cx-bor-black-1 _partlist" style="overflow-y: auto;">
+                    <ul class="layout cx-fex-l cx-fex-column cx-pad-lr15 _fidlist">
+                        {volist name="partlist" id="cx" empty=""}
+                        <li class="cx-pad-tb5">
+                            <input type="checkbox" name="TagFid[]" value="{$cx.id}" title="{$cx.title}" lay-skin="primary" {in name="cx.id" value="$postdb.TagFid|default='0'"}checked{/in}>
+                        </li>
+                        {/volist}
+                    </ul>
+                </div>
+                <div class="layout cx-text-black-3">如不选择则显示全部</div>
+            </div>
+        </div>
+        <div class="cx-form-group _listlate cx-mag-b10 ">
+            <label class="cx-label">启用</label>
+            <div class="cx-form-item">
+                <input type="radio" name="status" value="1" title="启用 " {eq name="postdb.status|default='1'" value="1"}checked{/eq} lay-filter="status">
+                <input type="radio" name="status" value="0" title="禁用 " {eq name="postdb.status|default='1'" value="0"}checked{/eq} lay-filter="status">
+            </div>
+        </div>
+    </div>
+    <div class="layout cx-pos-f _listlate cx-bg-white cx-fex-r" style="bottom: 0;left: 0;right: 0;box-shadow: 0 0 5px 0 rgba(0,0,0,0.3);">
+        <input type="hidden" name="id" value="{$postdb.id}" required>
+        <button class="cx-xs3 cx-button cx-bg-yellow" lay-submit lay-filter="upbutton">保 存</button>
+    </div>
+</form>
+{/block}
+{block name="foot_js"}
+<script>
+    window.onload = function(){
+        let h = $(window).height(),
+            dv = 60;
+        $.each($(`._listlate`),function (index,item) {
+            dv = dv + $(item).height() + 10;
+        });
+        $(`._partlist`).height(h - dv);
+    }
+    layui.use('form', function(){
+        let layform = layui.form;
+        layform.on('checkbox(onemodel)', function(data){
+            let ids = [];
+            $(`.onemodel`).each(function(index,item) {
+                $(item).is(':checked') ? ids.push($(item).val()) : ids;
+            });
+            wormui.postUrl("{:url('getpart')}",{n:ids,m:"{$postdb.TagModel}",c:'a'},function (res){
+                if(res.code == '1'){
+                    $(`._fidlist`).html('');
+                    $.each(res.data,function (index,item){
+                        $(`._fidlist`).append(` <li class="cx-pad-tb5"><input type="checkbox" name="TagFid[]" value="${item.id}" title="${item.title}" lay-skin="primary"></li>`);
+                    });
+                    layform.render('checkbox');
+                }
+            });
+        });
+        //  模板类型选择
+        layform.on('radio(temptype)',function (data){
+            let d = data.value == '1' ? 'label/partlist/one' : 'label/partlist/list';
+            wormui.postUrl("{:url('gettemplist')}",{d:d},function (res){
+                if(res.code == '1'){
+                    $(`.latename`).html(`<option value="0">默认模板</option>`);
+                    $.each(res.data,function (index,item){
+                        $(`.latename`).append(`<option value="${item}">${item}</option>`);
+                    });
+                    layform.render('select');
+                }
+            });
+        });
+        //  渲染模板
+        layform.on('select(onetemplate)', function(data){
+            if(data.value == '0'){
+                $(`.onetemplateimg`).attr('src','__PUBLIC__/img/imgnone.jpg');
+                $(`.onetemplateval`).val('');
+                return false;
+            }
+            let d = layform.val("articlelist"),
+                n = d.temptype == '1' ? 'partlist/one' : 'partlist/list';
+            wormui.postUrl("{:url('getcode')}",{n:n,f:data.value},function (res){
+                if(res.code == '1'){
+                    $(`.onetemplateimg`).attr('src',res.data.img);
+                    $(`.onetemplateval`).val(res.data.code);
+                }
+            });
+        });
+    });
+</script>
+{/block}

@@ -1,0 +1,82 @@
+{extend name="public:base" title="$list_base.title" /}
+{block name="cont"}
+<ul class="layout cx-fex-l cx-fex-column">
+    <li class="layout cx-form-group cx-mag-b10">
+        <label class="cx-label">标题</label>
+        <div class="cx-label cx-text-left cx-text-yellow">
+            {$postdb.art_title}
+        </div>
+    </li>
+    <li class="layout cx-form-group cx-mag-b10">
+        <label class="cx-label">用户名</label>
+        <div class="cx-label cx-text-left cx-text-yellow">
+            {$postdb.u_name}
+        </div>
+    </li>
+    <li class="layout cx-form-group cx-mag-b10">
+        <label class="cx-label">发表时间</label>
+        <div class="cx-label cx-text-left cx-text-yellow">
+            {$postdb.addtime}
+        </div>
+    </li>
+    <li class="layout cx-form-group cx-mag-b10">
+        <label class="cx-label">发表IP</label>
+        <div class="cx-label cx-text-left cx-text-yellow">
+            {$postdb.addip}
+        </div>
+    </li>
+    <li class="layout cx-form-group cx-mag-b10">
+        <label class="cx-label">评论</label>
+        <div class="cx-label cx-text-left cx-text-yellow">
+            {$postdb.content}
+        </div>
+    </li>
+    <li class="layout cx-form-group cx-mag-b10">
+        <label class="cx-label">图片</label>
+        <ul class="cx-fex-l" style="flex-grow: 2">
+            {volist name="postdb.imgs" id='cx' empty="<h6 class='cx-text-black-3'>暂无图片</h6>"}
+                <li class="cx-xs4 cx-pad-a10">
+                    <div class="cx-bg-img1x1 cx-bor">
+                        <div class="cx-bg-img cx-fex-c cx-fex-itemsc">
+                            <img class="cx-img-responsive" src="{$cx.uri}" alt="">
+                        </div>
+                    </div>
+                </li>
+            {/volist}
+        </ul>
+    </li>
+    <li class="layout">
+        <form class="layout layui-form" action="{:url('save')}" method="post">
+            <div class="layout cx-form-group cx-mag-b10">
+                <label class="cx-label">推荐</label>
+                <div class="cx-form-item">
+                    <input type="radio" name="jian" value="0" title="不推荐" {eq name="postdb.jian|default='0'" value="0"}checked{/eq} lay-filter="jian">
+                    <input type="radio" name="jian" value="1" title="推荐" {eq name="postdb.jian|default='0'" value="1"}checked{/eq} lay-filter="jian">
+                </div>
+            </div>
+            <div class="layout cx-form-group cx-mag-b10">
+                <label class="cx-label">审核</label>
+                <div class="cx-form-item">
+                    <input type="radio" name="status" value="0" title="等待审核" {eq name="postdb.status|default='0'" value="0"}checked{/eq} lay-filter="status">
+                    <input type="radio" name="status" value="1" title="审核通过" {eq name="postdb.status|default='0'" value="1"}checked{/eq} lay-filter="status">
+                    <input type="radio" name="status" value="2" title="拒绝" {eq name="postdb.status|default='0'" value="2"}checked{/eq} lay-filter="status">
+                </div>
+            </div>
+            <div class="layout cx-form-group cx-mag-b10">
+                <label class="cx-label">拒绝原因</label>
+                <div class="cx-form-item">
+                    <textarea name="res_content" class="cx-ipt" rows="5">{$postdb.res_content|default=''}</textarea>
+                </div>
+            </div>
+            <div class="layout cx-form-group cx-mag-b10">
+                <label class="cx-label"></label>
+                <div class="cx-form-item">
+                    <input type="hidden" name="id" value="{$postdb.id}">
+                    <input type="hidden" name="_method" value="PUT">
+                    <button class="cx-button cx-bg-blue" lay-submit="" lay-filter="thisbutton">提交回复</button>
+                </div>
+            </div>
+        </form>
+    </li>
+</ul>
+{/block}

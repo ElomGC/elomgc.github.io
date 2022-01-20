@@ -1,0 +1,25 @@
+<div class="layout cx-fex-c cx-bg-white" style="box-shadow: 0 0 5px rgba(0,0,0,0.5)">
+    <div class="cx-cont ll-pad-0 cx-fex cx-fex-itemsc">
+        <div class="cx-xs6 cx-xl24 cx-fex cx-fex-itemsc">
+            <div class="cx-xs24 cx-xl20 cx-fex-l cx-fex-itemsc">
+                <a href="{$webdb.web_url}" title="{$webdb.web_title}" class="topnav-logo">
+                    <img src="{$webdb.web_logo}" class="cx-img-responsive" alt="">
+                </a>
+                <div class="cx-borleft cx-fex-c cx-mag-l20 cx-bor-white-1 cx-pad-l20 cx-fex-column" style="font-weight: bold">
+                    <span>CLEAN </span>
+                    <span>ENEGY</span>
+                </div>
+            </div>
+            <div class="cx-icon cx-iconcaidan cx-text-fbig ll-color ll-bold cx-click cx-hidden cx-show-l cx-mag-r10" data-type="menu" data-cid=".index-nav-cloumn" data-icon=".l-icon" style="padding: 3px 8px;"></div>
+        </div>
+        <ul class="cx-xs12 cx-xl24 cx-nav cx-fex-a cx-hidden-l index-nav-cloumn">
+            {notempty name='NavList.1'}
+            {volist name="NavList.1" id="cx" empty=""}
+            <li class="cx-nav-one ll-nav-hover">
+                <a class="cx-pad-lr15 " title="{$cx.title}" target="{eq name='cx.target' value='0' }_self{else/}_blank{/eq}" href="{$cx.uri}">{$cx.title}</a>
+            </li>
+            {/volist}
+            {/notempty}
+        </ul>
+    </div>
+</div>

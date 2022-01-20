@@ -1,0 +1,39 @@
+<form action="" method="post" class="layui-form cx-fex-c cx-fex-column">
+        <h2 class="cx-text-blue cx-pad-b20">LOG IN</h2>
+        <div class="layout cx-form-group  cx-mag-t20">
+            <div class="layout cx-form-itemnowarp cx-borbottom cx-bor-white-1">
+                <div class="cx-ipt-icon cx-icon cx-iconUserSettings" style="border: none;box-shadow: none;background-color: transparent;"></div>
+                <input class="cx-ipt" type="text" placeholder="USENAME" name="user" required="" lay-verify="required" style="border: none;box-shadow: none;background-color: transparent;">
+            </div>
+        </div>
+        <div class="layout cx-form-group  code cx-mag-t20">
+            <div class="layout cx-form-itemnowarp cx-fex-itemsc cx-borbottom cx-bor-white-1">
+                <div class="cx-ipt-icon cx-icon cx-iconrenzheng" style="border: none;box-shadow: none;background-color: transparent;"></div>
+                <input class="cx-ipt" placeholder="CODE" type="text" required="" lay-verify="required" name="code" style="border: none;box-shadow: none;background-color: transparent;">
+                <div class="cx-ipt-btn cx-text-blue cx-click" style="background-color: transparent;">验证码</div>
+            </div>
+        </div>
+        <div class="layout cx-form-group  cx-mag-t20">
+            <div class="layout cx-form-itemnowarp cx-borbottom cx-bor-white-1">
+                <div class="cx-ipt-icon cx-icon cx-iconmima" style="border: none;box-shadow: none;background-color: transparent;"></div>
+                <input class="cx-ipt" type="password" placeholder="PASSWORD" name="pwd" required="" lay-verify="required" style="border: none;box-shadow: none;background-color: transparent;">
+            </div>
+        </div>
+        <style>
+            .cx-ipt[type='checkbox']:checked+.cx-ipt-label:before {
+                background-color: #0ae;
+            }
+        </style>
+        <div class="layout cx-form-group cx-mag-t20">
+            <div class="cx-form-item">
+                <div class="cx-radio">
+                    <input id="status1" type="checkbox" name="mima" class="cx-ipt" value="">
+                    <label for="status1" class="cx-ipt-label">Rember Password</label>
+                </div>
+            </div>
+        </div>
+        <div class="layout cx-fex cx-fex-itemsc cx-mag-t20">
+            <a href="javascript:;" title="" class="cx-text-blue">Forget Password?</a>
+            <button class="cx-button cx-bg-blue cx-text-center" style="padding: 10px 15px;" lay-submit="" lay-filter="">LOG IN</button>
+        </div>
+</form>

@@ -1,0 +1,124 @@
+{extend name="public:base" title="$list_base.title" /}
+{block name="cont"}
+<div class="layout cx-fex-l">
+    <div class="cx-xs8 cx-pad-r10">
+        <ul class="layout cx-fex-l cx-fex-column cx-bor cx-pad-a10">
+            <li class="cx-text-black-6 cx-pad-a5">
+                订单号：{$postdb.oid}
+            </li>
+            <li class="cx-text-black-6 cx-pad-a5">
+                用户名：{$postdb.u_name}
+            </li>
+            <li class="cx-text-black-6 cx-pad-a5">
+                收件人：{$postdb.pay_name}
+            </li>
+            <li class="cx-text-black-6 cx-pad-a5">
+                收件电话：{$postdb.u_phone}
+            </li>
+            <li class="cx-text-black-6 cx-pad-a5">
+                收件地址：{$postdb.pay_address}
+            </li>
+        </ul>
+    </div>
+    <div class="cx-xs16"></div>
+</div>
+<div class="layout cx-fex-l cx-fex-column cx-mag-t15">
+    <div class="layout cx-fex-l cx-bg-white-1 cx-pad-tb10" style="border-bottom: 1px solid #999;">
+        <div class="cx-xs2 cx-fex-c">图片</div>
+        <div class="cx-xs10 cx-pad-l20 cx-fex-l">商品</div>
+        <div class="cx-xs4 cx-fex-c">单价</div>
+        <div class="cx-xs4 cx-fex-c">数量</div>
+        <div class="cx-xs4 cx-fex-c">总计</div>
+    </div>
+    {volist name="postdb.shoplist" id="c" empty=""}
+    <div class="layout cx-fex-l cx-pad-tb10" style="border-bottom: 1px dotted #999">
+        <div class="cx-xs2">
+            <div class="cx-bg-img1x1 cx-bg-imgsmallbr cx-bor cx-bor-black-1">
+                <div class="cx-bg-img cx-fex-itemsc cx-fex-c">
+                    <img src="{$c.picurl}" class="cx-img-responsive" onerror="this.src='__PUBLIC__/img/imgnone.jpg'" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="cx-xs10 cx-pad-l20 cx-fex-l cx-fex-column">
+            <h4>{$c.title}</h4>
+            {notempty name="c.admincont.parameter"}
+            <div class="layout cx-text-black-3 cx-text-f12 cx-mag-t5">规格: {$c.admincont.parameter}</div>
+            {/notempty}
+            {notempty name="c.fu_cont"}
+            <ul class="layout cx-fex-l cx-text-f12 cx-text-black-6 cx-mag-t5">
+                {volist name="c.fu_cont" id="cx" empty=""}
+                <li class="cx-mag-r10">{$cx.title}: {$cx.value}</li>
+                {/volist}
+            </ul>
+            {/notempty}
+        </div>
+        <div class="cx-xs4 cx-fex-c cx-fex-itemsc cx-fex-column">
+            {notempty name="c.money"}
+            <span>{:number_format($c.money,'2','.','')}</span>
+            {/notempty}
+            {notempty name="c.money_zk"}
+            <span>优惠价: {:number_format($c.money_zk,'2','.','')}</span>
+            {/notempty}
+        </div>
+        <div class="cx-xs4 cx-fex-c cx-fex-itemsc">{$c.num}</div>
+        <div class="cx-xs4 cx-fex-c cx-fex-itemsc">{$c.money_zon}</div>
+    </div>
+    {/volist}
+
+
+    "cuid": "0",
+    "payclass": "0",
+    "paymoney": "0.02",
+    "paymoney_zk": "0.02",
+    "express": "",
+    "express_code": "",
+    "express_money": "0",
+    "cont": [
+    {
+    "title": "受检人姓名",
+    "value": "sdgsd"
+    },
+    {
+    "title": "联系电话",
+    "value": "15879975960"
+    },
+    {
+    "title": "性别",
+    "value": "男"
+    },
+    {
+    "title": "年龄",
+    "value": "11"
+    },
+    {
+    "title": "身份证号码",
+    "value": "360313199903162520"
+    },
+    {
+    "title": "送检医院",
+    "value": ""
+    },
+    {
+    "title": "送检医生",
+    "value": ""
+    },
+    {
+    "title": "临床诊断",
+    "value": ""
+    },
+    {
+    "title": "订单备注",
+    "value": ""
+    }
+    ],
+    "addtime": "2020-08-14 18:37:26",
+    "paytime": "1597401472",
+    "status": "1",
+
+    ]
+    }
+    ],
+    "playtime": "",
+
+</div>
+{/block}

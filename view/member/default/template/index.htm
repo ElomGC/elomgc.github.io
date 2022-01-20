@@ -1,0 +1,214 @@
+{extend name="base" /}
+{block name='cont'}
+<div class="layout">
+    <div class="cx-pad-l20 cx-mag-t20">
+        <!--        发表入口-->
+        <form action="" method="post" class="layout cx-bg-white cx-pad-a10 layui-form cx-mag-t20">
+            <div class="cx-text-black-7 cx-pad-b10">发表动态</div>
+            <div class="layout cx-fex-l">
+                <div class="cx-pad-r20" style="flex-grow: 2;">
+                    <input class="cx-ipt cx-bor-white-1" autocomplete="off" style="box-shadow: none" type="text" name="title" placeholder="请输入标题">
+                </div>
+                <div class="cx-fex-l cx-fex-itemsc">
+                    <div class="cx-form-group">
+                        <div class="cx-form-itemnowarp cx-fex-itemsc">
+                            <select class="cx-ipt dongtai" name="fid" required>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layout cx-borbottom cx-bor-white-1 faphotobianji vediobianji" style="height: 130px;overflow: hidden">
+                <textarea class="layout cx-mag-t10 cx-pad-a10 cx-bor cx-bor-white-1" autocomplete="off" rows="6" cols="20" name="content"  placeholder="请输入内容"></textarea>
+                <div class="layout cx-mag-t5 vedio-list"></div>
+                <div class="layout cx-fex-l faphoto-list">
+                    <div class="cx-xl4 cx-pad-a5">
+                        <div class="cx-bg-img1x1 cx-bor cx-bor-white-2 photo faphoto" data-name="faphoto">
+                            <div class="layout cx-fex-c cx-fex-itemsc cx-fex-column cx-text-black-7 cx-pos-a" style="height: 100%;">
+                                <i class="cx-icon cx-iconadd" style="font-size: 3rem"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layout cx-fex cx-fex-itemsc cx-mag-t10">
+                <div class=" cx-fex-l cx-fex-itemsc">
+                    <div class="cx-text-blue photo faphoto cx-pad-lr10 cx-click" data-exp="image" data-name="faphoto">
+                        <i class="iconfont icontupian"></i>
+                        <span>图片</span>
+                    </div>
+                    <div class="cx-text-blue photo vedio cx-click" data-exp="file" data-name="vedio">
+                        <i class="iconfont iconshipin"></i>
+                        <span>视频</span>
+                    </div>
+                </div>
+                <input type="hidden" name="m" value="cms">
+                <input type="hidden" name="mid" value="4">
+                <button class="cx-button cx-bg-blue" lay-submit lay-filter="fabiaoneirong">发布</button>
+            </div>
+        </form>
+    </div>
+    <div class="layout cx-pad-a10 cx-fex-l">
+        {volist name='listdb' id='cx' empty=''}
+        <div class="cx-xl12 cx-pad-a10">
+            <div class="cx-bg-white cx-pad-a30 cx-fex-c cx-fex-itemsc cx-fex-column cx-borbottom cx-bor-white-1 cx-text-lh">
+                <div class="cx-text-black-7 cx-text-f16">我的{$cx.title}</div>
+                <a href="/member/cms/article.html?mid={$cx.mid|default=''}" title="" class="cx-text-blue">已发布{$cx.total|default=''}个</a>
+            </div>
+            <div class="layout cx-bg-white cx-fex cx-pad-a20">
+                <a href="/member/cms/article.html?mid={$cx.mid|default=''}" title="{$cx.title}" class="cx-text-black-7 ll-hover">管理</a>
+                <a href="/member/cms.article/create.html?mid={$cx.mid|default=''}" title="{$cx.title}" class="cx-text-black-7 ll-hover">去发布</a>
+            </div>
+        </div>
+        {/volist}
+    </div>
+    <div class="cx-pad-l20">
+        <!--    我的帖子-->
+        {volist name='listdb' id='cx' empty=''}
+        {eq name='cx.m' value='bbs'}
+        <div class="cx-bg-white cx-mag-t20">
+            <div class="">
+                <div class="layout cx-fex cx-fex-itemsc cx-borbottom cx-bor-white-1">
+                    <h6 class="cx-text-f16 cx-pad-a15 ll-color ll-borbom4">我的{$cx.title}</h6>
+                </div>
+            </div>
+            {notempty name='cx.data'}
+            <ul class="layout tiezilist cx-pad-lr20 ll-remove-lastline">
+                {volist name='cx.data' id='c' empty=''}
+                <li class="layout cx-fex cx-pad-tb20 ll-boomline-dash cx-bg-white cx-text-lh">
+                    <a href="/bbs/article-{$c.id}.html" title="{$c.title}" target="_blank" class="layout cx-fex-c">
+                        <div class="cx-xl2">
+                            <div class="cx-bg-img1x1">
+                                <div class="cx-bg-img cx-bg-white cx-bor cx-bor-white-1 cx-bor-raall" style="background-image: url({$c.u_icon|default='__PUBLIC__/img/usernone.png'})"></div>
+                            </div>
+                        </div>
+                        <div class="cx-xl22 cx-pad-l10">
+                            <div class="layout cx-text-lh">
+                                <div class="ll-hover"><span class="cx-text-blue">{$c.keywords}</span>{$c.title}</div>
+                                {notempty name='$c.picurl'}
+                                <div class="layout cx-fex-l">
+                                    <div class="cx-xl6 cx-pad-a10">
+                                        <div class="cx-bg-img4x3">
+                                            <div class="cx-bg-img" style="background-image: url({$c.picurl})"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/notempty}
+                                <div class="layout cx-fex cx-fex-itemsc">
+                                    <div class="cx-fex-l cx-fex-itemsc">
+                                        <span class="" style="font-weight: bold">{notempty name='c.u_uniname'}{$c.u_uniname}{else/}{$c.u_name}{/notempty}</span>
+                                        <span class="cx-text-f12 cx-text-black-3 cx-fex-l cx-fex-itemsc"><i class="cx-icon cx-icondengdai cx-text-f12 cx-pad-lr5"></i>{$c.addtime}</span>
+                                    </div>
+                                    <div class="cx-fex-l cx-fex-itemsc cx-text-black-7">
+                                        <div class="cx-fex-l cx-fex-itemsc">
+                                            <i class="cx-icon cx-iconxianshimima cx-pad-lr5"></i>
+                                            <span>0</span>
+                                        </div>
+                                        <div class="cx-fex-l cx-fex-itemsc cx-pad-l20">
+                                            <i class="cx-icon cx-iconpinglun1 cx-pad-lr5"></i>
+                                            <span>{$c.comment_num}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                {/volist}
+            </ul>
+            <a href="/member/bbs/article.html?mid={$cx.mid|default=''}" title="{$cx.title}" class="layout cx-text-center cx-text-black-7 cx-pad-a10 ll-hover" style="display: block">查看全部>></a>
+            {else/}
+            <div class="cx-fex-c cx-pad-tb20 cx-fex-itemsc cx-fex-column cx-text-lh">
+                <div class="cx-text-black-7">你还没有发布任何内容哦!</div>
+                <a href="/member/bbs.article/create.html?mid=1" class="cx-text-blue">赶紧去发点内容吧！</a>
+            </div>
+            {/notempty}
+        </div>
+        {/eq}
+        {/volist}
+    </div>
+</div>
+{/block}
+{block name="foot_js"}
+{load href="__PUBLIC__/js/wormui.js" /}
+<script>
+    $('.fenx').click(function () {
+        $('.share').toggleClass('cx-hidden')
+    })
+    //上传图片
+    let up = new wormUpload({
+        monitor:".photo",
+        url:"{:url('api/Upload/index')}",
+        multiple:true,
+        autoup: true,
+        done:function (elem) {
+        },
+        before:function (file,dom) {
+            let d = $(dom).data(),
+                temp='',
+                name=d.name == 'faphoto'?'photo':'imgs';
+            if(file.type == 'video/mp4') {
+                temp = `<video  src="${file.uri}" height="300px" width="100%" class="${file.md5}-img" controls="controls"></video>
+                    <input type="hidden" class="${file.md5}-val" value="" name="video[${file.md5}][uri]">
+                    <input type="hidden" class="${file.md5}-title" value="" name="video[${file.md5}][title]">
+                    <input type="hidden" class="${file.md5}-sort" value="0" name="video[${file.md5}][sort]">
+                    <input type="hidden" class="${file.md5}-size" value="" name="video[${file.md5}][size]">
+                `;
+            }else{
+                temp = `<div class="cx-xl4 cx-pad-a5 ${file.md5}">
+                    <div class="cx-bg-img1x1 cx-bor cx-bor-white-2">
+                        <div class="cx-bg-img cx-bg-white cx-fex-c cx-fex-itemsc"><img class="cx-img-responsive" class="${file.md5}-img" src="${file.icon}"/></div>
+                    </div>
+                    <input type="hidden" class="${file.md5}-val" value="" name="${name}[${file.md5}][uri]">
+                    <input type="hidden" class="${file.md5}-title" value="" name="${name}[${file.md5}][title]">
+                    <input type="hidden" class="${file.md5}-sort" value="0" name="${name}[${file.md5}][sort]">
+                    <input type="hidden" class="${file.md5}-size" value="" name="${name}[${file.md5}][size]">
+                </div>`;
+            }
+            $(`.${d.name}-list`).prepend(temp);
+            if($(`.${d.name}-list`).children().length>=1) {
+                $(`.${d.name}bianji`).css("height", "auto")
+            }
+        },
+        success:function (res,elem) {
+            if(res.code == '0'){
+                alert(res.msg);
+                return false;
+            }
+            let d = $(`.${elem.md5}`).data();
+            $(`.${elem.md5}-bgimg`).css('background-image',`url(${res.data.uri})`);
+            $(`.${elem.md5}-img`).attr('src',res.data.uri);
+            $(`.${elem.md5}-val`).val(res.data.uri);
+            $(`.${elem.md5}-title`).val(res.data.title);
+            $(`.${elem.md5}-size`).val(res.data.size);
+        }
+    });
+    //获取动态栏目
+    layui.use(['layer', 'form'],function () {
+        let layform = layui.form;
+        upajax('/api/cms/part/5.html',type = 'get',function (res) {
+            res.data.forEach((item,index) => {
+                $('.dongtai').append(`<option value="${item.id}">${item.title}</option>`)
+                layform.render();
+            })
+        })
+    })
+
+    function upajax(uri,type = 'get',success = '') {
+        $.ajax({
+            async:true,
+            type: type,
+            dataType: "json",
+            url: uri,
+            success:function(res) {
+                if(typeof success == 'function'){
+                    success(res);
+                }else{
+                    layer.msg(res.msg);
+                }
+            }
+        });
+    }
+</script>
+{/block}

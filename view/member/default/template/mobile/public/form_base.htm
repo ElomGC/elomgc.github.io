@@ -1,0 +1,103 @@
+{extend name="base" /}
+{block name="bgcolor"}{/block}
+{block name='nav'}{/block}
+{block name='matb50'}{/block}
+{block name='cont'}
+<style>
+    body{
+        background-color: #F8F8F8;
+    }
+</style>
+<div class="layout cx-pad-a10" style="margin-top: 48px">
+    {if in_array('editor',$list_type)}
+    {load href="__CKEDITOR__/ckeditor.js,__PUBLIC__/js/wormedit.js"}
+    {/if}
+    {if in_array('bgccont',$list_type)}
+    {load href="__LAYUI__/layui_exts/select/xm-select.js"}
+    {/if}
+    {if in_array('map',$list_type)}
+    <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=mliQcGfAYPXMTx0ukWPtGpwb3uhsspEK"></script>
+    {/if}
+    <form class="layout cx-bg-white layui-form cx-pad-a10 editform" action="{$list_base.uri|default=''}" method="post" style="box-shadow: 0 0 5px rgba(0,0,0,0.1)">
+        <div class="layout cx-pad-lr15 cx-bg-white cx-pos-f cx-fex cx-fex-itemsc" style="top: 0;right:0;left:0;line-height: 49px;z-index: 9;box-shadow: 0 1px 5px rgba(0,0,0,0.2)">
+            <i class="top_left cx-icon cx-iconxiangzuojiantou cx-click" onclick="window.history.go(-1)"></i>
+            <h3>{notempty name='getdata.id'}
+                编辑
+                {else/}
+                发表
+                {/notempty}
+            </h3>
+            <div class="top_right cx-fex-l"><button class="cx-button cx-bg-green" style="" lay-submit lay-filter="tijiao">提交</button></div>
+        </div>
+        {volist name=":WORMCMS('filed@FiledsToForm',$list_file,$postdb)" id="cx" empty="请先定义字段"}
+        <div class="cx-form-group cx-mag-b10 {eq name='cx.type' value='hidden'} cx-hidden{/eq}">
+            {$cx.title|raw}
+            <div class="cx-form-item">
+                {$cx.value|raw}
+            </div>
+        </div>
+        {/volist}
+    </form>
+
+    {if in_array('upload',$list_type)}
+    {load href="__PUBLIC__/js/wormui.js" /}
+    <script>
+        let ups = new wormUpload({
+            monitor:"._upload",
+            url:"{:url('api/Upload/index')}",
+            multiple:true,
+            prepose:function(dom){
+                let d = $(dom).data(),
+                    n = $(`.${d.name}-list`).children().length;
+                if(d.filenum > 1 && n >= d.filenum){
+                    layer.msg(`最多上传${d.filenum}文件,请先删除`);
+                    return false;
+                }
+                if(d.filenum > 1 && n > 0){
+                    n = d.filenum - n;
+                    $(dom).data('efilenum',n);
+                }
+            },
+            before:function (file,dom) {
+                let d = $(dom).data(),
+                    t = `<div class="cx-bg-img" style="background-image: url('${file.icon}');background-size: contain;"></div>`;
+                if(d.exp && d.exp != 'image'){
+                    t = `<div class="cx-bg-img" style="background-image: url('__PUBLIC__/img/upfilenone.png');background-size: contain;"></div>`;
+                }
+                let lk = d.like && d.like == '1' ? `<div class="layout cx-form-itemnowarp" style="flex-grow: 0"><div class="cx-ipt-icon cx-text-f12">链接</div><input type="text" class="${file.md5}like cx-ipt-s" name="${d.name}[${file.md5}][like]" value=""></div>` : ``;
+                t = !d.filenum || d.filenum > 1 || d.exp == 'file' ? `<div class="cx-xs8 ${file.md5}box cx-pad-a5"><div class="layout cx-fex-l cx-bor"><div class="cx-xl8 cx-borright"><div class="cx-bg-img1x1">${t}</div></div><div class="cx-xl16 cx-fex-a cx-fex-column cx-form-group cx-pad-l5"><div class="layout cx-form-itemnowarp" style="flex-grow: 0"><div class="cx-ipt-icon cx-text-f12">名称</div><input type="text" class="${file.md5}title cx-ipt-s" name="${d.name}[${file.md5}][title]" value=""></div>${lk}<div class="layout cx-form-itemnowarp" style="flex-grow: 0"><div class="cx-ipt-icon cx-text-f12">排序</div><input type="text" class="${file.md5}sort cx-ipt-s" name="${d.name}[${file.md5}][sort]" value="0"></div><div class="layout cx-form-itemnowarp" style="flex-grow: 0"><div class="cx-ipt-icon cx-text-f12">大小</div><input type="text" disabled class="${file.md5}size cx-ipt-s" name="${d.name}[${file.md5}][size]" value=""></div><div class="layout cx-form-itemnowarp" style="flex-grow: 0"><a class="cx-button-s cx-bg-red cx-click" data-type="delelement" data-cid=".${file.md5}box">删除</a></div><input type="hidden" class="${file.md5}val" name="${d.name}[${file.md5}][uri]" value=""><input type="hidden" class="${file.md5}size" name="${d.name}[${file.md5}][size]" value=""></div></div></div>`
+                    :  `<div class="cx-xs3 cx-fex-c cx-fex-column cx-pad-a5"><div class="layout cx-bg-img1x1 cx-pos-r cx-bor">${t}<div class="layout cx-pos-r cx-bg-black-1"><div class="layout cx-pos-a cx-bg-green ${file.md5}" style="width: 0;height: 100%;bottom: 0;left: 0;z-index: -1"></div><h6 class="layout cx-text-white-8 cx-text-center ${file.md5}-t">等待上传...</h6><input type="hidden" class="${file.md5}val" name="${d.name}" value=""></div></div></div>`;
+                if(d.filenum && d.filenum == '1'){
+                    $(`.${d.name}-list`).html(t);
+                }else{
+                    $(`.${d.name}-list`).append(t);
+                }
+            },
+            success:function (res,obj) {
+                $(`.${obj.md5}`).hide();
+                $(`.${obj.md5}-t`).text( '上传完毕').addClass('cx-bg-green');
+                if(res.code == '1'){
+                    $(`.${obj.md5}val`).val(res.data.uri);
+                    $(`.${obj.md5}title`).val(res.data.title);
+                    $(`.${obj.md5}size`).val(res.data.size);
+                }else{
+                    layer.msg('上传失败');
+                }
+            }
+        });
+    </script>
+    {/if}
+</div>
+
+{/block}
+{block name="foot"}
+{/block}
+{block name='foot_js'}
+<script>
+    let le = $('.editform').find('.cx-form-group').length;
+    $('.cx-form-group').eq(le-1).remove();
+    $('.cx-form-group').eq(le-2).remove();
+    $('.contentedit').parent('.cx-form-item').addClass('ll-pad-tb10bor1');
+    $('#description').parent('.cx-form-item').addClass('ll-pad-tb10bor1')
+</script>
+{/block}

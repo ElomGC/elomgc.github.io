@@ -1,0 +1,31 @@
+<script>
+    layui.config({
+        base: '__IMAGES__/js/'
+    }).use('app');
+    layui.config({
+        base: '__PUBLIC__/js/'
+    }).use('wormweb');
+</script>
+<div class="layout cx-bg-black cx-text-reverse ll-foot">
+    <div class="cx-borbottom cx-bor-black-8">
+    <div class="cx-cont cx-pad-a15 cx-fex-l cx-fex-itemsc cx-text-f12">
+        <span class="cx-text-white-1">{$LinkList.1.title}：</span>
+        {volist name='$LinkList.1.data' id='cx'}
+        {empty name='cx.logo'}
+        <a href="{$cx.uri}" title="{$cx.title}" target="_blank">{$cx.title}</a>
+        {/empty}
+        {/volist}
+    </div>
+    </div>
+    <div class="cx-cont cx-text-f12 cx-pad-tb20">
+        <div class="cx-text-center">版权所有 © {$webdb.web_footbq|raw}</div>
+        <div class="layout cx-fex-c cx-fex-itemsc" style="line-height: 1.8">
+            <div class="cx-text-white">{$webdb.web_icp|raw} |</div>
+            <div>&nbsp; 未经许可严禁复制 |</div>
+            <div class="cx-fex-l cx-fex-itemsc cx-text-f12">
+                <span class="cx-text-white-1">&nbsp; 技术支持：</span>
+                <a style="color: #e5e5e5!important;" title="上海焱凤信息技术有限公司" href="https://www.cxbs.net/" target="_blank">焱凤技术</a>
+            </div>
+        </div>
+    </div>
+</div>

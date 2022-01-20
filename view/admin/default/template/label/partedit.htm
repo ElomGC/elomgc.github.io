@@ -1,0 +1,191 @@
+{extend name="public:base" title="$list_base.title" /}
+{block name="cont"}
+<div class="layout cx-mag-b15 cx-fex cx-pad-a5 cx-borbottom">
+    <a class="cx-button-s cx-bor-yellow" href="{:url('type',['id' => $postdb.id])}"><i class="cx-icon cx-iconxiangzuojiantou cx-mag-r5"></i>返回</a>
+    <h6 class="cx-text-black-6">{$list_base.title|default=''}</h6>
+</div>
+<form class="layout layui-form" action="" method="post">
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label">标签名</label>
+        <div class="cx-form-item">
+            <input type="text" name="title" class="cx-ipt" value="{$postdb.title|default=$postdb.name}">
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label">选择栏目</label>
+        <div class="cx-form-item cx-fex-column cx-bor" style="height: 200px;overflow: auto">
+            <ul class="layout cx-fex-l cx-fex-column cx-pad-a15">
+                {volist name="partlist" id="cx" empty=""}
+                <li class="cx-pad-b5">
+                    <input type="checkbox" name="conf[fid][]" {in name="cx.id" value="$postdb.conf.fid|default=''"}checked{/in} title="{$cx.title_display}" value="{$cx.id}" lay-skin="primary">
+                </li>
+                {/volist}
+            </ul>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label">选择模型(<i class="cx-text-red">*</i>)</label>
+        <div class="cx-form-item">
+            <select name="conf[mid]" required lay-verify="required">
+                <option value="a" {eq name="postdb.conf.mid|default='a'" value="a"}selected{/eq}>全部模型</option>
+                {volist name="modellist" id="cx" empty=""}
+                <option value="{$cx.id}" {eq name="postdb.conf.mid|default='a'" value="$cx.id"}selected{/eq}>{$cx.title}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label">显示类型</label>
+        <div class="cx-form-item">
+            <input type="radio" name="conf[jian]" value="a" title="全部(包含已推荐和未推荐)" {eq name="postdb.conf.jian|default='a'" value="a"}checked{/eq} lay-filter="jian">
+            <input type="radio" name="conf[jian]" value="1" title="推荐" {eq name="postdb.conf.jian|default='a'" value="1"}checked{/eq} lay-filter="jian">
+            <input type="radio" name="conf[jian]" value="0" title="未推荐" {eq name="postdb.conf.jian|default='a'" value="0"}checked{/eq} lay-filter="jian">
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 jianlink">
+        <label class="cx-label">推荐级别</label>
+        <div class="cx-form-item">
+            <select name="conf[jian_lavel]">
+                <option value="">全部推荐</option>
+                <option value="9" {eq name="postdb.conf.jian_lavel|default=''" value="9"}selected{/eq}>仅固定置顶</option>
+                <option value="1" {eq name="postdb.conf.jian_lavel|default=''" value="1"}selected{/eq}>一星推荐</option>
+                <option value="2" {eq name="postdb.conf.jian_lavel|default=''" value="2"}selected{/eq}>二星推荐</option>
+                <option value="3" {eq name="postdb.conf.jian_lavel|default=''" value="3"}selected{/eq}>三星推荐</option>
+                <option value="4" {eq name="postdb.conf.jian_lavel|default=''" value="4"}selected{/eq}>四星推荐</option>
+                <option value="5" {eq name="postdb.conf.jian_lavel|default=''" value="5"}selected{/eq}>五星推荐</option>
+                <option value="6" {eq name="postdb.conf.jian_lavel|default=''" value="6"}selected{/eq}>六星推荐</option>
+                <option value="2-1" {eq name="postdb.conf.jian_lavel|default=''" value="2-1"}selected{/eq}>二星以下(含二星)</option>
+                <option value="3-1" {eq name="postdb.conf.jian_lavel|default=''" value="3-1"}selected{/eq}>三星以下(含三星)</option>
+                <option value="4-1" {eq name="postdb.conf.jian_lavel|default=''" value="4-1"}selected{/eq}>四星以下(含四星)</option>
+                <option value="5-1" {eq name="postdb.conf.jian_lavel|default=''" value="5-1"}selected{/eq}>五星以下(含五星)</option>
+                <option value="6-1" {eq name="postdb.conf.jian_lavel|default=''" value="6-1"}selected{/eq}>六星以下(含六星)</option>
+            </select>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label">排序</label>
+        <div class="cx-form-item">
+            <select name="conf[order]" required="" lay-verify="required">
+                <option value="jian desc,addtime desc" {eq name="postdb.conf.order|default=''" value="jian desc,addtime desc"}selected{/eq}>默认排序</option>
+                <option value="id desc" {eq name="postdb.conf.order|default=''" value="id desc"}selected{/eq}>发表时间降序</option>
+                <option value="id asc" {eq name="postdb.conf.order|default=''" value="id asc"}selected{/eq}>发表时间升序</option>
+                <option value="sort desc" {eq name="postdb.conf.order|default=''" value="sort desc"}selected{/eq}>排序值降序</option>
+                <option value="sort asc" {eq name="postdb.conf.order|default=''" value="sort asc"}selected{/eq}>排序值升序</option>
+                <option value="hist desc" {eq name="postdb.conf.order|default=''" value="hist desc"}selected{/eq}>点击量降序</option>
+                <option value="hist asc" {eq name="postdb.conf.order|default=''" value="hist asc"}selected{/eq}>点击量升序</option>
+            </select>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label" for="limit_num">开始位置</label>
+        <div class="cx-form-item">
+            <div class="layout cx-form-itemnowarp">
+                <input id="limit_num" class="cx-ipt " type="number" placeholder="请输入字段名称" required lay-verify="required|number" name="conf[limit_num]" value="{$postdb.conf.limit_num|default='1'}">
+                <div class="cx-ipt-icon cx-bg-white-4"> / 条</div>
+            </div>
+            <div class="layout cx-text-black-3">默认从第一条开始读取</div>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label" for="limit">显示数量</label>
+        <div class="cx-form-item">
+            <div class="layout cx-form-itemnowarp">
+                <input id="limit" class="cx-ipt " type="number" placeholder="请输入字段名称" required lay-verify="required|number" name="conf[limit]" value="{$postdb.conf.limit|default='0'}">
+                <div class="cx-ipt-icon cx-bg-white-4"> / 条</div>
+            </div>
+            <div class="layout cx-text-black-3">如果为0的话，显示20条</div>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label" for="title_num">标题字数</label>
+        <div class="cx-form-item">
+            <div class="layout cx-form-itemnowarp">
+                <input id="title_num" class="cx-ipt " type="number" placeholder="请输入标题显示字数" required lay-verify="required|number" name="conf[title_num]" value="{$postdb.conf.title_num|default='0'}">
+                <div class="cx-ipt-icon cx-bg-white-4"> / 字</div>
+            </div>
+            <div class="layout cx-text-black-3">如果为0的话，则全部显示</div>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label" for="description_num">简介字数</label>
+        <div class="cx-form-item">
+            <div class="layout cx-form-itemnowarp">
+                <input id="description_num" class="cx-ipt " type="number" placeholder="请输入简介显示多少文字" required lay-verify="required|number" name="conf[description_num]" value="{$postdb.conf.description_num|default='0'}">
+                <div class="cx-ipt-icon cx-bg-white-4"> / 字</div>
+            </div>
+            <div class="layout cx-text-black-3">如果为0的话，则全部显示</div>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label">启用</label>
+        <div class="cx-form-item">
+            <input type="radio" name="status" value="1" {eq name="postdb.status|default='1'" value="1"}checked{/eq} title="正常显示">
+            <input type="radio" name="status" value="0" {eq name="postdb.status|default='1'" value="0"}checked{/eq} title="暂时隐藏">
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label">选择模板</label>
+        <div class="cx-form-item">
+            <select name="conf[conttemp_name]" lay-filter="conttemp_name">
+                <option value="">选择内置模板</option>
+                {volist name="fileList" id="cx" empty=""}
+                <option value="{$cx.enname}" data-img="{$cx.img}" {eq name="postdb.conf.conttemp_name|default=''" value="$cx.enname"}selected{/eq}>{$cx.cnname}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 conttemplink">
+        <label class="cx-label"></label>
+        <div class="cx-form-item">
+            <div class="cx-xs3 conttemplinkimg"></div>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label">模板代码(<i class="cx-text-red">*</i>)</label>
+        <div class="cx-form-item">
+            <textarea name="conf[conttemp]" class="cx-ipt conttemptext" rows="5">{$postdb.conf.conttemp|default=''}</textarea>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label"></label>
+        <div class="cx-form-item">
+            <input type="hidden" name="id" value="{$postdb.id}" required lay-verify="required|number">
+            <input type="hidden" name="moid" value="{$postdb.moid}" required lay-verify="required|number">
+            <button class="cx-button cx-bg-blue">确认提交</button>
+        </div>
+    </div>
+</form>
+{/block}
+{block name="foot_js"}
+<script>
+    layui.use('form', function(){
+        let form = layui.form;
+        function radiojian(o){
+            if(o === '1'){
+                $(`.jianlink`).removeClass(`cx-hidden`);
+            }else if(!$(`.jianlink`).hasClass(`cx-hidden`)){
+                $(`.jianlink`).addClass(`cx-hidden`);
+            }
+        }
+        function selectconttemp_name(o,img = ''){
+            $(`.conttemplinkimg`).html(`<img class="cx-img-responsive" src="${img}">`);
+            wormui.postUrl("{:url('getview')}",{data:`part/${o}.htm`},function (res) {
+               if(res.code == '1'){
+                   $(`.conttemptext`).html(res.data);
+               }else{
+                   layer.msg(res.msg);
+               }
+            });
+        }
+        form.on('radio(jian)', function(data){
+            radiojian(data.value);
+        });
+        form.on('select(conttemp_name)', function(data){
+            let o = $(data.elem).find("option:selected"),
+                d = $(o).data();
+            selectconttemp_name(data.value,d.img);
+        });
+        radiojian("{postdb.conf.jian|default='a'}");
+    });
+</script>
+{/block}

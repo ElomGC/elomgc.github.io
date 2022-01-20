@@ -1,0 +1,291 @@
+{extend name="base" /}
+{block name='top_res'}cx-icon cx-iconxiangzuojiantou{/block}
+{block name="bgcolor"}{/block}
+{block name="top_title"}{$getdata.title|default=''}{/block}
+{block name='top_right'} {notempty name="list_base.add"}
+<button class="cx-button ll-fabiaobtn">
+    <a href="{$list_base.add}" title="{$list_base.title|default=''}" class="cx-text-white">发表</span></a>
+</button>
+
+{/notempty}
+
+{/block}
+{block name='matb50'}cx-mag-tb50{/block}
+{block name='cont'}
+<style>
+    body{
+        background-color: #F8F8F8;
+    }
+</style>
+{notempty name='listdb.data'}
+<ul class="articlelist">
+    {volist name="listdb.data" id="cx" empty=""}
+    <li class="layout cx-fex-l cx-pad-a10 cx-bg-white cx-mag-t10">
+        <div class="layout cx-fex cx-fex-itemsc cx-fex-nowrap">
+            <a href="{$cx.uri}" title="{$cx.title}" class="index-shenglve1" style="font-weight: bold">{$cx.title}</a>
+            <i class="cx-icon cx-iconxiangxiajiantou cx-text-black-7 cx-text-f14 cx-pad-lr10 ll-bold cx-click" data-type="openedit" data-class=".edittool{$cx.id}"></i>
+            <!--                        编辑删除-->
+            <div class="edittool{$cx.id} ll-displaynone">
+                <div class="cx-pos-r cx-bg-white cx-fex-l cx-pad-a20">
+                    <div class="cx-pos-a cx-bor-rasmall cx-bg-black-5 cx-click" data-type="closepage" style="width: 30px;height: 5px;top: 0;left: 50%;transform: translateX(-50%)"></div>
+                    <a href="/member/cms.article/edit.html?id={$cx.id}" class="layout cx-fex-l cx-fex-itemsc"><i class="cx-xl2 cx-icon cx-iconbianji5 cx-text-f16 cx-text-green"></i><span class="cx-xl22 cx-pad-a15 cx-borbottom cx-bor-white-1 cx-text-black-7">编辑</span></a>
+                    <div class="layout cx-fex-l cx-fex-itemsc cx-click _delete" data-id="{$cx.id}"><i class="cx-xl2 cx-icon cx-iconshanchu cx-text-red cx-text-fbig "></i><span class="cx-xl22 cx-pad-a15 cx-borbottom cx-bor-white-1 cx-text-black-7">删除</span></div>
+                    <button class="layout cx-button-b cx-bg-white-1 cx-mag-t40 cx-click" data-type="closepage" style="border-radius: 17px">取消</button>
+                </div>
+            </div>
+        </div>
+        <a href="{$cx.uri}" title="{$cx.title}" class="layout cx-fex-l cx-mag-tb10">
+            {notempty name='cx.photo'}
+            {else/}
+            {notempty name='cx.video'}
+            {else/}
+            {notempty name='cx.picurl'}
+            <div class="{notempty name='cx.description'}cx-xl8{else/}layout{/notempty}" >
+                <div class="cx-bg-img1x1" style="padding-bottom: {notempty name='cx.description'}70%{else/}40%{/notempty}">
+                    <div class="cx-bg-img cx-bg-white cx-fex-c cx-fex-itemsc" style="background-image: url({$cx.picurl|default='/public/wormcms/img/imgnone.jpg'})"></div>
+                    {notempty name='cx.jian'}
+                    <div class="cx-pos-a" style="top: 0;right: 0;line-height: 1">
+                        <img src="__IMAGES__/tuijian.png" style="max-width: 40px" alt="">
+                    </div>
+                    {/notempty}
+                </div>
+            </div>
+            {/notempty}
+            {/notempty}
+            {/notempty}
+            <div class="{notempty name='cx.photo'} layout {else/} {notempty name='cx.video'} layout {else/}{notempty name='cx.picurl'}cx-xl16 cx-pad-l10 {else/} layout {/notempty}{/notempty}{/notempty}">
+                <div class="layout cx-text-black-5 index-shenglve3">{$cx.description}</div>
+                <div class="layout cx-mag-t5">
+                    {notempty name='cx.video'}
+                    {volist name='cx.video' id='fs' empty=''}
+                    <video src="{$fs.uri}" height="150px" width="100%" controls="controls"></video>
+                    {/volist}
+                    {/notempty}
+                </div>
+                <div class="layout cx-fex-l cx-fexitemsc">
+                    {notempty name='cx.photo'}
+                    {volist name='cx.photo' id='rs' empty=''}
+                    <div class="cx-xl8 cx-pad-a5 cx-click" data-type="fangda" data-cid=".fangdapic" data-uri="{$rs.uri}">
+                        <div class="cx-bg-img1x1 cx-bor cx-bor-white-2">
+                            <div class="cx-bg-img cx-bg-white cx-fex-c cx-fex-itemsc" style="background-image: url({$rs.uri})"></div>
+                        </div>
+                    </div>
+                    {/volist}
+                    {/notempty}
+                </div>
+            </div>
+        </a>
+        <div class="layout cx-fex-l cx-fex-itemsc">
+            <a href="/home/part-{$cx.fid}.html" target="_blank" title="{$cx.part_name}" class="cx-fex-l cx-fex-itemsc cx-text-blue">
+                <i class="iconfont ll-bold iconquanzi1" style="height: 20px"></i>
+                <span class="cx-pad-l5 cx-text-f12">{$cx.part_name}</span>
+            </a>
+            <div class="cx-text-f12 cx-text-black-3 cx-fex-l cx-fex-itemsc cx-pad-l10"><i class="cx-icon cx-iconshijian cx-pad-r5"></i> <span>{$cx.time_date} {$cx.time_his}</span></div>
+        </div>
+
+    </li>
+    {/volist}
+</ul>
+{else/}
+<div class="layout cx-fex-c cx-fex-itemsc cx-fex-column cx-text-black-7" style="height: 30vh">
+    <i class="iconfont iconempty" style="font-size: 6rem"></i>
+    <div>
+        还没有任何内容
+    </div>
+</div>
+{/notempty}
+{/block}
+{block name='foot_js'}
+{// 如果页面是回退回来的，那么执行刷新操作 }
+<script>
+    window.addEventListener('pageshow', function (event) {
+        if(event.persisted || window.performance && window.performance.navigation.type == 2){
+            window.location.reload();
+        }
+    },false);
+</script>
+{// 检测快速删除}
+{eq name="list_base.del|default='0'" value="1"}
+<script>
+    $(`._delete`).click(function () {
+        let _this = this,
+            d = $(_this).data();
+        layer.confirm("删除后无法恢复，确定要删除吗？", {icon: 3, title: "警告"}, function (index) {
+            let url = d.uri ? d.uri : "{:url('del')}";
+            postUrl(url, {id: d.id, _method: "delete"}, function (res) {
+                layer.msg(res.msg, {time:500}, function () {
+                    if (res.code == '1') {
+                        window.location.reload();
+                    }
+                });
+
+                layer.close(index);
+            });
+        })
+        function postUrl(url, data = '', fun = '') {
+            layer.load(1);
+            $.post(url, data, function (res) {
+                layer.closeAll('loading');
+                if (typeof fun == "function") {
+                    fun(res);
+                } else {
+                    layer.msg(res.msg, {}, function () {
+                        if (res.code == '1') {
+                            return true;
+                        } else if (res.code == '0') {
+                            return false;
+                        }
+                    })
+                }
+            }).fail(function () {
+                layer.closeAll('loading');
+                layer.alert('系统错误，请稍后再试！');
+            });
+        };
+    })
+</script>
+{/eq}
+{// 检测是否需要分页 }
+{notempty name="listdb.total"}
+<script>
+    //    上拉加载更多
+    let uri = window.location.href,
+        last_page = "{$listdb.last_page}",
+        current_page = "{$listdb.current_page}",
+        pages = last_page > current_page ? 'true' : 'false',
+        layerbo = true;
+    $(window).scroll(function() {
+        let st = document.documentElement.scrollTop || document.body.scrollTop,
+            h = document.documentElement.clientHeight,
+            sh = document.body.clientHeight;
+        if(pages){
+            if(sh <= st + h ){
+                if(current_page >= last_page){
+                    if(current_page!=='1'&&layerbo===true) {
+                        // layer.msg('没有更多了...');
+                        layerbo = false;
+                    }
+                    return false;
+                }
+                // pages = false;
+                current_page = current_page * 1 + 1 * 1;
+                if(window.location.search) {
+                    _uri = `${uri}&page=${current_page}`;
+                }else{
+                    _uri = `${uri}?page=${current_page}`;
+                }
+                layer.load(1);
+                upajax(_uri,'get',function (res) {
+                    if(res.code == '1'){
+                        last_page = res.data.last_page;
+                        current_page = res.data.current_page;
+                        pages = current_page>last_page ? false : true;
+                        appenddom(res.data.data);
+                    }
+                });
+                layer.closeAll('loading');
+            }
+        }
+    });
+    function appenddom(data) {
+        $.each(data,function (index,item) {
+            let pic = item.picurl? item.picurl : '__PUBLIC__/img/imgnone.jpg',
+                photo ='',
+                video = '',
+                islayout = '',
+                isxl8 = '',
+                title = '',
+                description = '',
+                _layout = item.description?'cx-xl8':'layout',
+                pad50 = item.description?'padding-bottom:70%':'padding-bottom:40%',
+                jian = item.jian !== '0'? `<div class="cx-pos-a" style="top: 0;right: 0;line-height: 1">
+                                    <img src="__IMAGES__/tuijian.png" style="max-width: 30px" alt="">
+                                </div>`:'',
+                add = "{$list_base.add|default=''}",
+                addtitle = "{$list_base.title|default=''}",
+                isfabiao = add? `<a href="${add}" title="${addtitle}" class="layout cx-fex-l cx-fex-itemsc"><i class="cx-xl2 cx-icon cx-iconbianji1 cx-text-fbig cx-text-blue"></i><span class="cx-xl22 cx-pad-a15 cx-borbottom cx-bor-white-1 cx-text-black-7">发表</span></a>` : '';
+            if(item.photo && item.photo!=='') {
+                islayout = 'layout';
+                item.photo.forEach( (item1,index1) => {
+                    let temp = `<div class="cx-xl8 cx-pad-a5 cx-click" data-uri="${item1.uri}">
+                    <div class="cx-bg-img1x1 cx-bor cx-bor-white-2">
+                        <div class="cx-bg-img cx-bg-white cx-fex-c cx-fex-itemsc" style="background-image: url(${item1.uri})"></div>
+                    </div>
+                </div>`;
+                    photo += temp;
+                });
+            }else if(item.video && item.video !== '') {
+                islayout = 'layout';
+                item.video.forEach( (item1,index1) => {
+                    let temp = `<video src="${item1.uri}" height="150px" width="100%" controls="controls"></video>`;
+                    video += temp;
+                });
+
+            }else {
+                isxl8 = `<div class="${_layout}">
+            <div class="cx-bg-img1x1" style="height: 100%;${pad50}">
+                <div class="cx-bg-img cx-bg-white cx-fex-c cx-fex-itemsc" style="background-image: url(${pic})"></div>${jian}</div></div>`;
+                islayout = 'cx-xl16 cx-pad-l10';
+            }
+            let temp = `<li class="layout cx-fex-l cx-pad-a10 cx-bg-white cx-mag-t10">
+             <div class="layout cx-fex cx-fex-itemsc cx-fex-nowrap">
+                <a href="${item.uri}" title="${item.title}" class="index-shenglve1" style="font-weight: bold">${item.title}</a>
+                <i class="cx-icon cx-iconxiangxiajiantou cx-text-black-7 cx-text-f14 cx-pad-lr10 ll-bold cx-click" data-type="openedit" data-class=".edittool${item.id}"></i>
+                <div class="edittool{$cx.id} ll-displaynone">
+                    <div class="cx-pos-r cx-bg-white cx-fex-l cx-pad-a20">
+                        <div class="cx-pos-a cx-bor-rasmall cx-bg-black-5 cx-click" data-type="closepage" style="width: 30px;height: 5px;top: 0;left: 50%;transform: translateX(-50%)"></div>
+                        ${isfabiao}
+                        <a href="/member/cms.article/edit.html?id={$cx.id}" class="layout cx-fex-l cx-fex-itemsc"><i class="cx-xl2 cx-icon cx-iconbianji5 cx-text-f16 cx-text-green"></i><span class="cx-xl22 cx-pad-a15 cx-borbottom cx-bor-white-1 cx-text-black-7">编辑</span></a>
+                        <div class="layout cx-fex-l cx-fex-itemsc cx-click _delete" data-id="${item.id}"><i class="cx-xl2 cx-icon cx-iconshanchu cx-text-red cx-text-fbig "></i><span class="cx-xl22 cx-pad-a15 cx-borbottom cx-bor-white-1 cx-text-black-7">删除</span></div>
+                        <button class="layout cx-button-b cx-bg-white-1 cx-mag-t40 cx-click" data-type="closepage" style="border-radius: 17px">取消</button>
+                    </div>
+                </div>
+            </div>
+           <div class="layout cx-fex-l cx-mag-tb10">
+         ${isxl8}
+        <div class="${islayout}">
+            <a href="${item.uri}" title="${item.title}" class="layout cx-text-black-5 index-shenglve3">${item.description}</a>
+            <div class="layout cx-mag-t5">
+                ${video}
+            </div>
+            <div class="layout cx-fex-l cx-fexitemsc">
+                ${photo}
+            </div>
+        </div>
+        </div>
+        <div class="layout cx-fex-l cx-fex-itemsc">
+            <a href="/home/part-${item.fid}.html" target="_blank" title="${item.part_name}" class="cx-fex-l cx-fex-itemsc cx-text-blue">
+                <i class="iconfont ll-bold iconquanzi1" style="height: 20px"></i>
+                <span class="cx-pad-l5 cx-text-f12">${item.part_name}</span>
+            </a>
+            <div class="cx-text-f12 cx-text-black-3 cx-fex-l cx-fex-itemsc cx-pad-l10"><i class="cx-icon cx-iconshijian cx-pad-r5"></i> <span>${item.time_date} ${item.time_his}</span></div>
+        </div>
+    </li>`
+            $(`.articlelist`).append(temp);
+        });
+    };
+    function jiezi(max,zi) {
+        if(zi.length>max) {
+            return zi.substring(0,max)+'…';
+        }else {
+            return zi
+        }
+    }
+    function upajax(uri,type = 'get',success = '') {
+        $.ajax({
+            async:true,
+            type: type,
+            dataType: "json",
+            url: uri,
+            success:function(res) {
+                if(typeof success == 'function'){
+                    success(res);
+                }else{
+                    layer.msg(res.msg);
+                }
+            }
+        });
+    };
+</script>
+{/notempty}
+{/block}

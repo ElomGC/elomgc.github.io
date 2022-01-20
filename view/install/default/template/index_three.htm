@@ -1,0 +1,36 @@
+{extend name="base" /}
+{block name='bar'}60%{/block}
+{block name='title'}安装数据库{/block}
+{block name='cont'}
+<ul id="statuslist" class="layout cx-fex-l cx-fex-column"></ul>
+{/block}
+{block name='button'}
+<a id="weburl" class="cx-button">系统安装中，请等待安装完成</a>
+<script type='text/javascript'>
+    $(document).ready(function() {
+        getUpdata();
+    });
+    function getUpdata(data = ''){
+        layermsg();
+        $.post("{:url('setdatabase')}",data,function (res) {
+            layermsg(false);
+            if(res.code == '1'){
+                $("#statuslist").append(`<li class='cx-text-green'>${res.msg}</li>`);
+                $("._uplist").scrollTop($("#statuslist").height());
+                getUpdata(res.data);
+            }else if(res.code == '0'){
+                $("#statuslist").append(`<li class='cx-text-red'>${res.msg}</li>`);
+                $("._uplist").scrollTop($("#statuslist").height());
+            }else if(res.code == '1000'){
+                $("#weburl").attr('href', "{:url('four')}").addClass('cx-bg-yellow').text('网站安装完成，点击进入下一步');
+            }
+        });
+    }
+    function layermsg(o = true){
+        layui.use('layer', function(){
+            let layer = layui.layer;
+            o ? layer.load(1) : layer.closeAll('loading');
+        });
+    }
+</script>
+{/block}

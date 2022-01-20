@@ -1,0 +1,38 @@
+{extend name="base"}
+{block name="cont"}
+<style>
+    body{
+        background-color: #F8F8F8;
+    }
+</style>
+<div class="cx-pos-r" style="height: 30vh;overflow: hidden">
+    {notempty name='$readdb.banber'}
+    <div class="cx-bg-img cx-fex-c cx-fex-itemsc" style="background-image: url({$readdb.banber})"></div>
+    {else/}
+    {$wormedit.news_banner|raw|default=''}
+    {/notempty}
+</div>
+
+<div class="cx-pad-tb50">
+    <div class="cx-cont cx-fex-l">
+        <div class="cx-xl16 cx-fex-c" style="overflow: hidden">
+            <div class="cx-xl16" style="height: 100%">
+                <div class="swiper-container" id="guanyu">
+                    <div class=" swiper-wrapper">
+                        {$wormedit.newnenpic|raw|default=''}
+                    </div>
+                    <!-- Add Pagination -->
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </div>
+        <div class="cx-xl8 cx-pad-l50">
+            <h2 class="index-ztitle ll-bold ">公司简介</h2>
+            <span class="cx-text-f18 ll-bold ll-color">ABOUT</span>
+            <div class="cx-mag-tb20 cx-text-lh">
+                {$readdb.content|raw}
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

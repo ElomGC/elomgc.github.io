@@ -1,0 +1,23 @@
+{extend name="public:base" title="$list_base.title" /}
+{block name="cont"}
+<h3 class="cx-text-center cx-borbottom">网站设置</h3>
+<div class="layout cx-fex-c cx-fex-itemsc cx-mag-t15">
+    <a class="cx-button cx-bg-blue cx-mag-lr5" href="{:url('labeltext',['id' => $postdb.id])}">网站导航</a>
+    <a class="cx-button cx-bg-blue cx-mag-lr5" href="{:url('labelcktext',['id' => $postdb.id])}">友情链接</a>
+</div>
+<h3 class="cx-text-center cx-borbottom">碎片内容</h3>
+<div class="layout cx-fex-c cx-fex-itemsc cx-mag-t15">
+    <a class="cx-button cx-bg-blue cx-mag-lr5" href="{:url('labeltext',['id' => $postdb.id])}">文本文档</a>
+    <a class="cx-button cx-bg-blue cx-mag-lr5" href="{:url('labelcktext',['id' => $postdb.id])}">富文本编辑器</a>
+    <a class="cx-button cx-bg-blue cx-mag-lr5" href="{:url('labelimgs',['id' => $postdb.id])}">图片上传</a>
+    <a class="cx-button cx-bg-blue cx-mag-lr5" href="{:url('labelvideo',['id' => $postdb.id])}">视频上传</a>
+</div>
+{volist name="listdb" id="cx" empty=""}
+<h3 class="cx-text-center cx-borbottom cx-mag-t15">{$cx.title}调用</h3>
+<div class="layout cx-fex-c cx-fex-itemsc cx-mag-t15">
+    <a class="cx-button cx-bg-blue cx-mag-lr5" href="{:url('partlist',['id' => $postdb.id,'moid' => $cx.id])}">{$cx.title}-主栏目</a>
+    <a class="cx-button cx-bg-blue cx-mag-lr5" href="{:url('partedit',['id' => $postdb.id,'moid' => $cx.id])}">{$cx.title}-主栏目内容</a>
+    <a class="cx-button cx-bg-blue cx-mag-lr5" href="{:url('partone',['id' => $postdb.id,'moid' => $cx.id])}">{$cx.title}-主栏目(单篇)</a>
+</div>
+{/volist}
+{/block}

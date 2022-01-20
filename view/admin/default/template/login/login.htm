@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+{include file="public:head" title="$webdb.web_title" keywords="$webdb.web_keywords" descriiption="$webdb.web_description" /}
+<body class="login-body cx-fex-c cx-fex-itemsc ll-login">
+<div class="cx-cont cx-fex login-bg-rgbcolor">
+    <div class="cx-xs12 cx-xl24 cx-fex-c cx-fex-column cx-fex-itemsc cx-text-reverse login-pad0">
+        <div class="cx-xl6 ">
+            <img class="cx-img-responsive" src="__IMAGES__/logo.png">
+        </div>
+        <h1 class="cx-mag-tb20 login-mag-tb10 cx-text-f20">WormCMS 管理中心</h1>
+        <a href="http://www.wormcms.com" target="_blank">www.wormcms.com</a>
+    </div>
+    <div class="cx-xs12 cx-xl24 cx-bg-white cx-pad-tb40 login-pada20" style="box-shadow: 0 0 8px 0 rgba(0,0,0,0.5)">
+        <form class="layui-form cx-pad-a50 login-pad0" role="form" action="" method="post">
+            <h2 class="cx-text-yellow cx-pad-b20 cx-text-f20">LOGIN</h2>
+            <div class="cx-mag-t20 cx-text-f16 cx-text-black-3">USERNAME</div>
+            <div class="cx-form-group">
+                <div class="cx-form-itemnowarp cx-borbottom cx-bor-white-1">
+                    <input class="cx-ipt" type="text" name="u_name" required lay-verify="required">
+                    <div class="cx-icon cx-iconjianpan"></div>
+                </div>
+            </div>
+            <div class="cx-mag-t20 cx-text-f16 cx-text-black-3">PASSWORD</div>
+            <div class="cx-form-group">
+                <div class="cx-form-itemnowarp cx-borbottom cx-bor-white-1">
+                    <input class="cx-ipt" type="password" name="u_password" required lay-verify="required">
+                    <div class="cx-icon cx-iconmima"></div>
+                </div>
+            </div>
+            {eq name="webdb.web_adminyz" value="1"}
+            <div class="cx-mag-t20 cx-text-f16 cx-text-black-3">CAPTCHA</div>
+            <div class="cx-form-group">
+                <div class="cx-form-itemnowarp cx-borbottom cx-bor-white-1">
+                    <input class="cx-ipt" type="text" name="u_captcha" required lay-verify="required">
+                    <img width="100" height="100%" src="{:captcha_src()}" alt="captcha" onclick="this.src='{:captcha_src()}?seed='+Math.random()">
+                </div>
+            </div>
+            {/eq}
+            <div class="layout cx-fex-r">
+                <button class="cx-button cx-mag-t20 cx-xs3 cx-xl24 cx-bg-yellow cx-text-center" lay-submit lay-filter="login">LOGIN</button>
+            </div>
+        </form>
+    </div>
+</div>
+{include file="public:foot" /}
+</body>
+</html>

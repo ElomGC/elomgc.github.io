@@ -1,0 +1,109 @@
+{extend name="base"}
+{block name="top_title"}会员中心{/block}
+{block name='matb50'}cx-mag-tb50{/block}
+{block name="cont"}
+<div class="layout cx-fex-l cx-pos-r" style="height: 20vh;">
+    <div class="layout cx-pad-a20 cx-bg-img cx-fex-c cx-fex-itemsc" style="background-image: url(__IMAGES__/mobilebanner.jpg)">
+        <div class="cx-xl4">
+            <div class="cx-bg-img1x1">
+                <div class="cx-bg-img cx-bg-white  cx-bor-white-1 cx-fex-c cx-fex-itemsc cx-bor-raall" style="overflow: hidden">
+                    <img src="{$wormuser.u_icon}" class="cx-img-responsive" onerror="this.src='__PUBLIC__/img/usernone.png'" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="cx-xl20 cx-pad-l20">
+            <div class="ll-bold">{notempty name='wormuser.u_uniname'}{$wormuser.u_uniname}{else/}{$wormuser.u_name}{/notempty}</div>
+            <a href="/member/user/edit.html" title="编辑个人资料" class="cx-text-white cx-text-f12">编辑个人资料 <i class="cx-icon cx-iconbianji1"></i> </a>
+        </div>
+    </div>
+</div>
+<div class="" style="overflow: hidden;border-bottom-right-radius: 50%;border-bottom-left-radius: 50%">
+    <div class="cx-pos-r" style="height: 40px">
+        <div class="cx-bg-img" style="background-image: url(__IMAGES__/mobilebanner.jpg)"></div>
+    </div>
+</div>
+<div class="cx-pad-lr20" style="transform: translateY(-50px)">
+    <div class="layout cx-fex-c cx-bg-white  cx-pad-a20 ll-remove-lastline cx-text-f16 cx-text-black-7">
+        <a href="/member/sms.html?status=a" title="消息" class="cx-pad-lr20 cx-borright cx-bor-white-1">消息<span class="ll-bold ll-fucolor cx-pad-l5 xiaoxinum">0</span> </a>
+        <a class="cx-pad-lr20 cx-borright cx-bor-white-1">收藏<span class="ll-bold ll-fucolor cx-pad-l5">0</span></a>
+        <a class="cx-pad-lr20 cx-borright cx-bor-white-1">关注<span class="ll-bold ll-fucolor cx-pad-l5">0</span></a>
+    </div>
+    <div class="layout cx-mag-t10">
+        <a href="/member/bbs/article.html?mid=1&title=我的帖子" title="我的帖子" class="layout cx-fex cx-fex-itemsc cx-bg-white cx-pad-lr10 ">
+            <i class="iconfont icon-quanzi ll-fucolor h30lh2"></i>
+            <div class="cx-xl22 cx-pad-tb15 cx-borbottom cx-bor-white-1 cx-fex cx-fex-itemsc">
+                <span>我的帖子</span>
+                <i class="cx-icon cx-iconright"></i>
+            </div>
+        </a>
+        <a href="/member/cms/article.html?mid=1&title=文章管理" title="文章管理" class="layout cx-fex cx-fex-itemsc cx-bg-white cx-pad-lr10 ">
+            <i class="cx-icon cx-icon24 ll-fucolor h30lh2"></i>
+            <div class="cx-xl22 cx-pad-tb15 cx-borbottom cx-bor-white-1 cx-fex cx-fex-itemsc">
+                <span>文章管理</span>
+                <i class="cx-icon cx-iconright"></i>
+            </div>
+        </a>
+        <a href="/member/cms/article.html?mid=2&title=好物推荐" title="好物推荐" class="layout cx-fex cx-fex-itemsc cx-bg-white cx-pad-lr10 ">
+            <i class="iconfont iconshangpin ll-fucolor h30lh2"></i>
+            <div class="cx-xl22 cx-pad-tb15 cx-borbottom cx-bor-white-1 cx-fex cx-fex-itemsc">
+                <span>好物推荐</span>
+                <i class="cx-icon cx-iconright"></i>
+            </div>
+        </a>
+        <a href="/member/cms/article.html?mid=4&title=我的动态" title="我的动态" class="layout cx-fex cx-fex-itemsc cx-bg-white cx-pad-lr10 ">
+            <i class="iconfont icontupian ll-fucolor h30lh2"></i>
+            <div class="cx-xl22 cx-pad-tb15 cx-borbottom cx-bor-white-1 cx-fex cx-fex-itemsc">
+                <span>我的动态</span>
+                <i class="cx-icon cx-iconright"></i>
+            </div>
+        </a>
+        <a href="/member/sms.html?status=a" class="layout cx-fex cx-fex-itemsc cx-bg-white cx-pad-lr10 ">
+            <i class="iconfont iconbuoumaotubiao14 ll-fucolor h30lh2"></i>
+            <div class="cx-xl22 cx-pad-tb15 cx-fex cx-fex-itemsc">
+                <span>我的消息</span>
+                <i class="cx-icon cx-iconright"></i>
+            </div>
+        </a>
+        <div class="layout cx-fex cx-fex-itemsc cx-bg-white cx-pad-lr10 cx-mag-t10 ">
+            <i class="cx-icon cx-iconlock ll-fucolor h30lh2"></i>
+            <div class="cx-xl22 cx-pad-tb15 cx-borbottom cx-bor-white-1 cx-fex cx-fex-itemsc">
+                <span>修改密码</span>
+                <i class="cx-icon cx-iconright"></i>
+            </div>
+        </div>
+        <div class="layout cx-fex cx-fex-itemsc cx-bg-white cx-pad-lr10 cx-click" data-type="out">
+            <i class="cx-icon cx-icontuichu ll-fucolor"></i>
+            <div class="cx-xl22 cx-pad-tb15 cx-fex cx-fex-itemsc">
+                <span>退出登录</span>
+                <i class="cx-icon cx-iconright"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name='foot_js'}
+<script>
+    //获取消息数量
+    upajax('/member/sms.html',type = 'get',function (res) {
+        if(res.code=='1') {
+            $('.xiaoxinum').html(res.data.total)
+        }
+    });
+    function upajax(uri,type = 'get',success = '') {
+        $.ajax({
+            async:true,
+            type: type,
+            dataType: "json",
+            url: uri,
+            success:function(res) {
+                if(typeof success == 'function'){
+                    success(res);
+                }else{
+                    layer.msg(res.msg);
+                }
+            }
+        });
+    }
+</script>
+{/block}

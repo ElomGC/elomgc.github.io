@@ -1,0 +1,83 @@
+{extend name="base" /}
+{block name='top_res'}cx-icon cx-iconxiangzuojiantou{/block}
+{block name="bgcolor"}{/block}
+{block name="top_title"}我的消息{/block}
+{block name='matb50'}cx-mag-tb50{/block}
+{block name='cont'}
+<style>
+    body {
+        background-color: #F8F8F8;
+    }
+</style>
+<div class="layout cx-pos-f cx-fex-a cx-bg-white" style="box-shadow: 0 2px 5px rgba(0,0,0,0.1);z-index: 9">
+    <a href="/member/sms.html?status=a" class="cx-pad-tb10 {eq name='getdata.status' value='a'} cx-text-blue ll-borbon2 ll-bold {else/} cx-text-black-7{/eq}">全部</a>
+    <a href="/member/sms.html?status=0" class="cx-pad-tb10 {eq name='getdata.status' value='0'} cx-text-blue ll-borbon2 ll-bold {else/} cx-text-black-7{/eq}">未读</a>
+    <a href="/member/sms.html?status=1" class="cx-pad-tb10 {eq name='getdata.status' value='1'} cx-text-blue ll-borbon2 ll-bold {else/} cx-text-black-7{/eq}">已读</a>
+</div>
+{notempty name='listdb.data'}
+<ul class="layout cx-pad-t45">
+    {volist name="listdb.data" id="cx" empty=""}
+    <li class="layout cx-bg-white cx-pad-a15 cx-mag-t10">
+        <div class="layout cx-fex-l cx-fex-itemsc">
+            <div class="cx-xl4">
+                <div class="cx-bg-img1x1">
+                    <div class="cx-bg-img cx-bg-white cx-fex-c cx-fex-itemsc cx-bor-raall cx-bor cx-bor-white-1" style="overflow: hidden">
+                        <img src="{$cx.fo_uicon}" onerror="this.src='__PUBLIC__/img/usernone.png'" class="cx-img-responsive" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="cx-xl20 cx-pad-l15">
+                <a href="/member/sms/read.html?id={$cx.id}" title="{$cx.title}" class="layout cx-fex cx-fex-itemsc">
+                    <span class="ll-bold">{$cx.fo_uname}</span>
+                    <span class="cx-text-black-5">{$cx.addtime}</span>
+                </a>
+                <div class="layout cx-fex cx-fex-itemsc">
+                    <a href="/member/sms/read.html?id={$cx.id}" title="{$cx.title}" class="cx-text-black-7">{$cx.title}</a>
+                    <span>
+                        <i class="iconfont cx-pad-r10 {eq name='cx.status' value='0'}iconbiaoshilei_weiduxinxi cx-text-red{else/}iconyidu cx-text-green{/eq} "></i>
+                        <i class="cx-icon cx-iconlajixiang cx-text-red" data-id="{$cx.id}" onclick="delSMS(this)"></i>
+                    </span>
+
+                </div>
+
+            </div>
+        </div>
+    </li>
+    {/volist}
+</ul>
+{else/}
+<div class="layout cx-fex-c cx-fex-itemsc cx-fex-column cx-text-black-7" style="height:60vh">
+    <i class="iconfont iconempty" style="font-size: 6rem"></i>
+    <div>
+        还没有消息
+    </div>
+</div>
+{/notempty}
+{/block}
+{block name='foot_js'}
+<script>
+    //删除单条消息
+    function delSMS(o){
+        let d = $(o).data();
+        layer.confirm('确认删除该消息吗？删除后无法恢复！', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            $.post("/member/sms/del.html", {id:d.id,_method:'delete'}, function(res) {
+                layer.closeAll('loading');
+                layer.msg(res.msg, {}, function() {
+                    if (res.code == '1') {
+                        window.location.reload();
+                    } else if (res.code == '0') {
+
+                    }
+                })
+            }).fail(function() {
+                layer.closeAll('loading');
+                layer.alert('系统错误，请稍后再试！');
+            });
+        }, function(){
+
+        });
+    };
+</script>
+{/block}

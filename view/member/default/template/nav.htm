@@ -1,0 +1,32 @@
+<div class="layout cx-fex-c index-nav cx-pad-tb15">
+    <div class="cx-cont cx-fex cx-fex-itemsc">
+        <div class="cx-fex-l cx-fex-itemsc">
+            <a class="topnav-logo" href="{$webdb.web_url}" title="{$webdb.web_title}" target="_blank"><img class="cx-img-responsive" src="{$webdb.web_logo}" alt=""></a>
+            <div class="cx-fex cx-fex-column cx-pad-lr15 cx-mag-l15 cx-hidden-l cx-borleft cx-bor-white-1">
+                <div class="cx-text-f18 topnav-title">联合产品发布 </div>
+                <div class="cx-text-black-6">打造万千瞩目爆款</div>
+            </div>
+        </div>
+        <div class="cx-fex-c cx-fex-itemsc">
+            <div class="cx-fex cx-fex-itemsc cx-hidden-l">
+                <i class="cx-icon cx-iconguhua cx-mag-r15 ll-text-red" style="font-size: 50px"></i>
+                <div class="cx-fex cx-fex-column">
+                    <div class="cx-text-f16 ll-text-red" style="font-weight: 600">全国客户统一服务热线</div>
+                    <div class="topnav-title cx-text-f18 cx-text-black-7">021-80158202</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="layout cx-fex-c cx-text-reverse ll-bg-red">
+    <ul class="cx-cont cx-nav-small cx-fex-a cx-hidden-l index-nav-cloumn">
+        {volist name="NavList.1" id="cx" empty=""}
+        <li class="cx-nav-one cx-pos-r">
+            <a class="cx-pad-lr15 cx-text-f16" title="{$cx.title}" target="_blank" href="{$cx.uri}">{$cx.title}</a>
+        </li>
+        {/volist}
+        <li class="cx-nav-one cx-pos-r">
+            <a class="cx-fex-l cx-fex-itemsc cx-pad-lr15 cx-text-f16" target="_blank" title="会员中心" href="/member/index.html">会员中心</a>
+        </li>
+    </ul>
+</div>

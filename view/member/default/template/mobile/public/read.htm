@@ -1,0 +1,53 @@
+{extend name="base" /}
+{block name="cont"}
+<div class="cx-pad-l20 cx-mag-t20">
+<div class="layout cx-pad-tb10 cx-borbottom cx-bor-white-1">
+<a href="javascript:history.back(-1)" title="返回" class="cx-button-s cx-bor-red"><i class="cx-icon cx-iconleft"></i> 返回</a>
+</div>
+<div class="cx-card cx-mag-t15 cx-bg-white">
+    <div class="cx-card-head">
+        <div class="cx-card-title cx-tag cx-bor-red cx-text-f16">{$readdb.part_name}</div>
+        <small class="cx-card-small cx-text-red">{eq name='readdb.status' value='1'}申请通过{else/}申请中{/eq}</small>
+    </div>
+    <div class="cx-card-body ll-form">
+        <ul class="layout cx-fex-l cx-fex-column">
+            <div class="cx-form-group cx-mag-b10">
+                <label class="cx-label">标题</label>
+                <div class="cx-form-item cx-borbottom cx-bor-white-1">
+                <input id="title" readonly class="cx-ipt" type="text" required="" lay-verify="required" value="{$readdb.xingming|default=''}">
+                </div>
+            </div>
+            <div class="cx-form-group cx-mag-b10">
+                <label class="cx-label">姓名</label>
+                <div class="cx-form-item cx-borbottom cx-bor-white-1">
+                    <input id="xingming" readonly class="cx-ipt" type="text" value="{$readdb.xingming|default=''}">
+                </div>
+            </div>
+            <div class="cx-form-group cx-mag-b10">
+                <label class="cx-label">手机号</label>
+                <div class="cx-form-item cx-borbottom cx-bor-white-1">
+                    <input id="shouji" readonly class="cx-ipt" type="text" required="" lay-verify="required" value="{$readdb.shouji|default=''}">
+                </div>
+            </div>
+            <div class="cx-form-group cx-mag-b10">
+                <label class="cx-label">街道</label>
+                <div class="cx-form-item cx-borbottom cx-bor-white-1">
+                    <input id="street" readonly class="cx-ipt" type="text" required="" lay-verify="required" value="{$readdb.street|default=''}">
+                </div>
+            </div>
+            <div class="cx-form-group cx-mag-b10">
+                <label class="cx-label">住址</label>
+                <div class="cx-form-item cx-borbottom cx-bor-white-1">
+                    <input id="address" readonly class="cx-ipt" type="text" value="{$readdb.address|default=''}">
+                </div>
+            </div>
+            <div class="cx-form-group cx-mag-b10 ">
+                <label class="cx-label">申请说明</label><div class="cx-form-item">
+                <textarea readonly rows="3" class="cx-ipt cx-borbottom cx-bor-white-1">{$readdb.content|raw|default=''}</textarea>
+            </div>
+            </div>
+        </ul>
+    </div>
+</div>
+</div>
+{/block}

@@ -1,0 +1,94 @@
+{extend name="public:base" title="$list_base.title" /}
+{block name="cont"}
+{volist name="listdb.modellist" id="cx" empty=""}
+<div class="layout cx-pad-a10">
+    <div class="cx-card">
+        <div class="cx-card-head">
+            <div class="cx-card-title cx-tag">{$cx.title}</div>
+        </div>
+        <div class="cx-card-body cx-fex-l">
+            {volist name="cx.data" id="c" empty=""}
+            <div class="cx-xs4 cx-pad-lr10 cx-mag-b10">
+                <a class="cx-card" style="height: 100%" href="/admin/{$cx.keys}.article/index.html?mid={$c.id}">
+                    <ul class="cx-card-body cx-fex-c cx-fex-column cx-fex-itemsc">
+                        <li class="cx-text-green" style="font-size: 3rem">{$c.article_num}</li>
+                        <li class="cx-text-f16 cx-text-black-3">{empty name="c.futitle"}{$c.title}{else /}{$c.futitle}{/empty}</li>
+                        <li class="cx-text-f14 cx-text-black-3">(栏目: {$c.part_num})</li>
+                    </ul>
+                </a>
+            </div>
+            {/volist}
+        </div>
+    </div>
+</div>
+{/volist}
+{notempty name="listdb.formlist"}
+<div class="layout cx-pad-a10">
+    <div class="cx-card">
+        <div class="cx-card-head">
+            <div class="cx-card-title cx-tag">表单插件</div>
+        </div>
+        <div class="cx-card-body cx-fex-l">
+            {volist name="listdb.formlist" id="cx" empty=""}
+            <div class="cx-xs4 cx-pad-lr10 cx-mag-b10">
+                <a class="cx-card" style="height: 100%" href="/admin/form.article/index.html?mid={$cx.id}">
+                    <ul class="cx-card-body cx-fex-c cx-fex-column cx-fex-itemsc">
+                        <li class="cx-text-green" style="font-size: 3rem">{$cx.article_num}</li>
+                        <li class="cx-text-f16 cx-text-black-3">{$cx.title}</li>
+                    </ul>
+                </a>
+            </div>
+            {/volist}
+        </div>
+    </div>
+</div>
+{/notempty}
+<div class="layout cx-fex">
+    <div class="cx-xs12 cx-pad-a10">
+        <div class="cx-card">
+            <div class="cx-card-head">
+                <div class="cx-card-title cx-tag">系统状态</div>
+            </div>
+            <div class="cx-card-body">
+                <ul class="layout cx-fex-l cx-fex-column cx-text-black-6">
+                    <li>服务器地址: {$_SERVER['SERVER_ADDR']}</li>
+                    <li>服务器域名: {$_SERVER['HTTP_HOST']}</li>
+                    <li>服务器版本: {:php_uname('s')}{:php_uname('r')}</li>
+                    <li>服务器端口: {$_SERVER["SERVER_PORT"]}</li>
+                    <li>通信协议: {$_SERVER["SERVER_PROTOCOL"]}</li>
+                    <li>最大上传: {:get_cfg_var("upload_max_filesize")}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="cx-xs12 cx-pad-a10">
+        <div class="cx-card">
+            <div class="cx-card-head">
+                <div class="cx-card-title cx-tag">技术支持</div>
+            </div>
+            <div class="cx-card-body">
+                <ul class="layout cx-fex-l cx-fex-column cx-text-black-6">
+                    <li>WORMCMS: <a class="cx-mag-r10 cx-text-black-6" href="http://www.wormcms.com" target="_blank">www.wormcms.com </a></li>
+                    <li>官方网站: <a class="cx-text-black-6" href="http://www.cxbs.net" target="_blank">www.cxbs.net </a></li>
+                    <li>联系电话: 021-80158202</li>
+                    <li>24小时服务电话: 18616399020(微信同号)</li>
+                    <li>联系邮箱: admin@cxbs.net</li>
+                    <li>联系地址: 上海市浦东新区惠南镇城南路168弄绿地峰汇商务广场B座1710</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name="foot_js"}
+<script>
+    $.post("{:url('configup/editadd')}",'',function (res){
+        if(res.code == '2'){
+            layer.confirm('检测到升级文件，是否升级?', {icon: 3, title:'提示'}, function(index){
+                parent.$(`.tabiframe`).attr('src',"{:url('configup/index')}");
+                layer.close(index);
+            });
+        }
+    });
+</script>
+{/block}

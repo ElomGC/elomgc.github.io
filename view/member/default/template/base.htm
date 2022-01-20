@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    {include file="meta" title="$webdb.web_title" keywords="$webdb.web_keywords" description="$webdb.web_description" /}
+    {block name="bgcolor"}
+    <style>
+        body{
+            background-color: #F8F8F8;
+        }
+    </style>
+    {/block}
+</head>
+<body>
+{block name="head"}
+{include file="$head"}
+{/block}
+<!--头部导航-->
+<div class="cx-cont cx-pos-r" style="height: 30vh">
+    <a href="/member/user/edit.html" title="编辑个人资料" class="cx-bg-img cx-fex-c cx-fex-column cx-fex-itemsc" style="background-image: url(__IMAGES__/member_pic.jpg)">
+        <div class="cx-xl2">
+            <div class="cx-bg-img1x1">
+                <div class="cx-bg-img cx-fex-c cx-fex-itemsc cx-bg-white cx-bor-raall" style="overflow:hidden" >
+                    <img src="{$wormuser.u_icon}" onerror="this.src='/public/wormcms/img/usernone.png'" class="cx-img-responsive" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="cx-text-white cx-text-lh">{notempty name='wormuser.u_uniname'}{$wormuser.u_uniname}{else/}{$wormuser.u_name}{/notempty}</div>
+    </a>
+</div>
+<div class="layout">
+    <ul class="cx-cont cx-fex-c cx-bg-white">
+       <li class="cx-fex-l">
+           <a href="/member.html" class="cx-pad-a15 cx-text-black-7 member">我的主页</a>
+       </li>
+        <li class="cx-fex-l">
+            <a href="/member/cms/article.html?mid=1" title="我的文章" class="cx-pad-a15 cx-text-black-7 member">我的文章</a>
+        </li>
+        <li class="cx-fex-l">
+            <a href="/member/cms/article.html?mid=2" title="我的好物" class="cx-pad-a15 cx-text-black-7 member">我的好物</a>
+        </li>
+        <li class="cx-fex-l">
+            <a href="/member/cms/article.html?mid=4" title="我的动态" class="cx-pad-a15 cx-text-black-7 member">我的动态</a>
+        </li>
+        <li class="cx-fex-l">
+            <a href="/member/bbs/article.html?mid=1" title="我的论坛" class="cx-pad-a15 cx-text-black-7 member">我的论坛</a>
+        </li>
+        <li class="cx-fex-l cx-hidden">
+            <a href="/member.html" class="cx-pad-a15 cx-text-black-7 member">我的收藏</a>
+        </li>
+        <li class="cx-fex-l">
+            <a href="/member/sms.html?status=a" title="我的消息" class="cx-pad-a15 cx-text-black-7 member">我的消息</a>
+        </li>
+    </ul>
+</div>
+<div class="cx-cont cx-fex-l">
+    <div class="cx-xl8 cx-mag-t20">
+        <!--        收藏-->
+        <div class="layout cx-fex-c cx-bg-white cx-pad-tb40 ll-remove-lastline">
+            <a  href="/member/sms.html?status=a" title="我的消息" class="cx-fex-column cx-fex-itemsc cx-fex-l cx-pad-lr30 cx-borright cx-bor-white-1">
+                <span class="cx-text-fbig ll-bold cx-text-blue xiaoxinum"></span>
+                <span class="cx-text-black-7">消息</span>
+            </a>
+            <a href="" class="cx-fex-column cx-fex-itemsc cx-fex-l cx-pad-lr30 cx-borright cx-bor-white-1">
+                <span class="cx-text-fbig ll-bold cx-text-blue">30</span>
+                <span class="cx-text-black-7">收藏</span>
+            </a>
+            <a href="/member/bbs/article.html?mid=1" title="帖子" class="cx-fex-column cx-fex-itemsc cx-fex-l cx-pad-lr30 cx-borright cx-bor-white-1">
+                <span class="cx-text-fbig ll-bold cx-text-blue tezinum">0</span>
+                <span class="cx-text-black-7">帖子</span>
+            </a>
+            <a class="cx-fex-column cx-fex-itemsc cx-fex-l cx-pad-lr30 cx-borright cx-bor-white-1">
+                <span class="cx-text-fbig ll-bold cx-text-blue">30</span>
+                <span class="cx-text-black-7">关注</span>
+            </a>
+        </div>
+        <!--        编辑信息-->
+        <div class="layout cx-fex-c cx-bg-white cx-mag-t20">
+            <div class="layout cx-pad-a20 cx-borbottom cx-bor-white-1">
+                <div class="cx-text-lh cx-text-center cx-text-f16">个人资料完善度<span class="num">80</span>%</div>
+                <div class="layout layui-progress cx-mag-t20" lay-filter="userinfo">
+                    <div class="layui-progress-bar layui-bg-blue" lay-percent="20%"></div>
+                </div>
+            </div>
+            <a href="/member/user/edit.html" title="编辑个人资料" class="cx-text-black-7 cx-pad-a20 ll-hover">编辑个人信息</a>
+        </div>
+        <!--        好物推荐-->
+        <div class="layout cx-fex-l cx-mag-t20 cx-bg-white">
+            <div class="layout cx-pad-lr20">
+                <div class="layout cx-fex cx-fex-itemsc cx-borbottom cx-bor-white-1">
+                    <h6 class="cx-text-f16 cx-pad-a15 ll-color ll-borbom4">我的好物</h6>
+                </div>
+            </div>
+            <ul class="layout haowulist cx-pad-a10 ll-remove-lastline">
+
+            </ul>
+        </div>
+        <!--        我的文章-->
+        <div class="layout cx-mag-t20 cx-bg-white">
+            <div class=" cx-pad-lr20">
+                <div class="layout cx-fex cx-fex-itemsc cx-borbottom cx-bor-white-1">
+                    <h6 class="cx-text-f16 cx-pad-a15 ll-color ll-borbom4">我的文章</h6>
+                </div>
+            </div>
+            <ul class="layout wenzhanglist cx-pad-lr20 ll-remove-lastline">
+            </ul>
+        </div>
+        <!--        我的动态-->
+        <div class="layout cx-mag-t20 cx-bg-white">
+            <div class=" cx-pad-lr20">
+                <div class="layout cx-fex cx-fex-itemsc cx-borbottom cx-bor-white-1">
+                    <h6 class="cx-text-f16 cx-pad-a15 ll-color ll-borbom4">我的动态</h6>
+                </div>
+            </div>
+            <ul class="layout dongtailist cx-pad-lr20 ll-remove-lastline">
+
+            </ul>
+        </div>
+    </div>
+    <div class="cx-xl16">
+        {block name="cont"}{/block}
+    </div>
+</div>
+<script>
+    //获取动态列表
+    upajax('/api/cms/article.html?mid=4&uid={$wormuser.uid}',type = 'get',function (res) {
+        if(res.code=='1'&&res.data.total>0) {
+            res.data.data.forEach((item,index)=> {
+                let u_icon = item.u_icon?item.u_icon:'__PUBLIC__/img/usernone.png',
+                    pic = item.picurl?`<div class="layout cx-fex-l">
+                                    <div class="cx-xl6 cx-pad-a10">
+                                        <div class="cx-bg-img4x3">
+                                            <div class="cx-bg-img" style="background-image: url(${item.picurl})"></div>
+                                        </div>
+                                    </div>
+                                </div>`:'',
+                    name = item.u_uniname?item.u_uniname:item.u_name;
+                let temp= `<li class="layout cx-fex cx-pad-tb20 ll-boomline-dash cx-bg-white cx-text-lh">
+                    <a href="${item.uri}" title="${item.title}" target="_blank" class="layout cx-fex-c">
+                        <div class="cx-xl4">
+                            <div class="cx-bg-img1x1">
+                                <div class="cx-bg-img cx-bg-white cx-bor cx-bor-white-1 cx-bor-raall" style="background-image: url(${u_icon})"></div>
+                            </div>
+                        </div>
+                        <div class="cx-xl20 cx-pad-l10">
+                            <div class="layout cx-text-lh">
+                                <div class="ll-hover"><span class="cx-text-blue">${item.keywords}</span>${item.title}</div>
+                                ${pic}
+                                <div class="" style="font-weight: bold">${name}</div>
+                                <div class="layout cx-fex cx-fex-itemsc">
+                                    <span class="cx-text-f12 cx-text-black-3 cx-fex-l cx-fex-itemsc"><i class="cx-icon cx-icondengdai cx-text-f12 cx-pad-lr5"></i>${item.addtime}</span>
+                                    <div class="cx-fex-l cx-fex-itemsc cx-text-black-7">
+                                        <div class="cx-fex-l cx-fex-itemsc">
+                                            <i class="cx-icon cx-iconxianshimima cx-pad-lr5"></i>
+                                            <span>0</span>
+                                        </div>
+                                        <div class="cx-fex-l cx-fex-itemsc cx-pad-l20">
+                                            <i class="cx-icon cx-iconpinglun1 cx-pad-lr5"></i>
+                                            <span>${item.comment_num}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>`;
+                if(index<3) {
+                    $('.dongtailist').append(temp);
+                }
+            })
+        }else {
+            $('.dongtailist').append(`<div class="cx-fex-c cx-pad-tb20 cx-fex-itemsc cx-fex-column cx-text-lh">
+                    <div class="cx-text-black-7">你还没有发布任何内容哦!</div>
+                    <a href="/member/cms.article/create.html?mid=4" class="cx-text-blue">赶紧去发点内容吧！</a>
+                </div>`)
+        }
+
+    });
+    //获取文章列表
+    upajax('/api/cms/article.html?mid=1&uid={$wormuser.uid}',type = 'get',function (res) {
+        if(res.code=='1'&&res.data.total>0) {
+            res.data.data.forEach((item,index)=> {
+                let pic = item.picurl?item.picurl:'__PUBLIC__/img/imgnone.jpg';
+                let temp= `<li class="layout cx-pad-tb20 ll-boomline-dash item-tuijian-hover">
+                    <a href="${item.uri}" title="${item.title}" target="_blank" class="layout cx-fex-l">
+                        <div class="cx-xs8">
+                            <div class="cx-bg-img4x3" style="overflow: hidden">
+                                <div class="cx-bg-img" style="background-image: url(${pic})"></div>
+                            </div>
+                        </div>
+                        <div class="cx-xs16 cx-pad-l15 cx-text-lh">
+                            <div class="cx-text-black-7 index-shenglve1">${item.title}</div>
+                            <div class="cx-text-black-4 index-shenglve2">${item.description}</div>
+                        </div>
+                    </a>
+                </li>`;
+                if(index<3) {
+                    $('.wenzhanglist').append(temp);
+                }
+            })
+        }else {
+            $('.wenzhanglist').append(`<div class="cx-fex-c cx-pad-tb20 cx-fex-itemsc cx-fex-column cx-text-lh">
+                        <div class="cx-text-black-7">你还没有发布任何内容哦!</div>
+                        <a href="/member/cms.article/create.html?mid=1" class="cx-text-blue">赶紧去发点内容吧！</a>
+                    </div>`)
+        }
+
+    });
+    //获取好物列表
+    upajax('/api/cms/article.html?mid=2&uid={$wormuser.uid}',type = 'get',function (res) {
+        if(res.code=='1'&&res.data.total>0) {
+            res.data.data.forEach((item,index)=> {
+                let pic = item.picurl?item.picurl:'__PUBLIC__/img/imgnone.jpg',
+                    title = jiezi(4,item.title);
+                let temp= `<li class="cx-xs12 cx-pad-a5 item-hover-14">
+                    <a href="${item.uri}" title="${item.title}" target="_blank" class="layout cx-bg-white" style="overflow: hidden">
+                        <div class="cx-bg-img1x1 cx-bor-rabig" style="overflow: hidden">
+                            <div class="cx-bg-img" style="background-image: url(${pic})"></div>
+                        </div>
+                        <div class="layout cx-pad-a10 cx-text-lh">
+                            <div class="ll-bold index-shenglve1">${item.title}</div>
+                            <div class="layout cx-fex cx-fex-itemsc">
+                                <span class="cx-text-red ll-bold cx-fex-l cx-fex-itemsb"><i class="cx-icon cx-iconrmb cx-text-f12"></i><div class="price">${item.price}</div></span>
+                                <button class="cx-button-s cx-bor-rabig cx-bor-black cx-text-f12">查看详情</button>
+                            </div>
+                        </div>
+                    </a>
+                </li>`;
+                if(index<2) {
+                    $('.haowulist').append(temp);
+                }
+            })
+        }else {
+            $('.haowulist').append(`<div class="cx-fex-c cx-pad-tb20 cx-fex-itemsc cx-fex-column cx-text-lh">
+                        <div class="cx-text-black-7">你还没有发布任何内容哦!</div>
+                        <a href="/member/cms.article/create.html?mid=1" class="cx-text-blue">赶紧去发点内容吧！</a>
+                    </div>`)
+        }
+
+    });
+    //获取帖子数量
+    upajax('/api/bbs/article.html?mid=1&uid={$wormuser.uid}',type = 'get',function (res) {
+        if(res.code=='1') {
+            $('.tezinum').html(res.data.total)
+        }
+    });
+    //获取消息数量
+    upajax('/member/sms.html',type = 'get',function (res) {
+        if(res.code=='1') {
+            $('.xiaoxinum').html(res.data.total)
+        }
+    });
+    function jiezi(max,zi) {
+        if(zi.length>max) {
+            return zi.substring(0,max)+'…';
+        }else {
+            return zi
+        }
+    };
+    function upajax(uri,type = 'get',success = '') {
+        $.ajax({
+            async:true,
+            type: type,
+            dataType: "json",
+            url: uri,
+            success:function(res) {
+                if(typeof success == 'function'){
+                    success(res);
+                }else{
+                    layer.msg(res.msg);
+                }
+            }
+        });
+    };
+    layui.use(['element'], function() {
+        let _user = [];
+        {volist name='wormuser' id='cx' empty=''}
+        _user.push("{$cx}");
+        {/volist}
+            let edit = _user.filter((currentValue,index,arr) => {
+                return currentValue !== ''
+            })
+            //信息字段长度/为空字段长度
+            let precet = edit.length/_user.length;
+            let num =Math.round(precet*10)*10;
+        let layelement = layui.element;
+        layelement.progress('userinfo', num+'%');
+        $('.num').html(num)
+    })
+
+
+</script>
+{block name="foot"}
+{include file="$foot"}
+{/block}
+{block name="foot_js"}{/block}
+</body>
+</html>

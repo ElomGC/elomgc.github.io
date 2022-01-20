@@ -1,0 +1,130 @@
+{extend name="public:base" title="$list_base.title" /}
+{block name="cont"}
+<div class="layout map-table-box">
+    <ul class="layout cx-fex-l">
+        <li class="cx-xs12">商品</li>
+        <li class="cx-xs3 cx-text-center">数量</li>
+        <li class="cx-xs3 cx-text-center">实付款</li>
+        <li class="cx-xs3 cx-text-center">状态</li>
+        <li class="cx-xs3 cx-text-center">操作</li>
+    </ul>
+    {volist name="listdb" id="cx" empoty=""}
+    <div class="cx-card-nbox cx-mag-t10">
+        <div class="cx-card-head">
+            <div class="cx-card-title cx-tag">{$cx.oid}</div>
+            <small class="cx-card-small">{$cx.addtime}</small>
+        </div>
+        <ul class="cx-card-body cx-fex-l">
+            <li class="cx-xs15 cx-fex-l cx-fex-column" >
+                {volist name="cx.shoplist" id="c" empty=""}
+                <div class="layout cx-fex-l cx-pad-tb10" style="border-bottom: 1px dotted #999">
+                    <div class="cx-xs4">
+                        <div class="cx-bg-img1x1 cx-bg-imgsmallbr cx-bor cx-bor-black-1">
+                            <div class="cx-bg-img cx-fex-itemsc cx-fex-c">
+                                <img src="{$c.picurl}" class="cx-img-responsive" onerror="this.src='__PUBLIC__/img/imgnone.jpg'" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cx-xs16 cx-pad-l10 cx-fex-l cx-fex-column">
+                        <h3 class="cx-text-f14">{$c.title}</h3>
+                        <div class="cx-fex-l">
+                            {notempty name="c.admincont.parameter"}
+                            <span class="cx-mag-r10 cx-text-black-3 cx-text-f12">规格: {$c.admincont.parameter}</span>
+                            {/notempty}
+                            {notempty name="c.money"}
+                            <span class="cx-mag-r10 cx-text-black-3 cx-text-f12">单价: {:number_format($c.money,'2','.','')}</span>
+                            {/notempty}
+                            {notempty name="c.money_zk"}
+                            <span class="cx-mag-r10 cx-text-black-3 cx-text-f12">优惠价: {:number_format($c.money_zk,'2','.','')}</span>
+                            {/notempty}
+                        </div>
+                    </div>
+                    <div class="cx-xs4 cx-text-center">{$c.num}</div>
+                </div>
+                {/volist}
+            </li>
+            <li class="cx-xs3 cx-text-center" style="border-left: 1px solid #d5d5d5">
+                <div class="layout cx-fex-c cx-fex-column">
+                    <h4 class="cx-text-black-6">总价</h4>
+                    <h4 class="cx-text-center cx-text-red cx-text-f16"><small class="cx-icon cx-iconrmb"></small> {:number_format($cx.paymoney,'2','.','')}</h4>
+                    {notempty name="cx.paymoney_zk"}
+                    <h4 class="cx-text-black-6">实付款</h4>
+                    <h4 class="cx-text-center cx-text-red cx-text-f16"><small class="cx-icon cx-iconrmb"></small> {:number_format($cx.paymoney_zk,'2','.','')}</h4>
+                    {/notempty}
+                </div>
+            </li>
+            <li class="cx-xs3 cx-text-center" style="border-left: 1px solid #d5d5d5">
+                <div class="layout cx-fex-c cx-fex-column">
+                {switch $cx.status}
+                {case 0}<h4 class="cx-text-black-6">等待支付</h4>{/case}
+                {case 1}<h4 class="cx-text-black-6">已完成</h4>{/case}
+                {case 2}<h4 class="cx-text-black-6">已付款</h4><h4 class="cx-text-black-6">等待接收样品</h4>{/case}
+                {case 3}<h4 class="cx-text-black-6">收到样品</h4><h4 class="cx-text-black-6">正在检测</h4>{/case}
+                {case 4}<h4 class="cx-text-black-6">检测完成</h4><h4 class="cx-text-black-6">报告已回寄</h4>{/case}
+                {/switch}
+                </div>
+            </li>
+            <li class="cx-xs3 cx-text-center" style="border-left: 1px solid #d5d5d5">
+                <div class="layout cx-fex-c cx-fex-column">
+                    <div><a class="cx-button-s cx-bg-blue" href="{:url('edit',['oid' => $cx.oid])}">编辑订单</a></div>
+                    {eq name="cx.status" value="0"}
+                    <div><a class="cx-mag-t10 cx-button-s cx-bg-red _delete" data-id="{$cx.oid}">删除订单</a></div>
+                    {/eq}
+                </div>
+            </li>
+        </ul>
+    </div>
+    {/volist}
+</div>
+<div id="pages" class="layout cx-fex-c cx-pad-a20 cx-page"></div>
+{/block}
+{block name="foot_js"}
+<script>
+    layui.use('laypage', function(){
+        var laypage = layui.laypage,
+            getUrlPapram = function (name) {
+                let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"),
+                    r = window.location.search.substr(1).match(reg); //匹配目标参数
+                if (r != null) return unescape(r[2]);
+                return null;
+            };
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'pages',
+            count: "{$jspage.total}",
+            limit: "{$jspage.per_page}",
+            limits:['20','50','100'],
+            curr:  "{$jspage.current_page}",
+            jump: function(obj, first){
+                let url = window.location.href;
+                if(url.indexOf('page=') > 0){
+                    let v = getUrlPapram('page');
+                    url = v != null ? url.replace(`page=${v}`,`page=${obj.curr}`) : url.replace(`page=`,`page=${obj.curr}`);
+                }else{
+                    url = url.indexOf("?") > 0 ? url + `&page=${obj.curr}` : url + `?page=${obj.curr}`;
+                }
+                if(!first){
+                    window.location.href = url;
+                }
+            }
+        });
+    });
+</script>
+<script>
+    $(`._delete`).click(function () {
+        let _this = this,
+            d = $(_this).data();
+        layer.confirm("删除后无法恢复，确定要删除吗？",{icon:3,title:"警告"},function (index) {
+            let url = d.uri ? d.uri : "{:url('del')}";
+            wormui.postUrl(url,{id:d.id,_method:"delete"},function (res) {
+                layer.msg(res.msg,{},function () {
+                    if (res.code == '1') {
+                        $(_this).closest(`.cx-card-nbox`).remove();
+                    }
+                });
+            });
+            layer.close(index);
+        });
+    });
+</script>
+{/block}

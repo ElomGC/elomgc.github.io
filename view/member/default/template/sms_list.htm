@@ -1,0 +1,155 @@
+{extend name="base" title="$list_base.title" /}
+{block name="cont"}
+<div class="layout cx-pad-l20 cx-mag-t20">
+    <div class="layout" style="box-shadow: 0 0 5px rgba(0,0,0,0.1)">
+        <div class="layout cx-bg-white cx-pad-t10 layui-tab layui-tab-brief ll-mag-0" lay-filter="docDemoTabBrief" >
+            <ul class="layui-tab-title cx-fex-c" style="border-bottom: none">
+                <li class="{eq name='getdata.status|default=10' value='a'}layui-this{/eq}">
+                    <a class="cx-text-black-7 {eq name='getdata.status|default=10' value='a'}layui-this{/eq} cx-text-f14" href="{:url('index',['status' => 'a'])}">全部消息</a>
+                </li>
+                <li class="{eq name='getdata.status|default=10' value='0'}layui-this{/eq}">
+                    <a class="cx-text-black-7 {eq name='getdata.status|default=10' value='0'}layui-this{/eq} cx-text-f14" href="{:url('index',['status' => '0'])}">未读消息</a>
+                </li>
+                <li class="{eq name='getdata.status|default=10' value='1'}layui-this{/eq}">
+                    <a class="cx-text-black-7 {eq name='getdata.status|default=10' value='1'}layui-this{/eq} cx-text-f14" href="{:url('index',['status' => '1'])}">已读消息</a>
+                </li>
+            </ul>
+        </div>
+        <table class="layui-table ll-mag-0" lay-filter="smstable">
+            <colgroup>
+                <col width="150">
+                <col width="200">
+                <col>
+            </colgroup>
+            <thead>
+            <tr>
+                <th lay-data="{field:'title',}">消息</th>
+                <th lay-data="{field:'fo_uname'}">发件人</th>
+                <th lay-data="{field:'addtime',width:100,align:'center'}">时间</th>
+                <th lay-data="{field:'status',width:100,align:'center'}">状态</th>
+                <th lay-data="{field:'sign',fixed:'right',width:150}">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="listdb.data" id="cx" empty=""}
+            <tr>
+                <td>{$cx.title}</td>
+                <td>{$cx.fo_uname}</td>
+                <td>{$cx.addtime}</td>
+                <td>{eq name="cx.status" value="0"} <span class="cx-text-red">未读</span> {else /} <span class="cx-text-green">已读</span>{/eq}</td>
+                <td>
+                    <button class="cx-button cx-button-s cx-bg-green" data-id="{$cx.id}" data-fo_uname="{$cx.fo_uname}" data-title="{$cx.title}" data-cont="{$cx.cont}" data-addtime="{$cx.addtime}" onclick="readSMS(this)">
+                        查看
+                    </button>
+                    <button class="cx-button cx-button-s cx-bg-red" data-id="{$cx.id}" onclick="delSMS(this)">
+                        删除
+                    </button>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+    <div id="pages" class="layout cx-fex-c cx-pad-a20 cx-page"></div>
+</div>
+
+<script>
+    //删除单条消息
+    function delSMS(o){
+        let d = $(o).data();
+        layer.confirm('确认删除该消息吗？删除后无法恢复！', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            $.post("/member/sms/del.html", {id:d.id,_method:'delete'}, function(res) {
+                layer.closeAll('loading');
+                layer.msg(res.msg, {}, function() {
+                    if (res.code == '1') {
+                        window.location.reload();
+                    } else if (res.code == '0') {
+
+                    }
+                })
+            }).fail(function() {
+                layer.closeAll('loading');
+                layer.alert('系统错误，请稍后再试！');
+            });
+        }, function(){
+
+        });
+    };
+    //读取消息
+    function readSMS(o){
+        let d = $(o).data();
+        let str = ` <div class="layout cx-pad-tb20">
+                        <ul class="layout">
+                            <li class="cx-fex-l cx-pad-tb10 zlc-bor-bf1">
+                                <div class="cx-xs5 cx-fex-r">发件人：</div>
+                                <div class="cx-xs17 cx-pad-l20 cx-text-yellow">${d.fo_uname}</div>
+                            </li>
+                            <li class="cx-fex-l cx-pad-tb10 zlc-bor-bf1">
+                                <div class="cx-xs5 cx-fex-r">标题：</div>
+                                <div class="cx-xs17 cx-pad-l20 cx-text-yellow">${d.title}</div>
+                            </li>
+                            <li class="cx-fex-l cx-pad-tb10 zlc-bor-bf1">
+                                <div class="cx-xs5 cx-fex-r">时间：</div>
+                                <div class="cx-xs17 cx-pad-l20 cx-text-yellow">${d.addtime}</div>
+                            </li>
+                            <li class="cx-fex-l cx-pad-tb10 zlc-bor-bf1">
+                                <div class="cx-xs5 cx-fex-r">消息内容：</div>
+                                <div class="cx-xs17 cx-pad-l20 cx-text-yellow"></i>${d.cont}</div>
+                            </li>
+                        </ul>
+                    </div>`
+        layui.use('layer', function() {
+            layer.open({
+                type: 1,
+                area:'500px',
+                title:'消息详情',
+                content: str, //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+                cancel:function (res){
+                    window.parent.location.reload();
+                }
+            });
+        })
+        $.get("/member/sms/read.html", {id:d.id}, function(res) {
+            if (res.code == '1') {
+                // window.location.reload();
+            } else if (res.code == '0') {
+
+            }
+        }).fail(function() {
+            layer.closeAll('loading');
+            layer.alert('系统错误，请稍后再试！');
+        });
+    };
+    layui.use('laypage', function(){
+        var laypage = layui.laypage,
+            getUrlPapram = function (name) {
+                let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"),
+                    r = window.location.search.substr(1).match(reg); //匹配目标参数
+                if (r != null) return unescape(r[2]);
+                return null;
+            };
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'pages',
+            count: "{$listdb.total}",
+            limit: "{$listdb.per_page}",
+            limits:['20','50','100'],
+            curr:  "{$listdb.current_page}",
+            jump: function(obj, first){
+                let url = window.location.href;
+                if(url.indexOf('page=') > 0){
+                    let v = getUrlPapram('page');
+                    url = v != null ? url.replace(`page=${v}`,`page=${obj.curr}`) : url.replace(`page=`,`page=${obj.curr}`);
+                }else{
+                    url = url.indexOf("?") > 0 ? url + `&page=${obj.curr}` : url + `?page=${obj.curr}`;
+                }
+                if(!first){
+                    window.location.href = url;
+                }
+            }
+        });
+    });
+</script>
+{/block}

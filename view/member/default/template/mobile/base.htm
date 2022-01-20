@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    {include file="meta" title="$webdb.web_title" keywords="$webdb.web_keywords" description="$webdb.web_description" /}
+    {block name="bgcolor"}
+    <style>
+        body{
+            background-color: #F8F8F8;
+        }
+    </style>
+    {/block}
+</head>
+<body>
+
+{block name="nav"}
+<div class="layout cx-pad-lr15 cx-bg-white cx-pos-f cx-fex cx-fex-itemsc" style="top: 0;line-height: 49px;z-index: 9;box-shadow: 0 1px 5px rgba(0,0,0,0.2)">
+    <i class="top_left {block name='top_res'}{/block} {block name='top_left'}goback{/block}"></i>
+    <h3>{block name="top_title"}{/block}</h3>
+    <div class="top_right cx-fex-l">{block name='top_right'}{/block}</div>
+</div>
+{/block}
+<div class="{block name='matb50'}cx-pad-lr10 cx-mag-tb50 {/block}">
+    {block name="cont"}
+
+    {/block}
+</div>
+<!--测试是否是通过链接进入的页面-->
+<script>
+    if(window.history.length>2) {
+        $('.goback').click(function () {
+            console.log(window.history.length)
+            window.history.go(-1);
+        })
+    }else {
+        $('.goback').click(function () {
+            window.location.href = '/member'
+        })
+    }
+</script>
+{block name="fabiao"}
+{/block}
+{block name="foot_js"}
+{/block}
+<script>
+    layui.config({
+        base: '__IMAGES__/js/'
+    }).use('mobileapp');
+    layui.config({
+        base: '__PUBLIC__/js/'
+    }).use('wormweb');
+</script>
+{block name="foot"}
+{include file="$foot"}
+{/block}
+
+</body>
+</html>

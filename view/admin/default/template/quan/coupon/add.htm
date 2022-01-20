@@ -1,0 +1,355 @@
+{extend name="public:base" /}
+{block name="cont"}
+{load href="__LAYUI__/layui_exts/select/xm-select.js"}
+{notempty name="list_base.title"}
+<div class="layout cx-mag-b15 cx-fex cx-pad-a5 cx-borbottom">
+    {neq name="list_base.add|default='1'" value="0"}
+    <a class="cx-button-s cx-bor-yellow" href="{eq name='list_base.resurl|default=0' value='0'}javascript:history.go(-1){else /}{$list_base.resurl}{/eq}"><i class="cx-icon cx-iconxiangzuojiantou cx-mag-r5"></i>返回</a>
+    <h6 class="cx-text-black-6">{$list_base.title|default=''}</h6>
+    {else /}
+    <h3 class="cx-text-black">{$list_base.title|default=''}</h3>
+    {/neq}
+</div>
+{/notempty}
+<form class="layout layui-form" action="/admin/quan.coupon/save.html?" method="post" lay-filter="go">
+    <div class="cx-form-group cx-mag-b10 cx-form-group-bottom">
+        <label class='cx-label' for='title'>优惠券名称(<i class='cx-text-red'>*</i>)</label>
+        <div class="cx-form-item">
+            <input id='title' class='cx-ipt ' type='text'  placeholder='请输入优惠券名称'  required lay-verify='required' name='title' value='{$postdb.title|default=''}'>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b5 cx-form-group-bottom">
+        <label class='cx-label' for='zonenum'>发放总量(<i class='cx-text-red'>*</i>)</label>
+        <div class="cx-form-item">
+            <div class='layout cx-form-itemnowarp'>
+                <input id='zonenum' class='cx-ipt ' type='number'  placeholder='请输入发放总量'  required lay-verify='required' name='zonenum' value='{$postdb.zonenum|default=''}'>
+                <div class='cx-ipt-icon cx-bg-white-4'> / 张</div>
+            </div>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class='cx-label'></label>
+        <div class="cx-form-item">
+            <div class='layout cx-text-black-3'>0为不限制</div>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 cx-form-group-bottom">
+        <label class='cx-label'>优惠形式(<i class='cx-text-red'>*</i>)</label>
+        <div class="cx-form-item">
+            <input type='radio' name='class' value='1' title='现金优惠' {eq name="postdb.class|default=''" value="1"}checked{/eq} required lay-verify='required' lay-filter='class'>
+            <input type='radio' name='class' value='0' title='折扣优惠' {eq name="postdb.class|default='0'" value="0"}checked{/eq}  required lay-verify='required' lay-filter='class'>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b5 cx-form-group-bottom">
+        <label class='cx-label class_type' for='class_type'>{eq name="postdb.class|default=''" value="1"}现金{else /}折扣{/eq}优惠(<i class='cx-text-red'>*</i>)</label>
+        <div class="cx-form-item">
+            <div class='layout cx-form-itemnowarp'>
+                <input id='class_type' class='cx-ipt ' type='number'  placeholder='请输入金额/折扣'  required lay-verify='required' name='class_type' value='{$postdb.class_type|default=''}'>
+                <div class='cx-ipt-icon cx-bg-white-4 class_type_unit'>{eq name="postdb.class|default=''" value="1"}元{else /}折{/eq}</div>
+            </div>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10">
+        <label class='cx-label'></label>
+        <div class="cx-form-item">
+            <div class='layout cx-text-black-3'>选择金额折扣时，此处代表具体金额，如：50表示为50元。选择折扣时，50代表5折</div>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 cx-form-group-bottom">
+        <label class='cx-label'>使用门槛</label>
+        <div class="cx-form-item">
+            <div class='layout cx-form-itemnowarp'>
+                <input type='radio' name='type' value='0' title='不限制 ' {eq name="postdb.type|default='0'" value="0"}checked{/eq}  lay-filter='type'>
+                <input type='radio' name='type' value='1' title='满减 ' {eq name="postdb.type|default=''" value="1"}checked{/eq} lay-filter='type'>
+                <div class="cx-xs12">
+                    <div class="cx-form-group">
+                        <label class='cx-label' style="min-width: 80px;">满减金额</label>
+                        <div class="cx-form-item">
+                            <div class="layout cx-form-itemnowarp ">
+                                <input id='minmoney' class='cx-ipt ' type='text'  placeholder='请输入满减金额'  name='minmoney' value='{$postdb.minmoney|default=''}'>
+                                <div class='cx-ipt-icon cx-bg-white-4'> / 元</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 cx-form-group-bottom">
+        <label class='cx-label'>投放用户组</label>
+        <div class="cx-form-item cx-pad-t5">
+            {volist name="usergroup" id="cx" empty=""}
+            <input type='checkbox' name='group[]' value='{$cx.id}' title='{$cx.title}' {in name="cx.id" value="$postdb.group|default=''"}checked{/in} lay-filter='group' lay-skin="primary">
+            {/volist}
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b5 cx-form-group-bottom">
+        <label class='cx-label' for='onelimit'>每人限领(<i class='cx-text-red'>*</i>)</label>
+        <div class="cx-form-item">
+            <div class='layout cx-form-itemnowarp'>
+                <input id='onelimit' class='cx-ipt ' type='number' placeholder='请输入每人限领' required lay-verify='required' name='onelimit' value='{$postdb.onelimit|default=''}'>
+                <div class='cx-ipt-icon cx-bg-white-4'>张</div>
+            </div>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10">
+        <label class='cx-label' for='onelimit'></label>
+        <div class="cx-form-item">
+            <div class='layout cx-text-black-3'>0为不限制</div>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 cx-form-group-bottom">
+        <label class='cx-label'>有效期</label>
+        <div class="cx-form-item">
+            <input type='radio' name='time_type' value='0' title='指定期限' {eq name="postdb.time_type|default='0'" value="0"}checked{/eq}  lay-filter='time_type'>
+            <input type='radio' name='time_type' value='1' title='领取后N天内' {eq name="postdb.time_type|default='0'" value="1"}checked{/eq} lay-filter='time_type'>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 cx-form-group-bottom">
+        <label class='cx-label' for='add_time'>投放时间</label>
+        <div class="cx-form-item">
+            <div class='layout cx-form-itemnowarp'>
+                <input id='add_time' class='cx-ipt _date' type='text' placeholder='请选择开始时间'  name='add_time' value='{$postdb.add_time|default=''}'>
+                <div class='cx-ipt-icon cx-bg-white-4'>-</div>
+                <input id='end_time' class='cx-ipt _date' type='text' placeholder='请选择结束时间'  name='end_time' value='{$postdb.end_time|default=''}'>
+            </div>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 cx-form-group-bottom">
+        <label class='cx-label' for='time_num'>有效时间</label>
+        <div class="cx-form-item">
+        <div class='layout cx-form-itemnowarp'>
+            <input id='time_num' class='cx-ipt ' type='number'  placeholder='请输入有效时间'  name='time_num' value='{$postdb.time_num|default=''}'><div class='cx-ipt-icon cx-bg-white-4'>天</div>
+        </div>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 cx-form-group-bottom">
+        <label class='cx-label' for='time_num'>投放范围</label>
+        <div class="cx-form-item">
+        <div class='layout cx-form-itemnowarp'>
+            <input type='radio' name='model_limit' value='0' title='不限制' {eq name="postdb.model_limit|default='0'" value="0"}checked{/eq}  lay-filter='model_limit'>
+            <input type='radio' name='model_limit' value='1' title='指定模块' {eq name="postdb.model_limit|default='0'" value="1"}checked{/eq}  lay-filter='model_limit'>
+        </div>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 cx-form-group-bottom">
+        <label class='cx-label'>投放模块</label>
+        <div class="cx-form-item cx-pad-t5">
+            {volist name="modellist" id="cx" empty=""}
+            <input class="model_list" type='checkbox' name='model_list[]' value='{$cx.keys}' title='{$cx.title}' {in name="cx.keys" value="$postdb.model_list|default=''"}checked{/in} lay-filter='model_list' data-key='{$cx.keys}' lay-skin="primary">
+            {/volist}
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 cx-form-group-bottom">
+        <label class='cx-label'>可使用商品</label>
+        <div class="cx-form-item">
+            <input type='radio' name='article_limit' value='0' title='不限制 ' {eq name="postdb.article_limit|default='0'" value="0"}checked{/eq} lay-filter='article_limit'>
+            <input type='radio' name='article_limit' value='1' title='指定商品 ' {eq name="postdb.article_limit|default='0'" value="1"}checked{/eq} lay-filter='article_limit'>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class='cx-label'>选择商品</label>
+        <div class="cx-form-item">
+            <input type='hidden' class='article_listval' name='article_list' value='{$postdb.article_list|default=''}'><div id='_article_list'></div>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 cx-form-group-bottom">
+        <label class='cx-label' for='condition'>使用说明</label>
+        <div class="cx-form-item">
+            <textarea id='condition' rows='3' class='cx-ipt' placeholder='请输入使用说明'  name='condition'>{$postdb.condition|default=''}</textarea>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 cx-form-group-bottom">
+        <label class='cx-label'>是否启用</label>
+        <div class="cx-form-item">
+            <input type='radio' name='status' value='1' title='启用 ' {eq name="postdb.status|default='1'" value="1"}checked{/eq} lay-filter='status'>
+            <input type='radio' name='status' value='0' title='禁用 ' {eq name="postdb.status|default='1'" value="0"}checked{/eq} lay-filter='status'>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 cx-form-group-bottom">
+        <label class='cx-label' for='sort'>排序</label>
+        <div class="cx-form-item">
+        <input id='sort' class='cx-ipt ' type='number' placeholder='请输入是否启用'  name='sort' value='{$postdb.status|default='0'}'>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10">
+        <label class="cx-label"></label>
+        <div class="cx-form-item">
+            <div class='layout cx-text-black-3'>数字大在前</div>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10">
+        <label class="cx-label"></label>
+        <div class="cx-form-item">
+            {notempty name="postdb.id"}
+            <input class='cx-ipt ' type='hidden' placeholder='请输入是否启用'  name='id' value='{$postdb.id}' required lay-verify='required|number'>
+            <input class='cx-ipt ' type='hidden' placeholder='请输入是否启用'  name='_method' value='PUT' required lay-verify='required'>
+            {/notempty}
+            <button class="cx-button cx-bg-blue cx-bor-rasmall" lay-submit lay-filter="upbutton">确 定</button>
+        </div>
+    </div>
+</form>
+{/block}
+{block name="foot_js"}
+
+<script>
+    layui.use('form', function(){
+        let layform = layui.form,
+            _models = '',
+            _article_list = xmSelect.render({
+            el: `#_article_list`,
+            radio: false,
+            clickClose: false,
+            initValue: [{$postdb.article_list|default=''}],
+            prop: {name: 'title',value: 'id'},
+            paging: true,
+            pageEmptyShow: false,
+            filterable: true,
+            pageRemote: true,
+            remoteSearch: true,
+            remoteMethod: function(val, cb, show){
+                if(!val){
+                    return  cb([]);
+                }
+                _article_listpost(`/admin/${_models}.article/index.html`,{key:val},function(res){
+                        let ress = res.data;
+                        cb(ress.data, ress.last_page);
+                    },function(){
+                        cb([], 0);
+                    }
+                );
+            },
+            on:function(data){
+                let arr = [];
+                $.each(data.arr,function(index,item){
+                    arr.push(item.id);
+                });
+                $(`.article_listval`).val(arr.toString());
+            },}),
+            _article_listpost = function (uri,data = '',success = '',error = '') {
+                $.ajax({
+                    type: "post",
+                    dataType: "json",
+                    data: data,
+                    url: uri,
+                    success:function (res) {
+                        if(typeof success == 'function'){
+                            success(res);
+                        }
+                    },
+                    error:function (res) {
+                        if(typeof error == 'function'){
+                            error(res);
+                        }
+                    }
+                });
+            };
+        let l_d = {'1':["minmoney"]},
+            radiotype = function(o,f = 'type'){
+                if(f == 'type'){
+                    l_d = {'1':["minmoney"]};
+                } else if(f == 'time_type'){
+                    l_d = {'0':["add_time"],'1':["time_num"]};
+                } else if(f == 'article_limit'){
+                    l_d = {'1':["article_list"]};
+                    if(o == '1'){
+                        if(!_models){
+                            let len = $(`.model_list:checked`);
+                            _models = len.length === 1 ? len[0].value : _models;
+                        }
+                        _article_listpost(`/admin/${_models}.article/index.html`,{id:''},function(res){
+                            let ress = res.data.data;
+                            _article_list.update({
+                                data: ress,
+                                autoRow: true,
+                            })
+                        });
+                    }
+                } else if(f == 'model_list'){
+                    l_d = {'1':['article_limit','article_list']};
+                }
+                $.each(l_d,function(index,item){
+                    if(o == index){ return true; }
+                    $.each(item,function(index1,item1){
+                        $(`input[name='${item1}']`).closest(`.cx-form-group`).addClass(`cx-hidden`);
+                        $(`textarea[name='${item1}']`).closest(`.cx-form-group`).addClass(`cx-hidden`);
+                        $(`input:checkbox[name='${item1}[]']`).closest(`.cx-form-group`).addClass(`cx-hidden`);
+                        $(`select[name='${item1}']`).closest(`.cx-form-group`).addClass(`cx-hidden`);
+                    });
+                });
+                if(l_d[o]){
+                    $.each(l_d[o],function(index,item){
+                        $(`input[name='${item}']`).closest(`.cx-form-group`).removeClass(`cx-hidden`);
+                        $(`textarea[name='${item}']`).closest(`.cx-form-group`).removeClass(`cx-hidden`);
+                        $(`input:checkbox[name='${item}[]']`).closest(`.cx-form-group`).removeClass(`cx-hidden`);
+                        $(`select[name='${item}']`).closest(`.cx-form-group`).removeClass(`cx-hidden`);
+                    });
+                }
+            },
+            modelradiotype = function(o){
+                l_d = {'1':['model_list']};
+                $.each(l_d,function(index,item){
+                    if(o == index){ return true; }
+                    $.each(item,function(index1,item1){
+                        $(`input[name='${item1}']`).closest(`.cx-form-group`).addClass(`cx-hidden`);
+                        $(`textarea[name='${item1}']`).closest(`.cx-form-group`).addClass(`cx-hidden`);
+                        $(`input:checkbox[name='${item1}[]']`).closest(`.cx-form-group`).addClass(`cx-hidden`);
+                        $(`select[name='${item1}']`).closest(`.cx-form-group`).addClass(`cx-hidden`);
+                    });
+                });
+                if(o == '0'){
+                    radiotype('0','model_list');
+                }
+                if(l_d[o]){
+                    $.each(l_d[o],function(index,item){
+                        $(`input[name='${item}']`).closest(`.cx-form-group`).removeClass(`cx-hidden`);
+                        $(`textarea[name='${item}']`).closest(`.cx-form-group`).removeClass(`cx-hidden`);
+                        $(`input:checkbox[name='${item}[]']`).closest(`.cx-form-group`).removeClass(`cx-hidden`);
+                        $(`select[name='${item}']`).closest(`.cx-form-group`).removeClass(`cx-hidden`);
+                    });
+                }
+            },
+            classtext = function(o){
+                if(o == '1'){
+                    $(`.class_type`).html(`金额优惠(<i class='cx-text-red'>*</i>)`);
+                    $(`.class_type_unit`).text(`元`);
+                }else{
+                    $(`.class_type`).html(`折扣优惠(<i class='cx-text-red'>*</i>)`);
+                    $(`.class_type_unit`).text(`折`);
+                }
+            };
+        layform.on('radio(class)', function(data){ classtext(data.value);} );
+        layform.on('radio(type)', function(data){ radiotype(data.value,'type');});
+        layform.on('radio(time_type)', function(data){ radiotype(data.value,'time_type');});
+        layform.on('radio(article_limit)', function(data){ radiotype(data.value,'article_limit');});
+        layform.on('radio(model_limit)', function(data){ modelradiotype(data.value,'model_limit');});
+        layform.on('checkbox(model_list)', function(data){
+            let len=$(`.model_list:checked`).length;
+            if (len === 1){
+                if(data.elem.checked){
+                    _models = data.value;
+                }
+                radiotype('1','model_list');
+            } else {
+                _models = '';
+                radiotype('0','model_list');
+            }
+        });
+
+        radiotype('{$postdb.type|default='0'}','type');
+        radiotype('{$postdb.time_type|default='0'}','time_type');
+        modelradiotype('{$postdb.model_limit|default='0'}');
+        radiotype('{$postdb.article_limit|default='0'}','article_limit');
+
+        if('{$postdb.article_limit|default='0'}' == '1' && _models){
+            _article_listpost(`/admin/${_models}.article/index.html`,{id:''},function(res){
+                let ress = res.data.data;
+                _article_list.update({
+                    data: ress,
+                    autoRow: true,
+                })
+            });
+        }
+    })
+</script>
+{/block}

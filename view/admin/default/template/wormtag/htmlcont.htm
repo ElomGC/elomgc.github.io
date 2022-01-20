@@ -1,0 +1,50 @@
+{extend name="public:base" title="$list_base.title" /}
+{block name="cont"}
+<form class="layout layui-form" action="{:url('htmlcont',['id' => $postdb.id])}" lay-filter="articlelist" method="post">
+    <div class="layui-tab layui-tab-brief" lay-filter="code">
+        <ul class="layui-tab-title cx-fex-c">
+            <li class="layui-this">富文本编辑器</li>
+            <li>多行文本编辑器</li>
+        </ul>
+        <div class="cx-form-group _listlate cx-pad-a10 cx-mag-t10">
+            <label class="cx-label" for="title">标签名称</label>
+            <div class="cx-form-item">
+                <input id="title" class="cx-ipt " type="text" placeholder="请输入标签名称" name="title" value="{$postdb.title|default=$postdb.TagName}">
+            </div>
+        </div>
+        <div class="cx-form-group _listlate cx-mag-b10 ">
+            <label class="cx-label">启用</label>
+            <div class="cx-form-item">
+                <input type="radio" name="status" value="1" title="启用 " {eq name="postdb.status|default='1'" value="1"}checked{/eq} lay-filter="status">
+                <input type="radio" name="status" value="0" title="禁用 " {eq name="postdb.status|default='1'" value="0"}checked{/eq} lay-filter="status">
+            </div>
+        </div>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="cx-form-group cx-mag-b10">
+                    <label class="cx-label">编辑内容</label>
+                    <div class="cx-form-item">
+                       <div class="contentedit cx-bor" style="height: 60vh;">{$postdb.template|default=''|raw}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="cx-form-group cx-mag-b10 ">
+                    <label class="cx-label">模板代码</label>
+                    <div class="cx-form-item cx-fex-column">
+                        <textarea class="cx-ipt cx-text-f16 cx-mag-t10" name="template" id="contentedit" style="line-height: 2;height: 60vh;">{$postdb.template|default=''|raw}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layout cx-pos-f _listlate cx-bg-white cx-fex-r" style="bottom: 0;left: 0;right: 0;box-shadow: 0 0 5px 0 rgba(0,0,0,0.3);">
+        <input type="hidden" name="id" value="{$postdb.id}" required>
+        <button class="cx-xs3 cx-button cx-bg-yellow" lay-submit lay-filter="upbutton">保 存</button>
+    </div>
+</form>
+{/block}
+{block name="foot_js"}
+{load href="__CKEDITOR__/ckeditor.js,__PUBLIC__/js/wormedit.js"}
+<script>newckeditor("contentedit")</script>
+{/block}

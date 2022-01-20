@@ -1,0 +1,23 @@
+<style>
+    .list-yuandian::before {
+        content: '';
+        display: block;
+        width: 15px;
+        height: 15px;
+        background-color: #fff;
+        border-radius: 50%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: translateX(-50%);
+    }
+</style>
+<div class="cx-xl18 cx-pos-r cx-borleft cx-bor-white cx-pad-l40 cx-pad-b40 list-yuandian">
+    <div class="layout cx-bg-white cx-bor-rabig cx-pad-a10 cx-fex-l">
+        <i class="cx-icon cx-icondizhi4 cx-text-yellow cx-mag-r10" style="font-size: 30px"></i>
+        <div class="cx-xl22">
+            <a href="/article-{$rs['aid']}.html" title="{$rs['title']}" class="cx-text-f16">{$rs['title']}</a>
+            <div class="cx-mag-t5 cx-text-black-6">{$rs['description']}</div>
+        </div>
+    </div>
+</div>

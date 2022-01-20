@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    {include file="meta" title="$webdb.web_title" keywords="$webdb.web_keywords" description="$webdb.web_description" /}
+</head>
+<body {$webonclick}>
+{block name="head"}
+{include file="$head"}
+{/block}
+
+{block name="cont"}
+
+{/block}
+{block name="toback"}
+<style>
+    .kefu {
+        right: 0;
+        top: 30%;
+        z-index: 99999;
+    }
+    .kefu-li {
+        margin-top: 5px;
+        height: 60px;
+    }
+    .kefu-icon {
+        background: #FFF!important;
+        border-radius: 100%;
+        color: #0092fd;
+        box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        padding: 5px;
+        font-size: 1.6rem;
+        line-height: 50px;
+        flex-wrap: nowrap;
+    }
+    .kefu-icon .cx-icon {
+        width: 50px;
+        line-height: 50px;
+        text-align: center;
+        font-size: 3rem;
+    }
+    .kefu-li span {
+        display: none;
+        transition: 0.3s;
+    }
+    .kefu-li:hover span {
+        display: inline-block;
+        color: #0092fd;
+    }
+    .kefu-li:hover i {
+        color: #0092fd;
+    }
+    .kefu-li:hover .kefu-icon {
+        border-radius: 30px;
+    }
+</style>
+<div class="kefu cx-pos-f cx-hidden-l" style="top: 50%;right: 0;transform: translateY(-50%);">
+    <ul class="kefu-ul cx-fex cx-fex-column cx-fex-itemsb layout cx-pos-r">
+        <li class="kefu-li cx-pos-r">
+            <a class="kefu-qq kefu-icon cx-fex-l" title="联系电话" href="tel:021-80158202">
+                <i class="cx-icon cx-icontelephone"></i>
+                <span class="cx-text-fbig">021-80158202</span>
+            </a>
+        </li>
+        <li class="kefu-li cx-pos-r">
+            <a class="kefu-qq kefu-icon cx-fex-l" title="联系电话" href="tel:021-80158202">
+                <i class="cx-icon cx-iconshouji"></i>
+                <span class="cx-text-fbig">1876463458</span>
+            </a>
+        </li>
+        <li class="kefu-li cx-pos-r">
+            <a class="kefu-qq kefu-icon cx-fex-l" title="咨询客服" href="tel:021-80158202">
+                <i class="cx-icon cx-icon cx-iconservice"></i>
+            </a>
+        </li>
+        <li class="kefu-li cx-pos-r">
+            <a href="javascript:window.scrollTo({top:0,left:0,behavior:'smooth'});" title="回到顶部" class="kefu-qq kefu-icon cx-fex-l">
+                <i class="cx-icon cx-icontop" style="font-size: 3rem"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+{/block}
+{block name="foot"}
+{include file="$foot"}
+{/block}
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+{extend name="base" /}
+{block name='bar'}100%{/block}
+{block name='title'}网站安装完成{/block}
+{block name='cont'}
+<div class="layout cx-fex-c cx-fex-column cx-fex-itemsc cx-pad-t50">
+    <h3><i class="cx-icon cx-iconm-zks-tuijian cx-text-green" style="font-size: 5rem"></i></h3>
+    <h3 class="cx-text-green">恭喜您，系统安装完成</h3>
+    <div class="cx-fex-l cx-mag-t50">
+        <a class="cx-button cx-bg-blue" href="{:url('home/index/index')}">网站首页</a>
+        <a class="cx-button cx-bg-yellow cx-mag-l20" href="{:url('admin/index/index')}">登录后台</a>
+    </div>
+
+</div>
+{/block}
+{block name='button'}{/block}

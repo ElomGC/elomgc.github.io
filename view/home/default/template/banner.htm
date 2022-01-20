@@ -1,0 +1,7 @@
+<div class="cx-pos-r" style="height: 30vh;overflow: hidden">
+    {notempty name='$readdb.banber'}
+    <div class="cx-bg-img cx-fex-c cx-fex-itemsc" style="background-image: url({$readdb.banber})"></div>
+    {else/}
+    {$wormedit.news_banner|raw|default=''}
+    {/notempty}
+</div>

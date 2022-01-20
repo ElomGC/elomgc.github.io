@@ -1,0 +1,70 @@
+{extend name="public:base" title="$list_base.title" /}
+{block name="cont"}
+<div class="layout map-table-box">
+    <h1 id="statustitle" class="cx-text-center cx-text-black-3">暂无更新</h1>
+    <div class="layui-progress layui-progress-big cx-mag-t30">
+        <div class="layui-progress-bar layui-bg-green" lay-percent="0%"></div>
+    </div>
+    <div class="layout cx-fex-c cx-mag-t15">
+        <button class="cx-button cx-bg-white _updatebtn">暂无更新</button>
+    </div>
+</div>
+<div class="layout ccccc cx-bg-black-1" style="display: none;height: 500px;"></div>
+<div class="layout _editreslist cx-mag-t15" style="overflow: auto;">
+    <ul id="statuslist" class="layout cx-fex-l cx-fex-column layui-code"></ul>
+</div>
+{/block}
+{block name="foot_js"}
+<script>
+    $(document).ready(function(){
+        bodylist();
+        DaTaList();
+    });
+    var _rList = [];
+    function bodylist(){
+        let h = $(window).height() -  $(`.map-table-box`).height() - 60;
+        $(`._editreslist`).height(h);
+    }
+    function DaTaList(){
+        {volist name='listdb.data' id='cx' empty=''}
+        _rList.push("{$cx.edition_no}");
+        {/volist}
+        GetRead(0);
+    }
+    function GetRead(_no = ''){
+        if(_rList[_no].length < '1'){
+            $(`#statustitle`).removeClass(`cx-text-black-3`).addClass(`cx-text-green`).text('更新完成');
+            $("#statuslist").append(`<li class='cx-text-green'>更新完成</li>`);
+            $(`._updatebtn`).text(`更新完成`).addClass(`cx-bg-green`).removeClass(`cx-bg-white`);
+            return false;
+        }
+        $(`._updatebtn`).text(`正在更新中，请等待`).addClass(`cx-bg-white`).removeClass(`cx-bg-green`);
+        $(`#statustitle`).removeClass(`cx-text-black-3`).addClass(`cx-text-green`).text(`正在更新${_rList[_no]}`);
+        getUpdata({nos:_rList[_no]});
+    }
+    function getUpdata(data = ''){
+        layermsg();
+        $.post("{:url('updatelist')}",data,function (res) {
+            layermsg(false);
+            if(res.code == '1'){
+                $("#statuslist").append(`<li class='cx-text-green'>${res.msg}</li>`);
+                $("._editreslist").scrollTop($("#statuslist").height());
+                res.data.nos = data.nos;
+                getUpdata(res.data);
+            }else if(res.code == '0'){
+                $("#statuslist").append(`<li class='cx-text-red'>${res.msg}</li>`);
+                $("._editreslist").scrollTop($("#statuslist").height());
+                $("._updatebtn").attr('href', "{:url('index/map')}").text('网站升级失败').addClass(`cx-bg-red`).removeClass(`cx-bg-white`);
+            }else if(res.code == '1000'){
+                $("._updatebtn").attr('href', "{:url('index/map')}").text('网站升级完成').addClass(`cx-bg-green`).removeClass(`cx-bg-white`);
+            }
+        });
+    }
+    function layermsg(o = true){
+        layui.use('layer', function(){
+            let layer = layui.layer;
+            o ? layer.load(1) : layer.closeAll('loading');
+        });
+    }
+</script>
+{/block}

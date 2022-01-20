@@ -1,0 +1,72 @@
+{extend name="base" /}
+{extend name="base" /}
+{block name='top_res'}cx-icon cx-iconxiangzuojiantou{/block}
+{block name="top_title"}消息详情{/block}
+{block name='cont'}
+<div class="layout cx-fex-l">
+    <div class="layout cx-card-nbor cx-bg-white cx-mag-t15" style="box-shadow: 0 0 5px rgba(0,0,0,0.1)">
+        <div class="cx-card-head">
+            <div class="cx-card-title cx-tag cx-bor-red cx-text-f16">消息详情</div>
+            <small class="cx-card-small cx-text-red">
+                <i class="iconfont cx-pad-r10 {eq name='readdb.status' value='0'}iconbiaoshilei_weiduxinxi cx-text-red{else/}iconyidu cx-text-green{/eq} "></i>
+                <i class="cx-icon cx-iconlajixiang cx-text-red" data-id="{$readdb.id}" onclick="delSMS(this)"></i>
+            </small>
+        </div>
+        <div class="cx-card-body">
+            <ul class="layout ll-form">
+                <div class="cx-form-group cx-mag-b10">
+                    <div class="cx-xl5 ll-text-justify">标题</div>：
+                    <div class="cx-form-item cx-borbottom cx-bor-white-1">
+                        <input id="title" readonly class="cx-ipt" type="text" required="" lay-verify="required" value="{$readdb.title}">
+                    </div>
+                </div>
+                <div class="cx-form-group cx-mag-b10">
+                    <div class="cx-xl5 ll-text-justify">发件人</div>：
+                    <div class="cx-form-item cx-borbottom cx-bor-white-1">
+                        <input readonly class="cx-ipt" type="text" value="{$readdb.fo_uname}">
+                    </div>
+                </div>
+                <div class="cx-form-group cx-mag-b10">
+                    <div class="cx-xl5 ll-text-justify">发件时间</div>：
+                    <div class="cx-form-item cx-borbottom cx-bor-white-1">
+                        <input id="shouji" readonly class="cx-ipt" type="text" required="" lay-verify="required" value="{$readdb.addtime}">
+                    </div>
+                </div>
+                <div class="cx-form-group cx-mag-b10 ">
+                    <div class="cx-xl5 ll-text-justify">消息内容</div>：<div class="cx-form-item">
+                    <textarea readonly rows="3" class="cx-ipt" style="border-bottom: 1px solid #e5e5e5">{$readdb.cont|raw}</textarea>
+                </div>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name='foot_js'}
+<script>
+    //删除单条消息
+    function delSMS(o){
+        let d = $(o).data();
+        layer.confirm('确认删除该消息吗？删除后无法恢复！', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            $.post("/member/sms/del.html", {id:d.id,_method:'delete'}, function(res) {
+                layer.closeAll('loading');
+                layer.msg(res.msg, {}, function() {
+                    if (res.code == '1') {
+                        window.location.reload();
+                    } else if (res.code == '0') {
+
+                    }
+                })
+            }).fail(function() {
+                layer.closeAll('loading');
+                layer.alert('系统错误，请稍后再试！');
+            });
+        }, function(){
+
+        });
+    };
+</script>
+{/block}

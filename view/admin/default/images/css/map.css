@@ -1,0 +1,123 @@
+.login-body{
+    width: 100vw;
+    height: 100vh;
+    background-image: url("../login.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.ll-login .cx-ipt {
+    border: none;
+    box-shadow: none;
+}
+.login-bg-rgbcolor {
+    background-color: rgba(0,0,0,0.6);
+}
+@media(max-width: 768px) {
+    .login-pad0 {
+        padding: 0!important;
+    }
+    .login-pada20 {
+        padding: 20px!important;
+    }
+    .login-mag-tb10 {
+        margin: 10px 0!important;
+    }
+    .login-bg-rgbcolor {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+}
+/*鼠标手势*/
+._fold{
+    cursor: pointer;
+}
+/*首页布局*/
+.map-body{
+    height: calc(100vh - 40px);
+}
+.cx-mapl,.cx-mapr{
+    height: 100%;
+}
+.cx-nav-one.open{
+    background-color: #f60;
+}
+/*首页导航*/
+.map-header{
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #ffa66a;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.5);
+}
+.map-headerleft{
+    flex-grow: 2;
+    position: relative;
+    overflow: hidden;
+}
+.map-headerright{
+    min-width: 65px;
+    flex-grow: 0;
+    padding: 0 10px;
+    border-left: 1px solid #ffa66a;
+}
+/*左侧导航*/
+.tabiframe{
+    width: 100%;
+    height: 100%;
+}
+/*左侧折叠菜单*/
+.cx-mapl-nav{
+    flex-grow: 2;
+    line-height: 1;
+    overflow: auto;
+}
+.cx-mapl-nav .mCSB_inside > .mCSB_container{
+    margin-right: 0;
+}
+.map-left-dl dt,.map-left-dl dd{
+    border-bottom: 1px solid rgba(255,255,255,.1);
+    transition: all .5s ease;
+}
+.map-left-dl dd,.map-left-dl dt:hover,.map-left-ddu:hover{
+    background-color: rgba(255,255,255,.05);
+}
+.map-left-dl dt.open,.map-left-ddu.open{border-left: 5px solid #f60;}
+.map-left-ddu.open{background-color: rgba(255,255,255,.09)}
+.map-left-h3,.map-left-h6,.map-left-dl .map-left-icon{padding: 16px 0;}
+.map-left-dd{display: none}
+.map-left.open,.tabiframe.open,.map-left-dl,.map-left-dd.open{
+    display:-webkit-box;
+    display:flex;
+    display:-moz-flex;
+    flex-direction:row;
+    -ms-flex-direction:row;
+    -webkit-flex-direction:row;
+    flex-wrap:wrap;
+    -webkit-flex-wrap:wrap;
+    -ms-flex-wrap:wrap;
+    display: -ms-flexbox;
+}
+/*右侧导航*/
+.map-headernav{
+    position: relative;
+}
+.map-foot{
+    line-height: 36px;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.5);
+}
+.groupauth-list{
+    padding: 10px;
+}
+.groupauth-list.cx-fex-column > .groupauth-list{
+    border: 1px solid #dfdfdf;
+}
+.groupauth-list.cx-fex-column > h3{
+    padding: 10px;
+    background: #dfdfdf;
+    line-height: 1;
+}
+.map-table-box{
+    overflow-x: auto;
+}
+.map-table{
+    min-width: 100%;
+}

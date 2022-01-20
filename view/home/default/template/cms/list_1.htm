@@ -1,0 +1,163 @@
+{extend name="base"}
+{block name="cont"}
+<style>
+    body{
+        background-color: #F8F8F8;
+    }
+</style>
+<div class="cx-pos-r h30vh" style="overflow: hidden">
+    {notempty name='$readdb.banber'}
+    <div class="cx-bg-img cx-fex-c cx-fex-itemsc" style="background-image: url({$readdb.banber})"></div>
+    {else/}
+    {$wormedit.news_banner|raw|default=''}
+    {/notempty}
+</div>
+<div class="layout cx-fex-l cx-fex-itemsc cx-pad-tb15 ll-pad-0 cx-bg-white">
+    <div class="cx-cont cx-fex cx-fex-itemsc">
+        <div class="cx-text-fbig ll-color ll-bold">{$readdb.title}</div>
+        <div class="">
+            <div class="cx-fex-l cx-fex-itemsc cx-hidden-l">
+                <a href="/" class="cx-text-black-7" title="首页">
+                    <i class="cx-icon cx-iconhome"></i>
+                    <span>首页</span>
+                </a>
+                {volist name='menu' id='cx' empty=''}
+                <a href="/home/part-{$cx.id}.html" target="_blank" title="{$cx.title}" class="cx-text-black-7">
+                    <i class="cx-icon cx-iconright"></i>
+                    <span>{$cx.title}</span>
+                </a>
+                {/volist}
+                <a href="/home/article-{$readdb.id}.html" title="{$readdb.title}" target="_blank" class="cx-text-black-7">
+                    <i class="cx-icon cx-iconright"></i>
+                    <span>{$readdb.title|default=''}</span>
+                </a>
+            </div>
+            <div class="cx-bor ll-bor-color cx-pad-lr10 cx-click cx-hidden cx-show-l" data-type="gengduolanmu" data-cid="#cx-cixi">
+                <i class="cx-icon cx-iconmenu cx-text-f16 ll-color"></i>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="cx-cont cx-fex-l cx-mag-t20 ll-mag-t0">
+    <div class="cx-xs19 cx-xl24">
+        <div class="layout cx-fex-l">
+            {volist name='listdb.data' id='cx' empty=''}
+            <a href="/home/article-{$cx['id']}.html?title={$cx.part_name}" title="{$cx['title']}" class="layout cx-mag-b20 cx-bg-white cx-fex-l cx-pad-a15 ll-pad-0 ll-mag-b10 cx-text-lh item-hover cx-bor-rasmall" data-scroll-reveal="enter bottom,move 50px,after 0.3s">
+            <div class="cx-xs6 cx-xl10" style="overflow: hidden;">
+                <div class="cx-bg-img4x3" style="height: 100%">
+                    <div class="cx-bg-img" style="background-image: url({$cx['picurl']});"></div>
+                </div>
+            </div>
+            <div class="cx-xs18 cx-xl14 cx-pad-l20 ll-pad-a10 cx-text-lh">
+                <div class="cx-text-black-6 cx-text-fbig cx-borbottom cx-pad-b10 ll-pad-b5  cx-bor-white-1 cx-pos-r bottom-hover ll-text-f14">{$cx['time_m']}-{$cx['time_d']}</div>
+                <div class="cx-text-black-8 cx-text-f16 cx-pad-t10 ll-pad-t5  index-mobile-shenglv1">{$cx['title']}</div>
+                <div class="cx-text-black-4 cx-text-f14 index-mobile-shenglv2">{:get_word($cx['description'],100)}</div>
+            </div>
+            </a>
+            {/volist}
+        </div>
+        <div class="layout cx-fex-c">
+            <div class="cx-text-center" id="pages"></div>
+        </div>
+    </div>
+    <div class="cx-xs5 cx-xl24 cx-pad-l20 ll-pad-0 cx-hidden-l" id="cx-cixi">
+        <ul class="layout cx-fex-l cx-fex-column cx-fex-itemsc cx-bg-white cx-bor-rasmall cx-pad-a15" style="box-shadow: 0 0 5px rgba(0,0,0,0.1)" >
+            <li class="layout leftpart cx-pad-b10 ll-pad-0 cx-borbottom cx-bor-white-1 cx-mag-b10">
+                <span class="cx-text-f16 ll-bold ll-color cx-pad-tb10" style="border-bottom: 3px solid #0092fd">
+                   {$readdb.title}
+                </span>
+            </li>
+            <li class="layout leftpart cx-mag-tb5">
+                <a href="/home/part-1.html" target="_blank" title="{$cx.title}" class="layout cx-fex cx-pad-a10 cx-bg-white cx-bor-rasmall cx-bor cx-bor-white-1 ll-part">
+                    <span>全部</span>
+                    <i class="cx-icon cx-iconright"></i>
+                </a>
+            </li>
+            {notempty name='readdb.node'}
+            {volist name='readdb.node' id='cx' empty=''}
+            <li class="layout leftpart cx-mag-tb5">
+                <a href="/home/part-{$cx.id}.html" target="_blank" title="{$cx.title}" class="layout cx-fex cx-pad-a10 cx-bg-white cx-bor-rasmall cx-bor cx-bor-white-1 ll-part">
+                    <span>{$cx.title}</span>
+                    <i class="cx-icon cx-iconright"></i>
+                </a>
+            </li>
+            {/volist}
+            {else/}
+            {volist name='partlist' id='cx' empty=''}
+            {eq name='cx.pid' value='$readdb.pid'}
+            <li class="layout leftpart cx-mag-tb5">
+                <a href="/home/part-{$cx.id}.html" target="_blank" title="{$cx.title}" class="layout cx-fex cx-pad-a10 cx-bg-white cx-bor-rasmall cx-bor cx-bor-white-1 ll-part">
+                    <span>{$cx.title}</span>
+                    <i class="cx-icon cx-iconright"></i>
+                </a>
+            </li>
+            {/eq}
+            {/volist}
+            {/notempty}
+        </ul>
+        <div class="layout cx-mag-t20 cx-bg-white cx-bor-rasmall cx-fex cx-pad-lr15 last-child-remove-line cx-hidden-l" style="box-shadow: 0 0 5px rgba(0,0,0,0.1)">
+            <div class="layout leftpart cx-pad-tb10 cx-borbottom cx-bor-white-1">
+                <span class="cx-text-f16 ll-bold ll-color cx-pad-tb10" style="border-bottom: 3px solid #0092fd">
+                   相关推荐
+                </span>
+            </div>
+            {$wormedit.tuijian|default=''|raw}
+        </div>
+    </div>
+</div>
+<script>
+    layui.use('laypage', function(){
+        var laypage = layui.laypage,
+            getUrlPapram = function (name) {
+                let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"),
+                    r = window.location.search.substr(1).match(reg); //匹配目标参数
+                if (r != null) return unescape(r[2]);
+                return null;
+            };
+
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'pages',
+            count: "{$listdb.total}",
+            limit: "{$listdb.per_page}",
+            curr:  "{$listdb.current_page}",
+            theme: '#0092fd',
+            jump: function(obj, first){
+                let url = window.location.href;
+                if(url.indexOf('page=') > 0){
+                    let v = getUrlPapram('page');
+                    url = v != null ? url.replace(`page=${v}`,`page=${obj.curr}`) : url.replace(`page=`,`page=${obj.curr}`);
+                }else{
+                    url = url.indexOf("?") > 0 ? url + `&page=${obj.curr}` : url + `?page=${obj.curr}`;
+                }
+                if(!first){
+                    window.location.href = url;
+                }
+            }
+        });
+    });
+    $('.part').each(function (index,item) {
+        let num = $('.part').eq(index).data().class,
+            id = $('.part').eq(index).data().id;
+        postUrl(`/home/part-${id}.html`,'',function (res) {
+            $('.part').eq(index).find(num).html(res.total)
+        })
+    });
+    function postUrl (url, data = '', fun = '') {
+        $.post(url, data, function (res) {
+            if (typeof fun == "function") {
+                fun(res);
+            } else {
+                if (res.code == '1') {
+                    return true;
+                } else if (res.code == '0') {
+                    return false;
+                }
+            }
+        }).fail(function () {
+            // layer.closeAll('loading');
+            // layer.alert('系统错误，请稍后再试！');
+        });
+    };
+</script>
+{/block}

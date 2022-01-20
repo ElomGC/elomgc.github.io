@@ -1,0 +1,88 @@
+{extend name="base" /}
+{block name='bar'}20%{/block}
+{block name='title'}检测安装环境{/block}
+{block name='cont'}
+<div class="layout cx-fex-l cx-fex-column">
+    <h3 class="cx-text-f16 cx-text-center">系统配置</h3>
+    <table class="layui-table" lay-even>
+        <thead>
+        <tr>
+            <th width="25%" class="cx-texcx-text-centerenter">名称</th>
+            <th width="25%" class="cx-text-center">最低版本</th>
+            <th width="25%" class="cx-text-center">推荐版本</th>
+            <th width="25%" class="cx-text-center">当前版本</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="xitong" id="cx"}
+        <tr>
+            <td class="cx-text-center">{$cx.0}</td>
+            <td class="cx-text-center">{$cx.1}</td>
+            <td class="cx-text-center">{$cx.2}</td>
+            <td class="cx-text-center">
+                {eq name="cx.4" value="success"}
+                <i class="cx-text-green cx-icon cx-iconcheck"> {$cx.3}</i>
+                {else /}
+                <i class="cx-text-red cx-icon cx-iconcuowu"> {$cx.3}</i>
+                {/eq}
+            </td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+    <h3 class="cx-text-f16 cx-text-center">环境变量</h3>
+    <table class="layui-table" lay-even>
+        <thead>
+        <tr>
+            <th class="cx-text-center">变量名</th>
+            <th width="25%" class="cx-text-center">是否可写</th>
+            <th width="25%" class="cx-text-center">当前配置</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="check_dirs" id="cx"}
+        <tr>
+            <td class="cx-text-center">{$cx.0}</td>
+            <td class="cx-text-center">{$cx.1}</td>
+            <td class="cx-text-center">
+                {eq name="cx.3" value="success"}
+                <i class="cx-text-green cx-icon cx-iconcheck"> {$cx.2}</i>
+                {else /}
+                <i class="cx-text-red cx-icon cx-iconcuowu"> {$cx.2}</i>
+                {/eq}
+            </td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+    <h3 class="cx-text-f16 cx-text-center">权限检测</h3>
+    <table class="layui-table" lay-even>
+        <thead>
+        <tr>
+            <th class="cx-text-center">文件名</th>
+            <th width="25%" class="cx-text-center">是否可写</th>
+            <th width="25%" class="cx-text-center">当前配置</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="hanshu" id="cx"}
+        <tr>
+            <td class="cx-text-center">{$cx.0}</td>
+            <td class="cx-text-center">{$cx.1}</td>
+            <td class="cx-text-center">
+                {eq name="cx.3" value="success"}
+                <i class="cx-text-green cx-icon cx-iconcheck"> {$cx.2}</i>
+                {else /}
+                <i class="cx-text-red cx-icon cx-iconcuowu"> {$cx.2}</i>
+                {/eq}
+            </td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+</div>
+{/block}
+{block name='button'}
+<a class="cx-button" href="{:url('index')}">上一步</a>
+<a class="cx-button cx-bg-yellow" href="{:url('two')}">下一步</a>
+{/block}

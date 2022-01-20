@@ -1,0 +1,13 @@
+<script>
+    layui.config({
+        base: '__IMAGES__/js/'
+    }).use('app');
+</script>
+{// 如果页面是回退回来的，那么执行刷新操作 }
+<script>
+    window.addEventListener('pageshow', function (event) {
+        if(event.persisted || window.performance && window.performance.navigation.type == 2){
+            window.location.reload();
+        }
+    },false);
+</script>

@@ -1,0 +1,144 @@
+{extend name="base" /}
+{block name="cont"}
+<style>
+    body{
+        background: #F8F8F8;
+    }
+    .swiper-container {
+        width: 100%;
+        /*height: 40vh;*/
+        --swiper-theme-color: #e5e5e5;/* 设置Swiper风格 */
+        --swiper-navigation-color: #333;/* 单独设置按钮颜色 */
+        --swiper-navigation-size: 2.2rem;/* 设置按钮大小 */
+    }
+
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+    }
+    .swiper-container .swiper-prev {
+        padding: 20px 15px;
+        color: #0092fd;
+    }
+    .swiper-container .swiper-pagination-bullet {
+        width: 15px;
+        height: 15px;
+    }
+</style>
+<div class="cx-pos-r h30vh" style="overflow: hidden">
+    {$wormedit.cps_banner|raw|default=''}
+</div>
+<div class="layout cx-fex-l cx-fex-itemsc cx-pad-tb15 cx-hidden-l cx-bg-white" style="box-shadow: 0 0 5px rgba(0,0,0,0.1)">
+    <div class="cx-cont cx-fex cx-fex-itemsc">
+        <div class="cx-text-f18 ll-bold ll-color">{$getdata.title|default=''}</div>
+        <div class="cx-fex-l cx-fex-itemsc">
+            <a href="/" class="cx-text-black-7" title="首页">
+                <i class="cx-icon cx-iconhome"></i>
+                <span>首页</span>
+            </a>
+            {volist name='menu' id='cx' empty=''}
+            <a href="/home/part-{$cx.id}.html" target="_blank" title="{$cx.title}" class="cx-text-black-7">
+                <i class="cx-icon cx-iconright"></i>
+                <span>{$cx.title}</span>
+            </a>
+            {/volist}
+            <a href="/home/article-{$readdb.id}.html" title="{$readdb.title}" target="_blank" class="cx-text-black-7">
+                <i class="cx-icon cx-iconright"></i>
+                <span>{$readdb.title|default=''}</span>
+            </a>
+        </div>
+        <button class="cx-button-s cx-bg-black gengduolanmu cx-hidden cx-show-l cx-bor-ra cx-click" data-type="gengduolanmu" data-title="请选择栏目" data-cid="#cx-cixi">> 更多栏目</button>
+    </div>
+</div>
+<div class="cx-cont cx-fex cx-mag-b20">
+    <div class="layout cx-fex-l cx-bg-white cx-mag-t20 ll-mag-t0">
+        <div class="cx-xs8 cx-xl24 cx-pad-r20 ll-pad-0">
+            <div class="cx-bg-img1x1">
+                <div class="cx-bg-img">
+                    <div class="swiper-container  cx-bor-white-1">
+                        <div class="swiper-wrapper">
+                            {notempty  name='readdb.imgdata'}
+                            {volist name='readdb.imgdata' id='cx' key="k" empty=''}
+                            <div class="swiper-slide">
+                                <img src="{$cx.uri}" class="cx-img-responsive" alt="">
+                            </div>
+                            {/volist}
+                            {/notempty}
+                        </div>
+                        <div class="swiper-pagination"></div><!--分页器。如果放置在swiper-container外面，需要自定义样式。-->
+                        <div class="swiper-button-prev swiper-prev "></div><!--左箭头。如果放置在swiper-container外面，需要自定义样式。-->
+                        <div class="swiper-button-next swiper-prev"></div><!--右箭头。如果放置在swiper-container外面，需要自定义样式。-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cx-xs16 cx-xl24 cx-fex-l cx-fex-column cx-text-lh cx-pad-a20">
+            <div class="cx-fex-l cx-fex-itemsc">
+                <h1 class="cx-text-f18 ll-bold">{$readdb.title}</h1>
+                <h3 class="cx-pad-l20 cx-mag-l20 cx-borleft cx-bor-white-1 cx-text-f12">{$readdb.cp_type}</h3>
+            </div>
+
+            <div class="layout cx-text-black-6">{:get_word($readdb['description'],200)}</div>
+            <div class="layout cx-fex-l cx-mag-t40">
+                <a href="/home/part-9.html" title="立即咨询" class="cx-button cx-bg-blue cx-mag-r20">立即咨询</a>
+                <a href="/home/part-9.html" title="联系我们" class="cx-button cx-bor-blue">联系我们</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="cx-xs19 cx-xl24">
+        <div class="cx-card cx-mag-t20 cx-bg-white">
+            <div class="cx-card-head">
+                <div class="cx-card-title cx-tag ll-bor-color cx-text-f16 ll-bold ll-color">详细介绍</div>
+            </div>
+            <div class="cx-card-body">
+                <div class="layout list-cont-img cx-text-lh cx-mag-t15">{$readdb.content|default=''|raw}</div>
+            </div>
+        </div>
+        <div class="layout cx-fex-l cx-fex-itemsc cx-pad-a10 cx-text-black-6">
+            <i class="cx-icon cx-text-fbig cx-iconbiaoqian1 cx-pad-r10"></i>
+            {volist name='$readdb.keywordslist' id='rs'}
+            <span class="cx-text-lh cx-mag-r10 cx-pad-lr10 cx-bg-white cx-bor-rasmall" style="box-shadow: 0 0 5px rgba(0,0,0,0.1)">{$rs|default=''|raw}</span>
+            {/volist}
+        </div>
+        <div class="cx-fex-c cx-fex-itemsc cx-pad-a20">
+            <div class="cx-bg-white-1 cx-pad-tb10 cx-bor cx-mag-r15 article-fenye-magb15"><div class="cx-pad-lr25 cx-click">{notempty name='$pnpage.prev.id'}<a href="/home/article-{$pnpage.prev.id}.html" title="{$pnpage.prev.title}">上一篇</a>{else/}没有了{/notempty}</div></div>
+            <div class="cx-bg-white-1 cx-pad-tb10 cx-bor"><div class="cx-pad-lr25 cx-click">{notempty name='$pnpage.next.id'}<a href="/home/article-{$pnpage.next.id}.html" title="{$pnpage.next.title}">下一篇</a>{else/}没有了{/notempty}</div></div>
+        </div>
+    </div>
+    <div class="cx-xl5 cx-mag-t20 cx-pad-l20 cx-hidden-l">
+        <div class="layout cx-card cx-bg-white cx-fex cx-pad-lr15 last-child-remove-line">
+            <span class="cx-tag ll-bor-color cx-text-f16 ll-bold ll-color cx-mag-t15">相关推荐</span>
+            {$wormedit.tuijian|default=''|raw}
+        </div>
+    </div>
+</div>
+<script>
+
+    var mySwiper = new Swiper('.swiper-container', {
+        autoplay: true,//可选选项，自动滑动
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+            el: '.swiper-pagination',
+        },
+    })
+
+</script>
+{/block}

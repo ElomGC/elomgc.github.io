@@ -1,0 +1,90 @@
+{extend name="base" /}
+{block name='bar'}40%{/block}
+{block name='title'}配置网站信息{/block}
+{block name='cont'}
+<form class="layout layui-form cx-fex-l cx-fex-column cx-pad-b30" action="" method="post">
+    <h3 class="cx-text-f16 cx-text-center">数据库信息</h3>
+    <div class="cx-form-group cx-form-group-bottom cx-mag-t20">
+        <label class="cx-label">数据库地址<span class="cx-text-red">(*)</span></label>
+        <div class="cx-form-item">
+            <input type="text" class="cx-ipt" placeholder="请输入数据库地址" required  lay-verify="required" name="db[hostname]" value="localhost">
+        </div>
+    </div>
+    <div class="cx-form-group cx-form-group-bottom cx-mag-t20">
+        <label class="cx-label">数据库名<span class="cx-text-red">(*)</span></label>
+        <div class="cx-form-item">
+            <input type="text" class="cx-ipt" placeholder="请输入数据库名" required  lay-verify="required" name="db[database]" value="">
+        </div>
+    </div>
+    <div class="cx-form-group cx-form-group-bottom cx-mag-t20">
+        <label class="cx-label">数据库用户名<span class="cx-text-red">(*)</span></label>
+        <div class="cx-form-item">
+            <input type="text" class="cx-ipt" placeholder="请输入数据库用户名" required  lay-verify="required" name="db[username]" value="">
+        </div>
+    </div>
+    <div class="cx-form-group cx-form-group-bottom cx-mag-t20">
+        <label class="cx-label">数据库密码<span class="cx-text-red">(*)</span></label>
+        <div class="cx-form-item">
+            <input type="text" class="cx-ipt" placeholder="请输入数据库密码" required  lay-verify="required" name="db[password]" value="">
+        </div>
+    </div>
+    <div class="cx-form-group cx-form-group-bottom cx-mag-t20">
+        <label class="cx-label">数据库端口<span class="cx-text-red">(*)</span></label>
+        <div class="cx-form-item">
+            <input type="text" class="cx-ipt" placeholder="请输入数据库端口" required  lay-verify="required" name="db[hostport]" value="3306">
+        </div>
+    </div>
+    <div class="cx-form-group cx-form-group-bottom cx-mag-t20">
+        <label class="cx-label">数据表前缀<span class="cx-text-red">(*)</span></label>
+        <div class="cx-form-item">
+            <input type="text" class="cx-ipt" placeholder="请输入数据表前缀" required  lay-verify="required" name="db[prefix]" value="cx_">
+        </div>
+    </div>
+    <div class="cx-form-group">
+        <label class="cx-label"></label>
+        <div class="cx-form-item cx-text-red">
+            同一数据库安装多个系统，请更改不同的数据表前缀
+        </div>
+    </div>
+    <h3 class="cx-text-f16 cx-text-center cx-mag-t20">网站基本信息</h3>
+    <div class="cx-form-group cx-form-group-bottom cx-mag-t20">
+        <label class="cx-label">网站名称<span class="cx-text-red">(*)</span></label>
+        <div class="cx-form-item">
+            <input type="text" class="cx-ipt" placeholder="请输入网站名称" required  lay-verify="required" name="web[web_title]" value="">
+        </div>
+    </div>
+    <div class="cx-form-group cx-form-group-bottom cx-mag-t20">
+        <label class="cx-label">网站地址<span class="cx-text-red">(*)</span></label>
+        <div class="cx-form-item">
+            <input type="text" class="cx-ipt" placeholder="请输入网站地址" required  lay-verify="required" name="web[web_url]" value="{$Request.domain}">
+        </div>
+    </div>
+    <div class="cx-form-group cx-form-group-bottom cx-mag-t20">
+        <label class="cx-label">管理员用户名<span class="cx-text-red">(*)</span></label>
+        <div class="cx-form-item">
+            <input type="text" class="cx-ipt" placeholder="请输入管理员用户名" required  lay-verify="required" name="web[u_name]" value="admin">
+        </div>
+    </div>
+    <div class="cx-form-group cx-form-group-bottom cx-mag-t20">
+        <label class="cx-label">管理员密码<span class="cx-text-red">(*)</span></label>
+        <div class="cx-form-item">
+            <input type="password" class="cx-ipt" placeholder="请输入管理员密码" required  lay-verify="required" name="web[u_password]" value="">
+        </div>
+    </div>
+    <div class="cx-form-group cx-form-group-bottom cx-mag-t20 cx-hidden">
+        <label class="cx-label"></label>
+        <div class="cx-form-item">
+            <button id="databasebtn" lay-submit lay-filter="databasebtn">立即提交</button>
+        </div>
+    </div>
+</form>
+{/block}
+{block name='button'}
+<a class="cx-button" href="{:url('one')}">上一步</a>
+<button class="cx-button cx-bg-yellow" onclick="databasebtns()">下一步</button>
+<script>
+    function databasebtns() {
+        $(`#databasebtn`).click();
+    }
+</script>
+{/block}

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+{block name="meta"}
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+{/block}
+    {include file="public:head" title="$webdb.web_title" keywords="$webdb.web_keywords" descriiption="$webdb.web_descriiption" /}
+</head>
+<body>
+<div class="layout cx-fex-c">
+    <div class="cx-xl23 cx-fex-l cx-fex-column cx-pad-tb20">
+        {block name="cont"}{/block}
+    </div>
+</div>
+{include file="public:foot" /}
+{block name="foot_js"}{/block}
+</body>
+</html>

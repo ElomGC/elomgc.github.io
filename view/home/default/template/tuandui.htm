@@ -1,0 +1,40 @@
+{extend name="base"}
+{block name="cont"}
+<style>
+    body{
+        background-color: #F8F8F8;
+    }
+</style>
+<div class="cx-pos-r h30vh" style="overflow: hidden">
+    {notempty name='$readdb.banber'}
+    <div class="cx-bg-img cx-fex-c cx-fex-itemsc" style="background-image: url({$readdb.banber})"></div>
+    {else/}
+    {$wormedit.news_banner|raw|default=''}
+    {/notempty}
+</div>
+<div class="layout cx-fex-l cx-fex-itemsc cx-pad-tb15 ll-pad-0 cx-bg-white">
+    <div class="cx-cont cx-fex cx-fex-itemsc">
+        <div class="cx-text-fbig ll-color ll-bold">{$readdb.title}</div>
+    </div>
+</div>
+<div class="cx-cont cx-fex-l cx-mag-t10 ll-mag-a0" style="min-height: 600px">
+    <ul class="layout last-child-remove-line">
+        {volist name='listdb.data' id='cx' empty=''}
+        <li class="cx-xs12 cx-xl24 cx-pad-a10 ll-pad-0 cx-fex ll-borbtmline">
+            <a href="/home/article-{$cx['id']}.html?title={$cx.part_name}" title="{$cx['title']}" class="layout cx-pad-a10 cx-bg-white cx-fex-l cx-text-lh item-hover cx-bor-rasmall" data-scroll-reveal="enter bottom,move 50px,after 0.3s">
+                <div class="cx-xs6 cx-xl10" style="overflow: hidden;">
+                    <div class="cx-bg-img4x3">
+                        <div class="cx-bg-img" style="background-image: url({$cx['picurl']});"></div>
+                    </div>
+                </div>
+                <div class="cx-xs18 cx-xl14 cx-pad-l20">
+                    <div class="cx-text-black-5 cx-text-f16 index-mobile-shenglv1">{$cx['title']}</div>
+                    <div class="cx-text-black-4 cx-text-f14 index-mobile-shenglv2">{:get_word($cx['description'],100)}</div>
+                </div>
+            </a>
+        </li>
+        {/volist}
+    </ul>
+
+</div>
+{/block}

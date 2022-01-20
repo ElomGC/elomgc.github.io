@@ -1,0 +1,106 @@
+{extend name="public:base" title="$list_base.title" /}
+{block name="meta"}
+<meta name='referrer' content='never'>
+<style>
+    .wx-item-del{display: none}
+    .wx-item:hover .wx-item-del{display: block}
+</style>
+{/block}
+{block name="cont"}
+<div class="layout cx-fex-c cx-borbottom cx-mag-b10">
+    {volist name="list_nav.list" id="cx" empty=""}
+    <a href="{$cx.uri}" class="cx-button {eq name='cx.id|default=0' value='$list_nav.default'}cx-bg-blue{else /}cx-bor-blue{/eq}">{$cx.title}</a>
+    {/volist}
+</div>
+<div class="layout cx-fex">
+    <h3>
+        {$list_nav['list'][$list_nav.default]['title']}  <small class="cx-text-red">({$list_file['wxnum'][$list_nav.default] - $list_file['basenum']} 条等待同步 )</small>
+        {gt name="$list_file['wxnum'][$list_nav.default]" value="$list_file['basenum']"}
+        <a class="cx-button-l cx-bor-green cx-bor-ra cx-mag-l10" href="{:url('getsucai',['type' => $list_file.type,'count' => $list_file['wxnum'][$list_nav.default]])}">马上同步</a>
+        {/gt}
+    </h3>
+</div>
+<ul class="layout cx-fex-l cx-mag-t20">
+    {switch $list_nav.default}
+    {case news_count}
+        <li class="layout cx-borbottom cx-fex-l cx-fex-itemsc cx-bg-white-1 cx-pad-tb10">
+            <div class="cx-xs3 cx-fex-c cx-media-imgbr">封面</div>
+            <div class="cx-xs16 cx-pad-l15">标题</div>
+            <div class="cx-xs5 cx-fex-c cx-pad-l15">编辑</div>
+        </li>
+        {volist name="listdb" id='cx' empty=""}
+        <li class="layout cx-borbottom cx-fex-l cx-fex-itemsc cx-pad-a10 wx-itemli">
+            <div class="cx-xs3 cx-media-imgbr">
+                <img src="{$cx.thumb_url}" alt="">
+            </div>
+            <div class="cx-xs16 cx-fex-c cx-fex-column cx-pad-l15">
+            {volist name="cx.cont" id="c" empty=''}
+                <a class="cx-pad-tb5" href="{$c.url}" target="_blank">{$c.title}</a>
+            {/volist}
+            </div>
+            <div class="cx-xs5 cx-fex-c cx-fex-column cx-fex-itemsc cx-pad-l15">
+                <div class="cx-fex-c cx-fex-itemsc">
+                    <a href=""><i class="cx-icon cx-iconbianji cx-text-f18"></i></a>
+                    <a class="cx-mag-l15"><i class="cx-icon cx-icondelete cx-text-f18"></i></a>
+                </div>
+                <h6 class="cx-text-black-3 cx-mag-t10">{$cx.update_time}</h6>
+            </div>
+        </li>
+        {/volist}
+    {/case}
+    {case image_count}
+        {volist name="listdb" id='cx' empty=""}
+        <li class="cx-xs3 cx-pad-a5 wx-itemli">
+            <div class="cx-bor cx-bor-black-3 wx-item">
+                <div class="cx-bg-img1x1">
+                    <a class="cx-bg-img cx-fex-c cx-fex-itemsc" href="{$cx.url}" target="_blank">
+                        <img class="cx-img-responsive" src="{$cx.url}" alt="">
+                    </a>
+                    <div class="cx-pos-a wx-item-del" style="top: 0;right: 0;">
+                        <a class="cx-button-s cx-bg-red cx-bor-rasmall" data-cid="{$cx.media_id}" onclick="delsucai(this)">删除</a>
+                    </div>
+                </div>
+                <h3 class="cx-mag-t10 cx-text-center cx-text-f12 cx-text-black-3">{$cx.title}</h3>
+            </div>
+        </li>
+        {/volist}
+    {/case}
+    {/switch}
+</ul>
+<div id="page" class="layout cx-fex-c cx-pad-tb10"></div>
+{/block}
+{block name="foot_js"}
+<script>
+    layui.use('laypage', function() {
+        var laypage = layui.laypage;
+        laypage.render({
+            elem: 'page',
+            count: "{$jspage.total}",
+            limit: "{$jspage.per_page}",
+            curr: "{$getdata.page|default='1'}",
+            jump: function (obj, first) {
+                let str = window.location.search;
+                let a = str.split('&page=') || str.split('page=');
+                //首次不执行
+                if (!first) {
+                    str = a[0] ? a[0] + '&page=' : '?page=';
+                    if(a.length > 1){
+                        window.location.href = window.location.pathname + str + obj.curr;
+                    }else{
+                        window.location.href = window.location.pathname + str + obj.curr;
+                    }
+                }
+            }
+        });
+    });
+    function delsucai(o) {
+        let d = $(o).data();
+        wormui.postUrl("{:url('delwx')}", {media_id:d.cid},function (res) {
+            layer.msg(res.msg);
+            if(res.code == '1'){
+                $(o).closest(`.wx-itemli`).remove();
+            }
+        });
+    }
+</script>
+{/block}

@@ -1,0 +1,98 @@
+{extend name="public:base" title="$list_base.title" /}
+{block name="cont"}
+<div class="layout cx-mag-b15 cx-fex cx-pad-a5 cx-borbottom">
+    <a class="cx-button-s cx-bor-yellow" href="{:url('type',['id' => $postdb.id])}"><i class="cx-icon cx-iconxiangzuojiantou cx-mag-r5"></i>返回</a>
+    <h6 class="cx-text-black-6">{$list_base.title|default=''}</h6>
+</div>
+<form class="layout layui-form" action="" method="post">
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label">标签名</label>
+        <div class="cx-form-item">
+            <input type="text" name="title" class="cx-ipt" value="{$postdb.title|default=$postdb.name}">
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label">选择栏目</label>
+        <div class="cx-form-item cx-fex-column cx-bor" style="height: 200px;overflow: auto">
+            <ul class="layout cx-fex-l cx-fex-column cx-pad-a15">
+                {volist name="partlist" id="cx" empty=""}
+                <li class="cx-pad-b5">
+                    <input type="checkbox" name="conf[id][]" {in name="cx.id" value="$postdb.conf.id|default=''"}checked{/in} title="{$cx.title_display}" value="{$cx.id}" lay-skin="primary">
+                </li>
+                {/volist}
+            </ul>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label">选择模型(<i class="cx-text-red">*</i>)</label>
+        <div class="cx-form-item">
+            <select name="conf[mid]" required lay-verify="required">
+                <option value="a" {eq name="postdb.conf.mid|default='a'" value="a"}selected{/eq}>全部模型</option>
+                {volist name="modellist" id="cx" empty=""}
+                <option value="{$cx.id}" {eq name="postdb.conf.mid|default='a'" value="$cx.id"}selected{/eq}>{$cx.title}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label">启用</label>
+        <div class="cx-form-item">
+            <input type="radio" name="status" value="1" {eq name="postdb.status|default='1'" value="1"}checked{/eq} title="正常显示">
+            <input type="radio" name="status" value="0" {eq name="postdb.status|default='1'" value="0"}checked{/eq} title="暂时隐藏">
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label">选择模板</label>
+        <div class="cx-form-item">
+            <select name="conf[conttemp_name]" lay-filter="conttemp_name">
+                <option value="">选择内置模板</option>
+                {volist name="fileList" id="cx" empty=""}
+                <option value="{$cx.enname}" data-img="{$cx.img}" {eq name="postdb.conf.conttemp_name|default=''" value="$cx.enname"}selected{/eq}>{$cx.cnname}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 conttemplink">
+        <label class="cx-label"></label>
+        <div class="cx-form-item">
+            <div class="cx-xs3 conttemplinkimg"></div>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label">模板代码(<i class="cx-text-red">*</i>)</label>
+        <div class="cx-form-item">
+            <textarea name="conf[conttemp]" class="cx-ipt conttemptext" rows="5">{$postdb.conf.conttemp|default=''}</textarea>
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label"></label>
+        <div class="cx-form-item">
+            <input type="hidden" name="id" value="{$postdb.id}" required lay-verify="required|number">
+            <input type="hidden" name="moid" value="{$postdb.moid}" required lay-verify="required|number">
+            <button class="cx-button cx-bg-blue">确认提交</button>
+        </div>
+    </div>
+</form>
+{/block}
+{block name="foot_js"}
+<script>
+    layui.use('form', function(){
+        let form = layui.form;
+        function selectconttemp_name(o,img = ''){
+            $(`.conttemplinkimg`).html(`<img class="cx-img-responsive" src="${img}">`);
+            wormui.postUrl("{:url('getview')}",{data:`part/${o}.htm`},function (res) {
+               if(res.code == '1'){
+                   $(`.conttemptext`).html(res.data);
+               }else{
+                   layer.msg(res.msg);
+               }
+            });
+        }
+        form.on('select(conttemp_name)', function(data){
+            let o = $(data.elem).find("option:selected"),
+                d = $(o).data();
+            selectconttemp_name(data.value,d.img);
+        });
+    });
+</script>
+{/block}

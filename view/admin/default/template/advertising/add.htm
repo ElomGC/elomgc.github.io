@@ -1,0 +1,180 @@
+{extend name="public:base" title="$list_base.title" /}
+{block name="cont"}
+<form class="layout layui-form" action="{$list_base.uri}" method="post">
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label" for="title">广告名称</label>
+        <div class="cx-form-item">
+            <input id="title" class="cx-ipt " type="text" placeholder="请输入广告名称" name="title" value="{$postdb.title|default=''}">
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label" for="title">广告内容</label>
+        <div class="cx-form-item cx-pad-a20 cx-bor cx-bor-white-1">
+            {switch name="postdb.class|default=$getdata.class"}
+            {case value="1|3|4"}
+            {in name="postdb.class|default=$getdata.class" value="1,3"}
+            <div class="cx-form-group cx-mag-b10 ">
+                <label class="cx-label" for="ctitle" style="min-width: 100px">广告图片</label>
+                <div class="cx-form-item">
+                    <div class="layout cx-fex-l cx-fex-column">
+                        <div class="layout cx-fex-l cx-fex-itemsc">
+                            <a class="cx-button cx-bor-green _upload" data-name="uri" data-exp="image" data-filenum="1" data-autoup="1">上传图片</a>
+                        </div>
+                        <div class="layout uri-list cx-fex-l">
+                            {notempty name="postdb.cont.uri"}
+                            <div class="cx-xs3 uribox cx-pad-a5">
+                                <div class="cx-media-img">
+                                    <img class="uriimg" src="{$postdb.cont.uri}" alt="" onerror="this.src='__PUBLIC__/img/imgnone.jpg'">
+                                    <input type="hidden" class="imgval" name="uri" value="{$postdb.cont.uri}">
+                                </div>
+                                <a class="cx-button-s cx-bg-red cx-click" data-type="delelement" data-cid=".uribox">删除</a>
+                            </div>
+                            {/notempty}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/in}
+            <div class="cx-form-group cx-mag-b10 ">
+                <label class="cx-label" for="ctitle" style="min-width: 100px">{in name="postdb.class|default=$getdata.class" value="1,3"}图片{/in}标题</label>
+                <div class="cx-form-item">
+                    <input id="ctitle" class="cx-ipt " type="text" placeholder="请输入图片标题，可为空" name="cont[title]" value="{$postdb.cont.title|default=''}">
+                </div>
+            </div>
+            <div class="cx-form-group cx-mag-b10 ">
+                <label class="cx-label" for="curi" style="min-width: 100px">链接地址</label>
+                <div class="cx-form-item">
+                    <input id="curi" class="cx-ipt " type="text" placeholder="请输入链接地址" name="cont[like]" value="{$postdb.cont.like|default=''}">
+                </div>
+            </div>
+            {in name="postdb.class|default=$getdata.class" value="3,4"}
+            <div class="cx-form-group cx-mag-b10 ">
+                <label class="cx-label" style="min-width: 100px">文字内容</label>
+                <div class="cx-form-item">
+                    <textarea name="cont[text]" class="cx-ipt" rows="5">{$postdb.cont.text|default=''}</textarea>
+                </div>
+            </div>
+            {/in}
+            {/case}
+            {case value="2"}
+            <div class="cx-form-group cx-mag-b10 ">
+                <div class="cx-form-item">
+                    <div class="layout cx-fex-l cx-fex-column">
+                        <div class="layout cx-fex-l cx-fex-itemsc">
+                            <a class="cx-button cx-bor-green _upload" data-name="cont" data-exp="image" data-like="1" data-autoup="1">上传图片</a>
+                        </div>
+                        <div class="layout cont-list cx-fex-l">
+                            {notempty name="postdb.cont"}
+                            {volist name="postdb.cont" id="cx" empty="" key='k'}
+                            <div class="cx-xs8 img{$k}box cx-pad-a5">
+                                <div class="layout cx-fex-l cx-bor">
+                                    <div class="cx-xl8 cx-borright cx-fex-c cx-fex-itemsc">
+                                        <div class="cx-bg-img1x1">
+                                            <div class="cx-bg-img cx-fex-c cx-fex-itemsc">
+                                                <img class="cx-img-responsive" src="{$cx.uri}" alt="" onerror="this.src='__PUBLIC__/img/imgnone.jpg'">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cx-xl16 cx-fex-a cx-fex-column cx-form-group cx-pad-l5">
+                                        <div class="layout cx-form-itemnowarp" style="flex-grow: 0">
+                                            <div class="cx-ipt-icon cx-text-f12">名称</div>
+                                            <input type="text" class="img{$k}title cx-ipt-s" name="cont[{$k}][title]" value="{$cx.title|default=''}">
+                                        </div>
+                                        <div class="layout cx-form-itemnowarp" style="flex-grow: 0">
+                                            <div class="cx-ipt-icon cx-text-f12">链接</div>
+                                            <input type="text" class="img{$k}like cx-ipt-s" name="cont[{$k}][like]" value="{$cx.like|default=''}">
+                                        </div>
+                                        <div class="layout cx-form-itemnowarp" style="flex-grow: 0">
+                                            <div class="cx-ipt-icon cx-text-f12">排序</div>
+                                            <input type="text" class="img{$k}sort cx-ipt-s" name="cont[{$k}][sort]" value="{$cx.sort|default='0'}">
+                                        </div>
+                                        <div class="layout cx-form-itemnowarp" style="flex-grow: 0">
+                                            <div class="cx-ipt-icon cx-text-f12">大小</div>
+                                            <input type="text" disabled="" class="img{$k}size cx-ipt-s" name="cont[{$k}][size]" value="{$cx.size|default=''}">
+                                        </div>
+                                        <div class="layout cx-form-itemnowarp" style="flex-grow: 0">
+                                            <a class="cx-button-s cx-bg-red cx-click" data-type="delelement" data-cid=".img{$k}box">删除</a>
+                                        </div>
+                                        <input type="hidden" class="img{$k}val" name="cont[{$k}][uri]" value="{$cx.uri|default=''}">
+                                        <input type="hidden" class="img{$k}size" name="cont[{$k}][size]" value="{$cx.size|default='0'}">
+                                    </div>
+                                </div>
+                            </div>
+                            {/volist}
+                            {/notempty}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/case}
+            {/switch}
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label">是否启用</label>
+        <div class="cx-form-item">
+            <input type="radio" name="status" value="1" title="启用 " {eq name="postdb.status|default='1'" value="1"}checked{/eq} required lay-verify="required">
+            <input type="radio" name="status" value="0" title="禁用 " {eq name="postdb.status|default='1'" value="0"}checked{/eq} required lay-verify="required">
+        </div>
+    </div>
+    <div class="cx-form-group cx-mag-b10 ">
+        <label class="cx-label"></label>
+        <div class="cx-form-item">
+            <input id="class" class="cx-ipt" type="hidden" required lay-verify="required" name="class" value="{$postdb.class|default=$getdata.class}">
+            {notempty name="postdb.id"}
+            <input id="id" class="cx-ipt" type="hidden" required lay-verify="required" name="id" value="{$postdb.id}">
+            <input id="_method" class="cx-ipt" type="hidden" required lay-verify="required" name="_method" value="PUT">
+            {/notempty}
+            <button class="cx-button cx-bg-blue cx-bor-rasmall" lay-submit lay-filter="upbutton">确 定</button>
+        </div>
+    </div>
+</form>
+{/block}
+{block name="foot_js"}
+{load href="__PUBLIC__/js/wormui.js" /}
+<script>
+    let ups = new wormUpload({
+        monitor:"._upload",
+        url:"{:url('api/Upload/index')}",
+        multiple:true,
+        prepose:function(dom){
+            let d = $(dom).data(),
+                n = $(`.${d.name}-list`).children().length;
+            if(d.filenum > 1 && n >= d.filenum){
+                layer.msg(`最多上传${d.filenum}文件,请先删除`);
+                return false;
+            }
+            if(d.filenum > 1 && n > 0){
+                n = d.filenum - n;
+                $(dom).data('efilenum',n);
+            }
+        },
+        before:function (file,dom) {
+            let d = $(dom).data(),
+                t = `<div class="cx-bg-img" style="background-image: url('${file.icon}');background-size: contain;"></div>`;
+            if(d.exp && d.exp != 'image'){
+                t = `<div class="cx-bg-img" style="background-image: url('__PUBLIC__/img/upfilenone.png');background-size: contain;"></div>`;
+            }
+            let lk = d.like && d.like == '1' ? `<div class="layout cx-form-itemnowarp" style="flex-grow: 0"><div class="cx-ipt-icon cx-text-f12">链接</div><input type="text" class="${file.md5}like cx-ipt-s" name="${d.name}[${file.md5}][like]" value=""></div>` : ``;
+            t = !d.filenum || d.filenum > 1 || d.exp == 'file' ? `<div class="cx-xs8 ${file.md5}box cx-pad-a5"><div class="layout cx-fex-l cx-bor"><div class="cx-xl8 cx-borright"><div class="cx-bg-img1x1">${t}</div></div><div class="cx-xl16 cx-fex-a cx-fex-column cx-form-group cx-pad-l5"><div class="layout cx-form-itemnowarp" style="flex-grow: 0"><div class="cx-ipt-icon cx-text-f12">名称</div><input type="text" class="${file.md5}title cx-ipt-s" name="${d.name}[${file.md5}][title]" value=""></div>${lk}<div class="layout cx-form-itemnowarp" style="flex-grow: 0"><div class="cx-ipt-icon cx-text-f12">排序</div><input type="text" class="${file.md5}sort cx-ipt-s" name="${d.name}[${file.md5}][sort]" value="0"></div><div class="layout cx-form-itemnowarp" style="flex-grow: 0"><div class="cx-ipt-icon cx-text-f12">大小</div><input type="text" disabled class="${file.md5}size cx-ipt-s" name="${d.name}[${file.md5}][size]" value=""></div><div class="layout cx-form-itemnowarp" style="flex-grow: 0"><a class="cx-button-s cx-bg-red cx-click" data-type="delelement" data-cid=".${file.md5}box">删除</a></div><input type="hidden" class="${file.md5}val" name="${d.name}[${file.md5}][uri]" value=""><input type="hidden" class="${file.md5}size" name="${d.name}[${file.md5}][size]" value=""></div></div></div>`
+                :  `<div class="cx-xs3 cx-fex-c cx-fex-column cx-pad-a5"><div class="layout cx-bg-img1x1 cx-pos-r cx-bor">${t}<div class="layout cx-pos-r cx-bg-black-1"><div class="layout cx-pos-a cx-bg-green ${file.md5}" style="width: 0;height: 100%;bottom: 0;left: 0;z-index: -1"></div><h6 class="layout cx-text-white-8 cx-text-center ${file.md5}-t">等待上传...</h6><input type="hidden" class="${file.md5}val" name="${d.name}" value=""></div></div></div>`;
+            if(d.filenum && d.filenum == '1'){
+                $(`.${d.name}-list`).html(t);
+            }else{
+                $(`.${d.name}-list`).append(t);
+            }
+        },
+        success:function (res,obj) {
+            $(`.${obj.md5}`).hide();
+            $(`.${obj.md5}-t`).text( '上传完毕').addClass('cx-bg-green');
+            if(res.code == '1'){
+                $(`.${obj.md5}val`).val(res.data.uri);
+                $(`.${obj.md5}title`).val(res.data.title);
+                $(`.${obj.md5}size`).val(res.data.size);
+            }else{
+                layer.msg('上传失败');
+            }
+        }
+    });
+</script>
+{/block}

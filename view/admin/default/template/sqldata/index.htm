@@ -1,0 +1,130 @@
+{extend name="public:base" title="$list_base.title" /}
+{block name="cont"}
+<div class="layout map-table-box">
+    <table id="listdb" class="layout" lay-data="listdb" lay-filter="listdb"></table>
+</div>
+{/block}
+{block name="foot_js"}
+<div id="backup" class="layout cx-card-nbor" style="display: none">
+    <div class="cx-card-body cx-fex-l cx-fex-column">
+        <h4>总进度</h4>
+        <div class="layui-progress cx-mag-t10" lay-filter="zoneprogress">
+            <div class="layui-progress-bar" lay-percent="0"></div>
+        </div>
+        <h4 class="cx-mag-t10">当前进度</h4>
+        <div class="layui-progress cx-mag-t10" lay-filter="tableprogress">
+            <div class="layui-progress-bar" lay-percent="0"></div>
+        </div>
+        <h6 class="cx-text-green _nowtable"></h6>
+    </div>
+</div>
+<script type="text/html" id="list-top">
+    <div class="layout cx-fex-l cx-fex-itemsc">
+        <a class="cx-button-s cx-bg-green" lay-event="backups">备份数据库</a>
+        <a class="cx-button-s cx-bg-yellow" lay-event="restore">还原数据库</a>
+        <form class="cx-xl4 layui-form" action="" lay-filter="restore">
+            <select name="backdir">
+                <option value="">请选择要恢复的文件</option>
+                {volist name="listdb" id="cx" empty=""}
+                <option value="{$cx}">{$cx}</option>
+                {/volist}
+            </select>
+        </form>
+    </div>
+</script>
+<script>
+layui.use(['table','layer','form','element'], function () {
+    var table = layui.table,
+        layer = layui.layer,
+        element = layui.element,
+        layform = layui.form,
+        h = $(window).height() - 60;
+        let tablelist = table.render({
+            elem: '#listdb',
+            toolbar: '#list-top',
+            url: "{:url('getlist')}",
+            height:h,
+            page: false,
+            parseData: function(res){
+                return {
+                    "code": res.code,
+                    "data":res.data.data,
+                };
+            },
+            response: {
+                statusCode: '1'
+            },
+            cols: [[{"field":"Name","title":"数据表名","align":"left",'width':'50%'},
+                    {"field":"Engine","title":"数据引擎","align":"center","width":"120"},
+                    {"field":"Data_length","title":"数据长度","align":"center","width":"120"},
+                    {"field":"Collation","title":"排序规则","align":"center","width":"150"},
+                    {"field":"Comment","title":"数据表","align":"left","width":"20%"}]],
+        }),
+            backup = function (data = ''){
+                wormui.postUrl("{:url('create')}",data,function (res) {
+                    if (res.data.totalpercentage < 100) {
+                        $(`._nowtable`).text(`正在备份：${res.data.nowtable}...`);
+                        element.progress('tableprogress', res.data.tablepercentage +'%');
+                        element.progress('zoneprogress', res.data.totalpercentage +'%');
+                        backup(res.data);
+                    }else{
+                        element.progress('zoneprogress', res.data.totalpercentage +'100%');
+                        $(`._nowtable`).text(`备份完成，请关闭窗口`);
+                    }
+                });
+            },
+            restore = function (data = ''){
+                wormui.postUrl("{:url('save')}",data,function (res) {
+                    if(res.code == '0'){
+                        layer.msg(res.msg,{},function () {
+                            layer.closeAll('page');
+                        });
+                        return false;
+                    }
+                    if (res.data.totalpercentage < 100) {
+                        $(`._nowtable`).text(`正在还原卷 ${res.data.nowtable}...`);
+                        element.progress('tableprogress', '100%');
+                        element.progress('zoneprogress', res.data.totalpercentage + '%');
+                        data.res = res.data
+                        restore(data);
+                    }else{
+                        element.progress('zoneprogress', res.data.totalpercentage +'100%');
+                        $(`._nowtable`).text(`还原完成，请关闭窗口`);
+                    }
+                });
+            };
+    table.on('toolbar(listdb)', function(obj){
+        var checkStatus = table.checkStatus(obj.config.id);
+        switch(obj.event){
+            case 'backups':
+               layer.open({
+                   type: 1,
+                   title: '正在备份数据库',
+                   area: ['500px', '300px'],
+                   content: $('#backup'),
+                   success: function(layero, index){
+                       element.progress('tableprogress', '0%');
+                       element.progress('zoneprogress', '0%');
+                       backup();
+                   }
+               });
+                break;
+            case 'restore':
+                var data = layform.val('restore');
+                layer.open({
+                    type: 1,
+                    title: '还原备份数据',
+                    area: ['500px', '300px'],
+                    content: $('#backup'),
+                    success: function(layero, index){
+                        element.progress('tableprogress', '0%');
+                        element.progress('zoneprogress', '0%');
+                        restore(data);
+                    }
+                });
+                break;
+        }
+    })
+})
+</script>
+{/block}

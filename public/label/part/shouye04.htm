@@ -1,0 +1,17 @@
+<div class="layout">
+    <a href="/article/{$rs['aid']}.html" title="{$rs['title']}">
+        <div class="cx-bg-img4x3" style="overflow: hidden;">
+            <div class="cx-bg-img hvr-grow" style="background-image: url({$rs['picurl']});"></div>
+        </div>
+        <div class="cx-pad-a20 cx-fex cx-fex-itemsc cx-bg-blue cx-text-reverse">
+            <div class="cx-xl4 cx-fex-c cx-fex-column cx-fex-itemsc">
+                <div style="font-size: 36px; font-weight: bold;">{$rs['time_d']}</div>
+                <div>{$rs['time_Y']}-{$rs['time_m']}</div>
+            </div>
+            <div class="cx-xl20 cx-pad-l20 cx-fex cx-fex-column">
+                <div class="layout cx-pad-b20 cx-borbottom cx-bor-white-1 cx-text-f16">{$rs['title']}</div>
+                <div class="cx-pad-t20">{$rs['description']}</div>
+            </div>
+        </div>
+    </a>
+</div>

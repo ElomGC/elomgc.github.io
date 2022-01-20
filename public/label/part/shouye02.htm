@@ -1,0 +1,28 @@
+<style>
+    .cont {
+        display: none;
+    }
+    
+    .item:hover .cont {
+        display: block;
+    }
+    
+    .hvr-radial-out:before {
+        background-color: rgba(0, 0, 0, 0.1)
+    }
+</style>
+
+<div class="cx-xl6 cx-pad-a10 cx-fex cx-fex-column item">
+    <a class="layout" href="/article/{$rs['aid']}.html" title="{$rs['title']}">
+        <div class="cx-bg-img4x3 hvr-shadow" style="overflow: hidden;">
+            <div class="cx-bg-img" style="background-image: url({$rs['picurl']});">
+                <div class="layout cont hvr-radial-out" style="background-color: rgba(0, 0, 0, 0.1);height: 100%;">
+                    <div class="layout cx-fex-c cx-fex-column cx-fex-itemsc cx-pad-a20 cx-text-reverse" style="height: 100%;">
+                        <div class="cx-text-fbig cx-mag-b10">{$rs['title']}</div>
+                        <div>{$rs['description']}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>

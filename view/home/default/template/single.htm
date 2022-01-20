@@ -1,0 +1,71 @@
+{extend name="base"}
+{block name="cont"}
+<style>
+    body{
+        background-color: #F8F8F8;
+    }
+</style>
+<div class="cx-pos-r h30vh" style="overflow: hidden">
+    {notempty name='$readdb.banber'}
+    <div class="cx-bg-img cx-fex-c cx-fex-itemsc" style="background-image: url({$readdb.banber})"></div>
+    {else/}
+    {$wormedit.news_banner|raw|default=''}
+    {/notempty}
+</div>
+<div class="layout cx-fex-l cx-fex-itemsc cx-pad-tb15 cx-hidden-l cx-bg-white">
+
+    <div class="cx-cont cx-fex cx-fex-itemsc">
+        <div class="cx-text-fbig ll-color ll-bold">{$readdb.title}</div>
+        <div class="">
+            <div class="cx-fex-l cx-fex-itemsc">
+                <a href="/" class="cx-text-black-7" title="首页">
+                    <i class="cx-icon cx-iconhome"></i>
+                    <span>首页</span>
+                </a>
+                {volist name='menu' id='cx' empty=''}
+                <a href="/home/part-{$cx.id}.html" target="_blank" title="{$cx.title}" class="cx-text-black-7">
+                    <i class="cx-icon cx-iconright"></i>
+                    <span>{$cx.title}</span>
+                </a>
+                {/volist}
+            </div>
+            <button class="Zcx-button-s cx-bg-black gengduolanmu cx-hidden cx-show-l cx-bor-ra cx-click" data-type="gengduolanmu" data-title="请选择栏目" data-cid="#cx-cixi">> 更多栏目</button>
+        </div>
+    </div>
+</div>
+<div class="">
+    <div class="cx-cont">
+        <ul class="layout cx-fex-c cx-fex-itemsc cx-pad-tb20 ll-pad-t5">
+            {volist name='partlist' id='cx' empty=''}
+            {eq name='cx.pid' value='$readdb.pid'}
+            <li class="cx-mag-lr10 leftpart">
+                <a href="/home/part-{$cx.id}.html" target="_blank" title="{$cx.title}" class="cx-button cx-bg-white cx-bor-rasmall">{$cx.title}</a>
+            </li>
+
+            {/eq}
+            {/volist}
+        </ul>
+        <div class="layout cx-fex-l index-cont">
+            <div class="cx-xs16 cx-xl24 cx-fex-c cx-bg-white cx-pad-tb20" style="overflow: hidden">
+                <div class="cx-xl16" style="height: 100%">
+                    <div class="swiper-container" id="guanyu">
+                        <div class=" swiper-wrapper">
+                            {$wormedit.newnenpic|raw|default=''}
+                        </div>
+                        <!-- Add Pagination -->
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="cx-xs8 cx-xl24 cx-pad-a50 ll-pad-a10 ll-bortop cx-bg-white">
+                <h2 class="index-ztitle ll-bold ">公司简介</h2>
+                <span class="cx-text-f18 ll-bold ll-color">ABOUT</span>
+                <div class="cx-mag-tb20 cx-text-lh">
+                    {$readdb.content|raw}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{/block}

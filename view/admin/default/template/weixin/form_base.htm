@@ -1,0 +1,189 @@
+{extend name="public:base" /}
+{block name="meta"}
+<meta name='referrer' content='never'>
+{/block}
+{block name="cont"}
+{if in_array('editor',$list_type)}
+{load href="__CKEDITOR__/ckeditor.js,__PUBLIC__/js/wormedit.js"}
+{/if}
+{notempty name="list_base.title"}
+<div class="layout cx-mag-b15 cx-fex cx-pad-a5 cx-borbottom">
+    {neq name="list_base.add|default='1'" value="0"}
+    <a class="cx-button-s cx-bor-yellow" href="{eq name='list_base.url|default=0' value='0'}javascript:history.go(-1){else /}{$list_base.url}{/eq}"><i class="cx-icon cx-iconxiangzuojiantou cx-mag-r5"></i>返回</a>
+    <h6 class="cx-text-black-6">{$list_base.title|default=''}</h6>
+    {else /}
+    <h3 class="cx-text-black">{$list_base.title|default=''}</h3>
+    {/neq}
+</div>
+{/notempty}
+<form class="layout layui-form" action="{$list_base.uri|default=''}" method="post">
+    {gt name=":count($list_group)" value="0"}
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layout cx-fex-c layui-tab-title">
+            <li class="layui-this">基本信息</li>
+            {volist name="list_group" id="cx"}
+            <li>{$cx}</li>
+            {/volist}
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                {/gt}
+                {volist name=":WORMCMS('filed@FiledsToForm',$list_file,$postdb)" id="cx" empty="请先定义字段"}
+                {gt name=":count($list_group)" value="0"}
+                {eq name="cx.group" value="基本信息"}
+                <div class="cx-form-group cx-mag-b10 {eq name='cx.type' value='hidden'} cx-hidden{/eq}">
+                    {$cx.title|raw}
+                    <div class="cx-form-item">
+                        {$cx.value|raw}
+                    </div>
+                </div>
+                {/eq}
+                {else /}
+                <div class="cx-form-group cx-mag-b10 {eq name='cx.type' value='hidden'} cx-hidden{/eq}">
+                    {$cx.title|raw}
+                    <div class="cx-form-item">
+                        {$cx.value|raw}
+                    </div>
+                </div>
+                {/gt}
+                {/volist}
+                <div class="cx-form-group cx-mag-b10">
+                    <label class="cx-label"></label>
+                    <div class="cx-form-item">
+                        {neq name="list_base.add|default='1'" value="0"}
+                        <button class="cx-button cx-bg-blue cx-bor-rasmall" lay-submit lay-filter="upbutton">确 定</button>
+                        {else /}
+                        <button class="cx-button cx-bg-blue cx-bor-rasmall" lay-submit lay-filter="thisbutton">确 定</button>
+                        {/neq}
+                    </div>
+                </div>
+                {gt name=":count($list_group)" value="0"}
+            </div>
+            {volist name="list_group" id="rs"}
+            <div class="layui-tab-item">
+                {volist name=":WORMCMS('filed@FiledsToForm',$list_file,$postdb)" id="cx" empty="请先定义字段"}
+                {eq name="cx.group" value="$rs"}
+                <div class="cx-form-group cx-mag-b10 {eq name='cx.type' value='hidden'} cx-hidden{/eq}">
+                    {$cx.title|raw}
+                    <div class="cx-form-item">
+                        {$cx.value|raw}
+                    </div>
+                </div>
+                {/eq}
+                {/volist}
+                <div class="cx-form-group cx-mag-b10">
+                    <label class="cx-label"></label>
+                    <div class="cx-form-item">
+                        {neq name="list_base.add|default='1'" value="0"}
+                        <button class="cx-button cx-bg-blue cx-bor-rasmall" lay-submit lay-filter="upbutton">确 定</button>
+                        {else /}
+                        <button class="cx-button cx-bg-blue cx-bor-rasmall" lay-submit lay-filter="thisbutton">确 定</button>
+                        {/neq}
+                    </div>
+                </div>
+            </div>
+            {/volist}
+        </div>
+    </div>
+    {/gt}
+</form>
+{notempty name="list_base.tip"}
+<div class="layout cx-pad-a20">
+    <h3 class="cx-borbottom cx-bor-black-1 cx-text-black-6">{$list_base.tip.title|default='温馨提示'}</h3>
+    <ul class="layout cx-fex-l cx-fex-column cx-text-black-6">
+        {volist name="list_base.tip.list" id="cx" empty=""}
+        <li class="cx-pad-tb5">{$cx}</li>
+        {/volist}
+    </ul>
+</div>
+{/notempty}
+{/block}
+{block name="foot_js"}
+{// 引用图标库文件 }
+{if in_array('icon',$list_type)}
+<div class="layout icon-list" style="display: none;">
+    {include file="public:icon_base" /}
+</div>
+<script>
+    let _name = null;
+    function addicon(name) {
+        if(!name){
+            return false;
+        }
+        layer.open({
+            type: 1,
+            title: "选择图标",
+            content: $('.icon-list'),
+            area:['50%','50%'],
+            success:function () {
+                _name = name;
+            }
+        });
+    }
+    function seticon(o) {
+        let vals = $(o).find("i");
+        vals = $(vals).attr('class');
+        $(`.${_name}-img`).attr('class', `${vals} ${_name}-img`);
+        $(`.${_name}-val`).val(`${vals}`);
+        $(`.${_name}-del`).show();
+        layer.closeAll('page');
+    }
+    function delicon(name) {
+        if(!name){
+            return false;
+        }
+        $(`.${name}-val`).val("");
+        $(`.${name}-img`).attr(`class`,"").addClass(`cx-icon cx-iconadd ${name}-img`);
+        $(`.${name}-del`).hide();
+    }
+</script>
+{/if}
+{if in_array('upload',$list_type)}
+{load href="__PUBLIC__/js/wormui.js" /}
+<script>
+    let ups = new wormUpload({
+        monitor:"._upload",
+        url:"{:url('api/Upload/index')}",
+        multiple:true,
+        prepose:function(dom){
+            let d = $(dom).data(),
+                n = $(`.${d.name}-list`).children().length;
+            if(d.filenum > 1 && n >= d.filenum){
+                layer.msg(`最多上传${d.filenum}文件,请先删除`);
+                return false;
+            }
+            if(d.filenum > 1 && n > 0){
+                n = d.filenum - n;
+                $(dom).data('efilenum',n);
+            }
+        },
+        before:function (file,dom) {
+            let d = $(dom).data(),
+                t = `<div class="cx-bg-img" style="background-image: url('${file.icon}');background-size: contain;"></div>`;
+            if(d.exp && d.exp != 'image'){
+                t = `<div class="cx-bg-img" style="background-image: url('__PUBLIC__/img/upfilenone.png');background-size: contain;"></div>`;
+            }
+            let lk = d.like && d.like == '1' ? `<div class="layout cx-form-itemnowarp" style="flex-grow: 0"><div class="cx-ipt-icon cx-text-f12">链接</div><input type="text" class="${file.md5}like cx-ipt-s" name="${d.name}[${file.md5}][like]" value=""></div>` : ``;
+            t = !d.filenum || d.filenum > 1 || d.exp == 'file' ? `<div class="cx-xs8 ${file.md5}box cx-pad-a5"><div class="layout cx-fex-l cx-bor"><div class="cx-xl8 cx-borright"><div class="cx-bg-img1x1">${t}</div></div><div class="cx-xl16 cx-fex-a cx-fex-column cx-form-group cx-pad-l5"><div class="layout cx-form-itemnowarp" style="flex-grow: 0"><div class="cx-ipt-icon cx-text-f12">名称</div><input type="text" class="${file.md5}title cx-ipt-s" name="${d.name}[${file.md5}][title]" value=""></div>${lk}<div class="layout cx-form-itemnowarp" style="flex-grow: 0"><div class="cx-ipt-icon cx-text-f12">排序</div><input type="text" class="${file.md5}sort cx-ipt-s" name="${d.name}[${file.md5}][sort]" value="0"></div><div class="layout cx-form-itemnowarp" style="flex-grow: 0"><div class="cx-ipt-icon cx-text-f12">大小</div><input type="text" disabled class="${file.md5}size cx-ipt-s" name="${d.name}[${file.md5}][size]" value=""></div><div class="layout cx-form-itemnowarp" style="flex-grow: 0"><a class="cx-button-s cx-bg-red cx-click" data-type="delelement" data-cid=".${file.md5}box">删除</a></div><input type="hidden" class="${file.md5}val" name="${d.name}[${file.md5}][uri]" value=""><input type="hidden" class="${file.md5}size" name="${d.name}[${file.md5}][size]" value=""></div></div></div>`
+                :  `<div class="cx-xs3 cx-fex-c cx-fex-column cx-pad-a5"><div class="layout cx-bg-img1x1 cx-pos-r cx-bor">${t}<div class="layout cx-pos-r cx-bg-black-1"><div class="layout cx-pos-a cx-bg-green ${file.md5}" style="width: 0;height: 100%;bottom: 0;left: 0;z-index: -1"></div><h6 class="layout cx-text-white-8 cx-text-center ${file.md5}-t">等待上传...</h6><input type="hidden" class="${file.md5}val" name="${d.name}" value=""></div></div></div>`;
+            if(d.filenum && d.filenum == '1'){
+                $(`.${d.name}-list`).html(t);
+            }else{
+                $(`.${d.name}-list`).append(t);
+            }
+        },
+        success:function (res,obj) {
+            $(`.${obj.md5}`).hide();
+            $(`.${obj.md5}-t`).text( '上传完毕').addClass('cx-bg-green');
+            if(res.code == '1'){
+                $(`.${obj.md5}val`).val(res.data.uri);
+                $(`.${obj.md5}title`).val(res.data.title);
+                $(`.${obj.md5}size`).val(res.data.size);
+            }else{
+                layer.msg('上传失败');
+            }
+        }
+    });
+</script>
+{/if}
+{/block}

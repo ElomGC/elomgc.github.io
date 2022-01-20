@@ -1,0 +1,154 @@
+<div class="layout" style="background-color: #F8F8F8;border-bottom: 1px solid #DEDEDE">
+    <div class="cx-cont cx-fex cx-fex-itemsc cx-text-black-7 cx-pad-tb5">
+        {empty name='wormuser.uid'}
+            <div class="cx-fex-l cx-fex-itemsc">
+                <a href="/home/login.html" title="登录">
+                    <i class="cx-icon cx-icondenglu-yonghuming cx-pad-r5"></i>
+                    <span>登录</span>
+                </a>
+                <a href="/home/reg.html" title="注册">
+                    <span class="cx-pad-lr5">|</span>
+                    <span>注册</span>
+                </a>
+            </div>
+        {else/}
+            <div class="cx-fex-l cx-fex-itemsc">
+                <span>
+                    <i class="cx-icon cx-icondenglu-yonghuming cx-pad-r5"></i>
+                    <span>{notempty name='wormuser.u_uniname'} {$wormuser.u_uniname} {else/} {$wormuser.u_name}{/notempty}</span>
+                </span>
+                <a href="/member.html" title="会员中心">
+                    <span class="cx-pad-lr5">|</span>
+                    <span>会员中心</span>
+                </a>
+                <div class="cx-click" data-type="out">
+                    <span class="cx-pad-lr5">|</span>
+                    <span>退出</span>
+                </div>
+            </div>
+        {/empty}
+
+        <div class="cx-fex-l cx-fex-itemsc">
+            <i class="cx-icon cx-iconshouji"></i>
+            <span class="cx-pad-lr5 cx-text-f12">手机版</span>
+            <i class="cx-icon cx-iconshoucang4"></i>
+            <span class="cx-pad-lr5">
+                <a rel="sidebar" class="cx-text-f12" href="javascript:void(0);" title="wecandoitforev-baidujingyan" onclick="javascript:addFavorite2()">加入收藏</a>
+            </span>
+        </div>
+    </div>
+</div>
+<div class="layout cx-bg-white">
+    <div class="cx-cont cx-pad-tb15 cx-fex cx-fex-itemsc">
+        <a href="{$webdb.web_url}" title="{$webdb.web_title}" class="cx-fex-l cx-fex-itemsc">
+            <img src="{$webdb.web_logo|raw}" alt="" style="width: 49px;height: auto">
+            <div class="cx-pad-l10 cx-text-lh">
+                <h3 class="ll-color ll-text-f24 cx-text-lhno">妙妙宠物</h3>
+                <h6 class="cx-text-f12">给你一生的陪伴</h6>
+            </div>
+        </a>
+        <div class="cx-fex-l cx-fex-itemsc">
+            <a href="/" title="首页" class="cx-button cx-bg-black ll-bg-color padlr20tb8 ll-borra17 cx-mag-r10" style="border: none">首页</a>
+            <a href="/home/part-4.html" title="好物" class="cx-button cx-bg-white padlr20tb8 ll-borra17 cx-mag-r10">好物</a>
+            <a href="/home/part-34.html" title="新闻" class="cx-button cx-bg-black padlr20tb8 ll-borra17 cx-mag-r10" style="border: none">资讯</a>
+            <a href="/bbs/part-1.html" title="互动" class="cx-button cx-bg-white padlr20tb8 ll-borra17 cx-mag-r10">互动</a>
+        </div>
+        <form action="/home/search" class="layui-form" id="search">
+            <div class="cx-form-group">
+                <div class="cx-form-itemnowarp">
+                    <input class="cx-ipt-b searkey" type="text" name="key" lay-verify="search" placeholder="请输入搜索关键词">
+                    <div class=" cx-fex cx-fex-itemsc ll-bg-color cx-text-white">
+                        <button class="cx-button ll-bg-color cx-text-white search cx-click" lay-submit lay-filter="formDemo" style="border: none"><i class="cx-icon cx-iconchazhao cx-pad-r5"></i>搜索</button>
+                    </div>
+                </div>
+            </div>
+            <div class="layout cx-fex-l cx-text-black-7 cx-text-f12 cx-pad-tb5">
+                <span>热门搜索：</span>
+                <span class="cx-pad-l5">宠物用品</span>
+                <span class="cx-pad-l5">训练</span>
+                <span class="cx-pad-l5">
+                    美容
+                </span>
+                <span class="cx-pad-l5">
+                    喂养
+                </span>
+                <span class="cx-pad-l5">
+                    待产养护
+                </span>
+                <span class="cx-pad-l5">
+                    摄影
+                </span>
+            </div>
+        </form>
+        <div class="cx-xl5 cx-fex-l">
+            {Wr:Ad name="pcheadad1" id='14'}
+            <div class="cx-xl12 cx-pad-a10">
+                <div class="cx-bg-img1x1 ll-padbom50">
+                    <a  class="cx-bg-img" style="background-image: url({$pcheadad1.uri})"></a>
+                </div>
+            </div>
+            {/Wr:Ad}
+            {Wr:Ad name="pcheadad2" id='15'}
+            <div class="cx-xl12 cx-pad-a10">
+                <div class="cx-bg-img1x1 ll-padbom50">
+                    <div class="cx-bg-img" style="background-image: url({$pcheadad2.uri})"></div>
+                </div>
+            </div>
+            {/Wr:Ad}
+        </div>
+    </div>
+</div>
+<div class="layout cx-fex-c ll-bg-color cx-pad-tb5">
+    {notempty name='NavList.1'}
+    <ul class="cx-cont cx-nav-small cx-fex-a cx-fex-nowrap">
+        {volist name='NavList.1' id='cx' empty=''}
+        <li class="cx-nav-one topnavmenu cx-pos-r">
+            <a class="cx-pad-lr15 cx-text-f16 cx-text-white ll-nav-hover" href="{$cx.uri}" title="{$cx.title}">
+                {$cx.title}
+                {notempty name='cx.node'}
+                <i class="cx-icon cx-iconunfold cx-text-white jiantou"></i>
+                {/notempty}
+            </a>
+            {notempty name='cx.node'}
+            <div class="layout cx-pos-a nav-menu">
+                <ul class="layout cx-fex-l cx-fex-column">
+                    {volist name='cx.node' id='c' empty=''}
+                    <li class="cx-nav-one" style="border-bottom: 1px dashed rgba(0,0,0,0.1);">
+                        <a href="{$c.uri}" title="{$c.title}" class="cx-pad-lr15 cx-text-f16 cx-text-white ll-nav-hover">{$c.title}</a>
+                    </li>
+                    {/volist}
+                </ul>
+            </div>
+            {/notempty}
+        </li>
+        {/volist}
+    </ul>
+    {/notempty}
+</div>
+<script>
+    function addFavorite2() {
+        var url = "{$webdb.web_url}";
+        var title = "{$webdb.web_title}";
+        var ua = navigator.userAgent.toLowerCase();
+        if (ua.indexOf("360se") > -1) {
+            alert("由于360浏览器功能限制，请按 Ctrl+D 手动收藏！");
+        }
+        else if (ua.indexOf("msie 8") > -1) {
+            window.external.AddToFavoritesBar(url, title); //IE8
+        }
+        else if (document.all) {
+            try{
+                window.external.addFavorite(url, title);
+            }catch(e){
+                alert('您的浏览器不支持,请按 Ctrl+D 手动收藏!');
+            }
+        }
+        else if (window.sidebar) {
+            window.sidebar.addPanel(title, url, "");
+        }
+        else {
+            alert('您的浏览器不支持,请按 Ctrl+D 手动收藏!');
+        }
+    };
+</script>
+

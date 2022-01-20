@@ -1,0 +1,24 @@
+{
+    "name": "lotofbadcode/phpspirit_dbskeleton",
+    "description": "一个维护数据库表和字段插件",
+    "license": "Apache-2.0",
+    "type": "library",
+    "keywords": [
+        "php",
+        "library"
+    ],
+    "authors": [
+        {
+            "name": "代码庸医",
+            "email": "3359964266@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "phpspirit\\dbskeleton\\": "src/"
+        }
+    }
+}

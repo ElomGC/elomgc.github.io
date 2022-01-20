@@ -1,0 +1,14 @@
+{extend name="public:base" title="$list_base.title" /}
+{block name="cont"}
+<div class="layout cx-mag-b15 cx-fex cx-pad-a5 cx-borbottom">
+    <a class="cx-button-s cx-bor-yellow" href="javascript:history.go(-1)"><i class="cx-icon cx-iconxiangzuojiantou cx-mag-r5"></i>返回</a>
+</div>
+<form class="layout cx-fex-l cx-fex-column layui-form" action="{$list_base.uri}" method="post">
+    {$postdb|raw}
+    <div class="layout cx-fex-c">
+        <input type="hidden" name="files" required lay-verify="required" value="{$list_base.files}">
+        <input type="hidden" name="id" required lay-verify="number" value="{$list_base.id}">
+        <button class="cx-button cx-bg-blue cx-bor-rasmall" lay-submit lay-filter="upbutton">确 定</button>
+    </div>
+</form>
+{/block}

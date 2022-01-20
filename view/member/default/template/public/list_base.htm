@@ -1,0 +1,149 @@
+{extend name="base" /}
+{block name="cont"}
+<style>
+    .layui-table img {
+        max-width: 100%;
+    }
+</style>
+<div class="cx-pad-l20 cx-mag-t20">
+    <div class="layout">
+        <div class="layout cx-pad-a10 cx-bg-white">
+            {notempty name="list_base.add"}
+            <a href="{$list_base.add}" title="{$list_base.title|default=''}" class="cx-button-s cx-bg-green cx-text-white">{$list_base.addtitle|default="发布"}{$list_base.title|default=""}</a>
+            {/notempty}
+        </div>
+        <table class="layui-table ll-mag-0" lay-skin="line">
+            <thead>
+            <tr>
+                {volist name=":WormCms('filed@FiledsToTable',$list_file)" id="cx" empty=""}
+                <th class="{$cx.class|default=''}" style="{notempty name='cx.width'}width: {$cx.width}px;{else /}min-width: 60px;{/notempty}">{$cx.title}</th>
+                {/volist}
+                {// 判断是否存在自订义右侧按钮}
+                {present name="list_rightbtn"}
+                {volist name=":WormCms('filed@BtnToTable',$list_rightbtn)" id="cx" empty=""}
+                <th class="cx-text-center" {notempty name="cx.width"}style="width:{$cx.width}px;"{/notempty}>
+                {$cx.title}
+                </th>
+                {/volist}
+                {else /}
+                {eq name="list_base.edit|default='0'" value="1"}<th class="cx-text-center" width="80">编辑</th>{/eq}
+                {eq name="list_base.del|default='0'" value="1"}<th class="cx-text-center" width="80">删除</th>{/eq}
+                {/present}
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="listdb.data" id="cx" empty=""}
+            <tr>
+                {volist name=":WormCms('filed@FiledsToTable',$list_file,$cx)" id="c" empty=""}
+                <td class="{$c.class}">
+                    {if $c.type == 'imgsee'}
+                    <div class="cx-bg-img1x1 cx-bor">
+                        <div class="cx-bg-img cx-fex-c cx-fex-itemsc">
+                            {empty name="c.value"}<img src="__PUBLIC__/img/imgnone.jpg" alt="" style="width: 100%;">{else /}{$c.value|raw}{/empty}
+                        </div>
+                    </div>
+                    {else /}
+                    {$c.value|raw}
+                    {/if}
+                </td>
+                {/volist}
+                {// 判断是否存在自订义右侧按钮}
+                {present name="list_rightbtn"}
+                {volist name=":WormCms('filed@BtnToTable',$list_rightbtn,$cx)" id="c" empty=""}
+                <td class="cx-text-center">
+                    {$c.value|raw}
+                </td>
+                {/volist}
+                {else /}
+                {eq name="list_base.edit|default='0'" value="1"}<td class="cx-text-center"><a href="{:url('edit',['id' => $cx[$list_base.id]])}"><i class="cx-icon cx-iconbianji cx-text-f16"></i></a></td>{/eq}
+                {eq name="list_base.del|default='0'" value="1"}<td class="cx-text-center"><a class="cx-text-red _delete" data-id="{$cx[$list_base.id]}"><i class="cx-icon cx-icondelete cx-text-f16"></i></a></td>{/eq}
+                {/present}
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </div>
+    <div id="pages" class="layout cx-fex-c cx-pad-a20 cx-page"></div>
+    {// 检测是否需要分页 }
+    {notempty name="listdb.total"}
+    <script>
+        layui.use('laypage', function(){
+            var laypage = layui.laypage,
+                getUrlPapram = function (name) {
+                    let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"),
+                        r = window.location.search.substr(1).match(reg); //匹配目标参数
+                    if (r != null) return unescape(r[2]);
+                    return null;
+                };
+            //执行一个laypage实例
+            laypage.render({
+                elem: 'pages',
+                count: "{$listdb.total}",
+                limit: "{$listdb.per_page}",
+                limits:['20','50','100'],
+                curr:  "{$listdb.current_page}",
+                jump: function(obj, first){
+                    let url = window.location.href;
+                    if(url.indexOf('page=') > 0){
+                        let v = getUrlPapram('page');
+                        url = v != null ? url.replace(`page=${v}`,`page=${obj.curr}`) : url.replace(`page=`,`page=${obj.curr}`);
+                    }else{
+                        url = url.indexOf("?") > 0 ? url + `&page=${obj.curr}` : url + `?page=${obj.curr}`;
+                    }
+                    if(!first){
+                        window.location.href = url;
+                    }
+                }
+            });
+        });
+    </script>
+    {/notempty}
+    {// 检测快速删除}
+    {eq name="list_base.del|default='0'" value="1"}
+    <script>
+        $(`._delete`).click(function () {
+            let _this = this,
+                d = $(_this).data();
+            layer.confirm("删除后无法恢复，确定要删除吗？",{icon:3,title:"警告"},function (index) {
+                let url = d.uri ? d.uri : "{:url('del')}";
+                postUrl(url,{id:d.id,_method:"delete"},function (res) {
+                    layer.msg(res.msg,{},function () {
+                        if (res.code == '1'){
+                            {eq name="list_base.list_fold|default='0'" value="1"}
+                            window.location.reload();
+                            {else /}
+                                $(_this).closest(`tr`).remove();
+                                {/eq}
+                                }
+                            });
+                });
+                layer.close(index);
+            });
+        });
+    </script>
+    {/eq}
+</div>
+<script>
+   function postUrl(url, data = '', fun = '') {
+        layer.load(1);
+        $.post(url, data, function(res) {
+            layer.closeAll('loading');
+            if (typeof fun == "function") {
+                fun(res);
+            } else {
+                layer.msg(res.msg, {}, function() {
+                    if (res.code == '1') {
+                        return true;
+                    } else if (res.code == '0') {
+                        return false;
+                    }
+                })
+            }
+        }).fail(function() {
+            layer.closeAll('loading');
+            layer.alert('系统错误，请稍后再试！');
+        });
+    }
+</script>
+{/block}
+

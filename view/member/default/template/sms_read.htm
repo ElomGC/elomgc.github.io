@@ -1,0 +1,44 @@
+{extend name="base" /}
+{block name='cont'}
+<div class="layout cx-pad-l20">
+    <div class="layout cx-bg-white cx-mag-t20 cx-pad-a10" style="box-shadow: 0 0 5px rgba(0,0,0,0.1)">
+        <a href="javascript:history.back(-1)" title="返回" class="cx-button-s cx-bor-red"><i class="cx-icon cx-iconleft"></i> 返回</a>
+    </div>
+    <div class="layout cx-fex-l">
+        <div class="layout cx-card cx-bg-white cx-mag-t15">
+            <div class="cx-card-head">
+                <div class="cx-card-title cx-tag cx-bor-red cx-text-f16">消息详情</div>
+                <small class="cx-card-small cx-text-red">未读</small>
+            </div>
+            <div class="cx-card-body">
+                <ul class="layout cx-fex-l cx-fex-column ll-form">
+                    <div class="cx-form-group cx-mag-b10">
+                        <label class="cx-label">标题</label>
+                        <div class="cx-form-item cx-borbottom cx-bor-white-1">
+                            <input id="title" readonly class="cx-ipt" type="text" required="" lay-verify="required" value="{$readdb.title}">
+                        </div>
+                    </div>
+                    <div class="cx-form-group cx-mag-b10">
+                        <label class="cx-label">发件人</label>
+                        <div class="cx-form-item cx-borbottom cx-bor-white-1">
+                            <input readonly class="cx-ipt" type="text" value="{$readdb.fo_uname}">
+                        </div>
+                    </div>
+                    <div class="cx-form-group cx-mag-b10">
+                        <label class="cx-label">发件时间</label>
+                        <div class="cx-form-item cx-borbottom cx-bor-white-1">
+                            <input id="shouji" readonly class="cx-ipt" type="text" required="" lay-verify="required" value="{$readdb.addtime}">
+                        </div>
+                    </div>
+                    <div class="cx-form-group cx-mag-b10 ">
+                        <label class="cx-label">消息内容</label><div class="cx-form-item">
+                        <textarea readonly rows="3" class="cx-ipt">{$readdb.cont|raw}</textarea>
+                    </div>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{/block}

@@ -1,0 +1,154 @@
+{extend name="base"}
+{block name="cont"}
+<style>
+    body{
+        background-color: #F8F8F8;
+    }
+</style>
+<div class="cx-pos-r h30vh" style="overflow: hidden">
+    {notempty name='$readdb.banber'}
+    <div class="cx-bg-img cx-fex-c cx-fex-itemsc" style="background-image: url({$readdb.banber})"></div>
+    {else/}
+    {$wormedit.news_banner|raw|default=''}
+    {/notempty}
+</div>
+
+<div class="layout cx-fex-l cx-fex-itemsc cx-pad-tb15 cx-hidden-l cx-bg-white">
+
+    <div class="cx-cont cx-fex cx-fex-itemsc">
+        <div class="cx-text-fbig ll-color ll-bold">{$readdb.title}</div>
+        <div class="">
+            <div class="cx-fex-l cx-fex-itemsc">
+                <a href="/" class="cx-text-black-7" title="首页">
+                    <i class="cx-icon cx-iconhome"></i>
+                    <span>首页</span>
+                </a>
+                {volist name='menu' id='cx' empty=''}
+                <a href="/home/part-{$cx.id}.html" target="_blank" title="{$cx.title}" class="cx-text-black-7">
+                    <i class="cx-icon cx-iconright"></i>
+                    <span>{$cx.title}</span>
+                </a>
+                {/volist}
+            </div>
+            <button class="Zcx-button-s cx-bg-black gengduolanmu cx-hidden cx-show-l cx-bor-ra cx-click" data-type="gengduolanmu" data-title="请选择栏目" data-cid="#cx-cixi">> 更多栏目</button>
+        </div>
+    </div>
+</div>
+<div class="cx-cont">
+    <ul class="layout cx-fex-c cx-fex-itemsc cx-pad-tb20">
+        {volist name='partlist' id='cx' empty=''}
+        {eq name='cx.pid' value='$readdb.pid'}
+        <li class="cx-mag-lr10 leftpart">
+            <a href="/home/part-{$cx.id}.html" target="_blank" title="{$cx.title}" class="cx-button cx-bg-white cx-bor-rasmall">{$cx.title}</a>
+        </li>
+
+        {/eq}
+        {/volist}
+    </ul>
+    <div class="cx-cont cx-fex-l cx-fex-column cx-fex-itemsc ll-pad-0" style="min-height: 600px;">
+        <div class="layout cx-fex-c cx-fex-itemsc cx-mag-t50 ll-mag-a0" style="">
+            <div class="layout cx-fex-l cx-bg-white cx-pad-a20">
+                <div class="cx-xs14 cx-xl24 cx-pad-r30 ll-pad-0">
+                    <form action="/api/form/article/save.html?mid=1" class="layout layui-form ll-liuyan-form">
+                        <div class="layout cx-fex-l biaodan">
+                        </div>
+                        <input type="hidden" name="mid" value="1">
+                        <button class="layout cx-button-b ll-bg-color cx-mag-t50 cx-text-white" lay-submit lay-filter="formDemo">提交信息</button>
+                    </form>
+                </div>
+                <div class="cx-xs10 cx-xl24 list-cont-img cx-text-lh ll-mag-t30 ll-pad-t20 ll-bortop">{$readdb.content|raw}</div>
+
+            </div>
+        </div>
+
+        <div class="layout cx-mag-tb50" style="height:500px;border:#ccc solid 1px;" id="map" charset="UTF-8"></div>
+    </div>
+    <!--地址-->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=VRloPIq9c9kYXbiwvut63RCEjZbCnbBE"></script>
+    <script type="text/javascript">
+        //创建和初始化地图函数：
+        function initMap(){
+            createMap();//创建地图
+            setMapEvent();//设置地图事件
+            addMapControl();//向地图添加控件
+            addMapOverlay();//向地图添加覆盖物
+        }
+        function createMap(){
+            map = new BMap.Map("map");
+            map.centerAndZoom(new BMap.Point(121.756186,31.044908),18);
+        }
+        function setMapEvent(){
+            map.enableScrollWheelZoom();
+            map.enableKeyboard();
+            map.enableDragging();
+            map.enableDoubleClickZoom()
+        }
+        function addMapOverlay(){
+            var markers = [
+                {content:"上海市浦东新区惠南镇绿地峰会商务广场B座1710",title:"上海焱凤信息技术有限公司",imageOffset: {width:-45,height:-21},position:{lat:31.044908,lng:121.756186}}
+            ];
+            for(var index = 0; index < markers.length; index++ ){
+                var point = new BMap.Point(markers[index].position.lng,markers[index].position.lat);
+                var marker = new BMap.Marker(point,{icon:new BMap.Icon("http://api.map.baidu.com/lbsapi/createmap/images/icon.png",new BMap.Size(20,25),{
+                        imageOffset: new BMap.Size(markers[index].imageOffset.width,markers[index].imageOffset.height)
+                    })});
+                var label = new BMap.Label(markers[index].title,{offset: new BMap.Size(25,5)});
+                var opts = {
+                    width: 200,
+                    title: markers[index].title,
+                    enableMessage: false
+                };
+                var infoWindow = new BMap.InfoWindow(markers[index].content,opts);
+                marker.setLabel(label);
+                map.addOverlay(marker);
+                marker.openInfoWindow(infoWindow);
+            };
+        }
+        //向地图添加控件
+        function addMapControl(){
+            var scaleControl = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+            scaleControl.setUnit(BMAP_UNIT_IMPERIAL);
+            map.addControl(scaleControl);
+            var navControl = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+            map.addControl(navControl);
+            var overviewControl = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:true});
+            map.addControl(overviewControl);
+        }
+        var map;
+        initMap();
+    </script>
+
+</div>
+<script>
+    function postUrl (url, data = '', fun = '') {
+        $.post(url, data, function (res) {
+            if (typeof fun == "function") {
+                fun(res);
+            } else {
+                if (res.code == '1') {
+                    return true;
+                } else if (res.code == '0') {
+                    return false;
+                }
+            }
+        }).fail(function () {
+
+        });
+    }
+    postUrl('/api/form/article/create.html?mid=1','', function(res) {
+        $.each(res.data,(index,item) => {
+            let itext_type = `<div class="cx-xs8 cx-xl24 cx-form-group cx-pad-lr10 ll-mag-t30"><div class="cx-form-item cx-borbottom cx-bor-white"><input class="cx-ipt-b cx-text-reverse" type="text" name="${item.file}" lay-verify="required" placeholder="${item.title}"></div></div>`,
+                ieditor_type = `<div class="layout cx-form-group cx-pad-lr10 cx-mag-t50 ll-mag-t30"><div class="cx-form-item cx-borbottom cx-bor-white cx-pad-tb10"><textarea placeholder="${item.title}" lay-verify="required" class="layout cx-ipt cx-text-reverse" name="${item.file}" id="" cols="30" rows="4" style="background: transparent;box-shadow: none;border: none;font-size: 1.6rem"></textarea></div></div>`,
+                text_type = `<div class="cx-xs8 cx-xl24 cx-form-group cx-pad-lr10 ll-mag-t30"><div class="cx-form-item cx-borbottom ll-bor-color"><input class="cx-ipt-b" lay-verify="required" type="text" name="${item.file}" placeholder="${item.title}"></div></div>`,
+                editor_type = `<div class="layout cx-form-group cx-pad-lr10 cx-mag-t50"><div class="cx-form-item cx-borbottom ll-bor-color cx-pad-tb10"><textarea placeholder="${item.title}" lay-verify="required" class="layout cx-ipt" name="${item.file}" id="" cols="30" rows="4" style="background: transparent;box-shadow: none;border: none;font-size: 1.6rem"></textarea></div></div>`;
+            if(item.type=='text'&&item.type_edit!=='hidden') {
+                $('.indexbiaodan').append(itext_type);
+                $('.biaodan').append(text_type);
+            }else if(item.type=='editor') {
+                $('.indexbiaodan').append(ieditor_type);
+                $('.biaodan').append(editor_type)
+            }
+        })
+    });
+</script>
+{/block}

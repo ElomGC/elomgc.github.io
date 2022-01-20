@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+{include file="public:head" title="$webdb.web_title" keywords="$webdb.web_keywords" descriiption="$webdb.web_descriiption" /}
+<body>
+{load href="__PUBLIC__/scrollbar/jquery.mCustomScrollbar.min.css" /}
+<div class="layout cx-nav-small cx-fex cx-bg-black cx-borbottom cx-bor-yellow-5 cx-text-reverse">
+    <div class="cx-fex-l">
+        <a class="cx-nav-logo cx-mapl" href="">
+            <img src="__IMAGES__/logo.png" alt="">
+        </a>
+        <ul class="cx-fex-l">
+            <li class="cx-nav-one">
+                <a class="cx-pad-lr10" ><i class="cx-icon cx-iconshouqicaidan cx-text-f16"></i></a>
+            </li>
+        </ul>
+    </div>
+    <ul class="cx-fex-l">
+        <li class="cx-nav-one"><a class="cx-pad-lr10" href="{$webdb.web_url}" target="_blank"><i class="cx-icon cx-iconhome cx-mag-r5"></i>网站首页</a></li>
+        <li class="cx-nav-one"><a class="cx-pad-lr10 cx-click" data-type="rightbody" data-uri="{:url('map')}"><i class="cx-icon cx-iconhome cx-mag-r5"></i>后台首页</a></li>
+        <li class="cx-nav-one"><a class="cx-pad-lr10 cx-click" data-type="loginqu" data-uri="{:url('index/delcache')}"><i class="cx-icon cx-iconLoading-a cx-mag-r5"></i>清除缓存</a></li>
+        <li class="cx-nav-one"><a class="cx-pad-lr10 cx-click" data-type="loginqu" data-uri="{:url('login/qulogin')}"><i class="cx-icon cx-icontuichu1 cx-mag-r5"></i>安全退出</a></li>
+    </ul>
+</div>
+<div class="layout cx-fex-l map-body">
+    <div id="mapl" class="cx-mapl cx-fex-l cx-fex-column cx-fex-nowrap cx-bg-black cx-text-reverse">
+        <div class="layout cx-pad-a10 cx-fex-c cx-fex-column cx-fex-itemsc">
+            <div class="cx-xl8">
+                <div class="cx-bg-img1x1 cx-bg-imgradius">
+                    <div class="cx-bg-img cx-bg-white cx-fex-c cx-fex-itemsc">
+                        <img class="cx-img-responsive cx-img-radius" src="{$wormuser.u_icon|default=''}" onerror="this.src='__PUBLIC__/img/usernone.png'" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="layout cx-fex-column">
+                <h6 class="cx-text-center">欢迎您:{$wormuser.u_name}</h6>
+            </div>
+        </div>
+        <div class="layout cx-fex-l cx-fex-column cx-fex-nowrap cx-mapl-nav">
+            {$listdb|raw}
+        </div>
+    </div>
+    <div class="cx-mapr cx-fex-l cx-fex-column">
+        <div class="cx-fex-l cx-fex-nowrap cx-fex-itemsc map-header">
+            <div class="map-headerleft cx-fex-l cx-fex-itemsc cx-text-black-3">
+                <h6 class="cx-mag-lr10 cx-text-black-3">当前位置:</h6>
+                <span>首页</span>
+                <div class="map-headernav-box"></div>
+            </div>
+            <div class="map-headerright">
+                <a class="cx-text-yellow cx-click" data-type="readmaprbody"><i class="cx-icon cx-iconloading1 cx-text-f16"></i>刷新</a>
+            </div>
+        </div>
+        <div class="layout cx-maprbody cx-fex-l" style="flex-grow: 2">
+            <iframe class="tabiframe" name="" src="{:url('index/map')}" frameborder="0"></iframe>
+        </div>
+        <div class="layout cx-fex cx-fex-itemsc map-foot cx-bg-white-2 cx-text-black-4 cx-text-f12">
+            <div class="cx-pad-lr10">授权域名:{$webdb._warrant.0|default="未授权"}</div>
+            <div class="cx-pad-lr10"><span class="cx-mag-r10">蠕虫CMS</span><span class="cx-mag-r10">版本:{$webdb._warrant.1|default="未授权"}</span><span>版本号: {$webdb.web_edition_no}</span> </div>
+        </div>
+    </div>
+</div>
+{include file="public:foot" /}
+{load href="__PUBLIC__/scrollbar/jquery.mCustomScrollbar.concat.min.js" /}
+<script>
+    $(document).ready(function (e) {
+        headw();
+        $(".cx-mapl-nav").mCustomScrollbar({
+            autoHideScrollbar:true,
+        });
+    });
+    $(window).resize(function(e) {
+        headw();
+    });
+    function headw() {
+        let w = $(window).width(),
+            l_w = $(`#mapl`).width();
+        $(`.map-header`).width(w * 1 - l_w * 1 + 'px');
+    }
+</script>
+</body>
+</html>

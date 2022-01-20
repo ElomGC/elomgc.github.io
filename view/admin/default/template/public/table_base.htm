@@ -1,0 +1,183 @@
+{extend name="public:base" title="$list_base.title" /}
+{block name="cont"}
+{notempty name="list_nav"}
+<div id="tabletopnav" class="layout cx-fex-c cx-borbottom cx-mag-b10">
+    {volist name="list_nav.list" id="cx" empty=""}
+    <a class="cx-button {eq name='cx.id|default=0' value='$list_nav.default'}cx-bg-blue{else /}cx-bor-white{/eq}" onclick="upuri(this)" data-uri="{$cx.uri}">{$cx.title}</a>
+    {/volist}
+</div>
+{/notempty}
+<div class="layout map-table-box">
+    <table id="listdb" class="layout" lay-data="listdb" lay-filter="listdb"></table>
+</div>
+{/block}
+{block name="foot_js"}
+<script type="text/html" id="list-top">
+    <div class="layout cx-fex cx-fex-itemsc">
+        <div class="cx-fex-l cx-fex-itemsc">
+        {notempty name="list_top"}
+        {volist name="list_top" id="cx" empty=""}
+        <a class="{$cx.class|default='cx-button-s cx-bg-blue'}" {empty name="cx.event"}onclick="upuri(this)"{else /}lay-event="{$cx.event}"{/empty} data-uri="{$cx.uri}">{$cx.title}</a>
+        {/volist}
+        {/notempty}
+        {notempty name="list_base.add"}
+        <a data-uri="{empty name='list_base.add.uri'}{:url('create')}{else /}{$list_base.add.uri}{/empty}" class="{$list_base.add.class|default='cx-button-s cx-bg-blue'} cx-click" data-type='addopen' data-title="{empty name='list_base.add.opentitle'}{$list_base.add.title}{else /}{$list_base.add.opentitle}{/empty}" {eq name="list_base.add.full|default='n'" value="y"}data-full="y"{/eq}>{$list_base.add.title}</a>
+        {/notempty}
+        </div>
+        {notempty name="list_search"}
+        <form class="layui-form cx-form-group" action="{$list_search.uri|default=''}" method="post" lay-filter="tableform">
+            <div class="layout cx-form-item">
+                <div class="layout cx-form-itemnowarp">
+                    {notempty name="list_search.field"}
+                    <select name="{$list_search.fieldname|default='field'}" lay-filter="tablesearch">
+                        {volist name="list_search.field" id="cx"}
+                        <option value="{$cx.value}" {eq name="getdata[$list_search.fieldname]|default='field'" value="$cx.value"}selected{/eq}>{$cx.title|raw}</option>
+                        {/volist}
+                    </select>
+                    {/notempty}
+                    {notempty name="list_search.input"}
+                    <input type="{$list_search.input.type|default='text'}" class="cx-ipt-s" name="{$list_search.input.name|default='key'}" placeholder="{$list_search.input.placeholder|default='请输入关键词'}.." value="{$list_search.input.value|default=''}" style="min-width: 150px;">
+                    {/notempty}
+                    <button class="cx-button-s cx-bg-blue" lay-submit lay-filter="tableformbtn">确定</button>
+                </div>
+            </div>
+        </form>
+        {/notempty}
+    </div>
+</script>
+{notempty name="file_temp.button"}
+{volist name="file_temp.button" id="cx" empty=""}
+{$cx|raw}
+{/volist}
+{/notempty}
+{notempty name="file_temp.switch"}
+{volist name="file_temp.switch" id="cx" empty=""}
+{$cx|raw}
+{/volist}
+{/notempty}
+{notempty name="file_temp.link"}
+{volist name="file_temp.link" id="cx" empty=""}
+{$cx|raw}
+{/volist}
+{/notempty}
+{load href="__LAYUI__/layui_exts/treetable/treetable.css" /}
+<script>
+    layui.{eq name="list_base.page" value="1"}config({
+        base: '__LAYUI__/layui_exts/'
+    }).extend({
+        treetable:'treetable/treetable'
+    }).{/eq}use(['table','layer','form',{eq name="list_base.page" value="1"}"treetable"{/eq}], function () {
+        var table = layui.table,
+            layer = layui.layer,
+            layform = layui.form,
+            {eq name="list_base.page" value="1"}treetable = layui.treetable,{/eq}
+            h = $(window).height() - 60;
+        if($(`#tabletopnav`).length > 0){
+            h = h - $(`#tabletopnav`).height() - 15;
+        }
+        let tablelist = {eq name="list_base.page" value="1"}tree{/eq}table.render({
+            {eq name="list_base.page" value="1"}
+            treeColIndex: 1,
+            treeSpid: 0,
+            treeIdName: 'id',
+            treePidName: 'pid',
+            treeDefaultClose: {$list_base.open|default='true'},
+            treeLinkage: false,
+            {/eq}
+            elem: '#listdb',
+            {eq name="list_base.tool|default='1'" value="1"}
+            toolbar: '#list-top',
+            {/eq}
+            {eq name="list_base.toolbar|default='1'" value="0"}
+            defaultToolbar:[],
+            {/eq}
+            url: "{$list_base.uri|raw}",
+            height:h,
+            {eq name="list_base.page" value="0"}limit:20,{/eq}
+            page:{in name="list_base.page" value="1,2"}false{else /}true{/in},
+            parseData: function(res){
+                return {
+                    "code": res.code,
+                    "data":{in name="list_base.page" value="1,2"}res.data{else /}res.data.data{/in},
+                {eq name="list_base.page" value="0"}
+                    "count": res.data.total,
+                    "limit": res.data.per_page,
+                {/eq}
+                };
+            },
+            response: {
+                statusCode: '1'
+            },
+            cols: [{:WormCms('filed@FiledsToLayuiTable',$list_file)}],
+        });
+        {eq name="file_temp.tableedit|default='0'" value="1"}
+        table.on('edit(listdb)', function(obj){
+            wormui.postUrl("{:url('fastswitch')}",{_method:'PUT',id:obj.data.id,field: obj.field, value:obj.value});
+        });
+        {/eq}
+        {notempty name="file_temp.js"}
+        {volist name="file_temp.js" id="cx" empty=""}
+        {$cx|raw}
+        {/volist}
+        {/notempty}
+        {notempty name="file_temp.event"}
+        table.on('tool(listdb)',function (obj) {
+            switch (obj.event){
+                {volist name="file_temp.event" id="cx" empty=""}
+                    {$cx|raw}
+                {/volist}
+            }
+        });
+        {/notempty}
+        {notempty name="list_search"}
+        layform.on('submit(tableformbtn)',function () {
+            let _data = layform.val("tableform");
+            table.reload('listdb', {
+                url: "{$list_search.uri|default=''}",
+                page: {curr: 1},
+                where: _data
+            });
+            {notempty name="list_search.field"}
+            layform.val("tableform", {"{$list_search.fieldname|default='field'}": _data["{$list_search.fieldname|default='field'}"]});
+            {/notempty}
+            {notempty name="list_search.input"}
+            layform.val("tableform", {"{$list_search.input.name|default='key'}": _data["{$list_search.input.name|default='key'}"]});
+            {/notempty}
+            return false;
+        });
+        {/notempty}
+        let toolbar = false;
+        {notempty name="list_top"}
+        {volist name="list_top" id="cx" empty=""}
+        {notempty name="cx.event"}
+        toolbar = true;
+        {/notempty}
+        {/volist}
+        {/notempty}
+        table.on('toolbar(listdb)', function(obj){
+            let checkStatus = table.checkStatus(obj.config.id).data,
+                delaid =[];
+            $.each(checkStatus,function (index,item) {
+                delaid.push(item.id)
+            });
+            if(delaid.length === 0){
+                layer.msg('您还没有选择内容！');
+                return false;
+            }
+            let d = $(this).data();
+            wormui.postUrl(d.uri,{ids:delaid},function(res){
+                layer.msg(res.msg);
+                if(res.code == '1'){
+                    tablelist.reload();
+                }
+            });
+        });
+    });
+</script>
+<script>
+function upuri(o){
+    let d = $(o).data();
+    parent.$(`.tabiframe`).attr('src',d.uri);
+}
+</script>
+{/block}

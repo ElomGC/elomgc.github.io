@@ -1,0 +1,233 @@
+{extend name="base"}
+{block name="cont"}
+<style>
+    .ll-liuyan-form ::-webkit-input-placeholder {
+        color: #FFFFFF;
+    }
+</style>
+<div class="huandeng">
+    <div class="layui-carousel" id="inhdp" >
+        <div carousel-item >
+            {$wormedit.banner|raw|default=''}
+        </div>
+        <div class="cx-pos-a" style="top: 0;left: 0;right: 0;bottom: 0;background-color: rgba(0,0,0,0.2)">
+        <div class="cx-pos-a cx-fex-column cx-fex-c cx-fex-itemst cx-text-lh topbannertext">
+            <h2 class="index-title cx-text-reverse" data-scroll-reveal="enter left,move 50px,after 0.2s">{$wormedit.bannertitle|raw|default=''}</h2>
+            <span class="cx-text-f16 cx-text-reverse" data-scroll-reveal="enter right,move 50px,after 0.3s">{$wormedit.bannerfutitle|raw|default=''}</span>
+            <a href="/home/part-9.html" title="联系我们" class="cx-button-b cx-bor-rasmall cx-bg-white cx-mag-t20 ll-color" data-scroll-reveal="enter left,move 50px,after 0.5s">联系我们</a>
+        </div>
+        </div>
+    </div>
+</div>
+<div class="index-cont">
+    <div class="cx-cont cx-fex-l">
+        <div class="cx-xs16 cx-hidden-l cx-fex-c" style="overflow: hidden">
+            <div class="cx-xl16" style="height: 100%">
+                <div class="swiper-container" id="guanyu">
+                    <div class=" swiper-wrapper">
+                        {$wormedit.newnenpic|raw|default=''}
+                    </div>
+                    <!-- Add Pagination -->
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </div>
+        <div class="cx-xs8 cx-xl24 cx-fex-l cx-fex-itemst cx-fex-column ll-fex-itemsc cx-pad-l50 ll-pad-0">
+            <h2 class="index-ztitle ll-bold" data-scroll-reveal="enter bottom,move 50px">{$wormedit.gstitle|raw|default=''}</h2>
+            <span class="cx-text-f18 ll-bold ll-color" data-scroll-reveal="enter bottom,move 50px,after 0.1s">{$wormedit.gsfutitle|raw|default=''}</span>
+            <div class="cx-mag-tb20 cx-text-lh">
+                {$wormedit.xlcontent|raw|default=''}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="layout cx-pos-r ship_height">
+    <video  autoplay="autoplay" muted="muted"  volume="0" loop="loop" style="width: 100%; height: 100%;object-fit:cover;object-position:center center" class="section-background-video">
+        <source type="video/webm" src="https://ccdn.goodq.top/caches/e76cf833c6181653c338caf4eab7fde7/aHR0cHM6Ly81YTRlZDNlNjExYmNmLnQ3My5xaWZlaXllLmNvbS9xZnktY29udGVudC91cGxvYWRzLzIwMTgvMDEvMjRiMDU4YjM3ODE3NDM0MzcxYjc0ZmUyMWU1OTBhMzEud2VibQ_p_p100_p_3D_p_p100_p_3D.webm"/>
+    </video>
+    <div class="cx-pos-a" style="top: 0;left: 0;right: 0;bottom: 0;background-color: rgba(3,103,170,0.5);">
+        <div class="cx-cont cx-fex-l cx-fex-itemsc" style="height: 100%">
+            <div class="cx-xl8 cx-fex-column cx-fex-c cx-text-lh" data-scroll-reveal="enter bottom,move 50px,after 0.1s" style="border-right: 1px dotted #f7f7f7">
+                <div class="layout cx-fex-c ll-pad-a20">
+                    {$wormedit.fengneng|raw|default=''}
+                </div>
+                <span class="cx-text-f18 ll-bold cx-text-white cx-text-center cx-mag-t10">{$wormedit.fengnengnum|raw|default=''}/</span>
+                <span class="cx-text-f16 cx-text-white cx-text-center">{$wormedit.fengnengtitle|raw|default=''}</span>
+            </div>
+            <div class="cx-xl8 cx-fex-column cx-fex-c cx-text-lh" data-scroll-reveal="enter bottom,move 50px,after 0.2s" style="border-right: 1px dotted #f7f7f7">
+                <div class="layout cx-fex-c ll-pad-a20">
+                    {$wormedit.tianyang|raw|default=''}
+                </div>
+                <span class="cx-text-f18 ll-bold cx-text-white cx-text-center cx-mag-t10">{$wormedit.tianyangnum|raw|default=''}/</span>
+                <span class="cx-text-f16 cx-text-white cx-text-center">{$wormedit.tianyangtitle|raw|default=''}</span>
+            </div>
+            <div class="cx-xl8 cx-fex-column cx-fex-c cx-text-lh" data-scroll-reveal="enter bottom,move 50px,after 0.3s">
+                <div class="layout cx-fex-c ll-pad-a20">
+                    {$wormedit.taiyang|raw|default=''}
+                </div>
+                <span class="cx-text-f18 ll-bold cx-text-white cx-text-center cx-mag-t10">{$wormedit.taiyangnum|raw|default=''}/</span>
+                <span class="cx-text-f16 cx-text-white cx-text-center">{$wormedit.taiyangtitle|raw|default=''}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layout cx-pos-r index-cont">
+    <div class="cx-cont cx-fex-c cx-fex-column cx-fex-itemsc" style="height: 100%;">
+        <h2 class="index-ztitle ll-bold cx-text-center cx-text-lh ll-text-color" data-scroll-reveal="enter bottom,move 50px">{$wormedit.newtitle|raw|default=''}</h2>
+        <span class="cx-text-f18 ll-bold ll-color" data-scroll-reveal="enter bottom,move 50px,after 0.1s">{$wormedit.newfutitle|raw|default=''}</span>
+        <div class="layout cx-mag-t30 cx-fex-l cx-pad-a10 ll-pad-0">
+            {$wormedit.newlist|raw|default=''}
+        </div>
+        <a href="/home/part-1.html" title="新闻中心" class="layout cx-fex-c">
+            <button class="cx-xs3 cx-xl8 cx-mag-t30 cx-fex-c cx-fex-itemsc cx-button-b cx-bor-black ll-button-hreght">MORE  >></button>
+        </a>
+    </div>
+</div>
+
+<div class="layout cx-pos-r h700">
+    {$wormedit.abbanner|raw|default=''}
+    <div class="cx-pos-a" style="top: 0;left: 0;right: 0;bottom: 0; background-image: url(__IMAGES__/grid-10.png);background-color: rgba(0,147,250,0.5)">
+        <div class="cx-cont cx-fex-r cx-fex-itemsc" style="height: 100%">
+            <div class="cx-xs16 cx-xl24 cx-pos-r" style="height: 500px">
+                {$wormedit.abrightbanner|raw|default=''}
+                <div class="cx-xs16 cx-xl24 cx-fex-l cx-fex-itemst cx-fex-column ll-fex-itemsc cx-pos-a cx-bg-white cx-pad-a30 abweizhi">
+                    <h2 class="index-ztitle ll-bold" data-scroll-reveal="enter left,after 0.4s">{$wormedit.qjtitel|raw|default=''}</h2>
+                    <span class="cx-text-f18 ll-bold ll-color" data-scroll-reveal="enter bottom,after 0.5s">{$wormedit.qjfutitel|raw|default=''}</span>
+                    <div class="cx-mag-tb20 cx-text-lh">
+                        {$wormedit.xltext|raw|default=''}
+                    </div>
+                    <a href="/home/part-9.html" title="联系我们" class="cx-button-b cx-bor-rasmall ll-bg-color cx-mag-t20 cx-text-white">CONTACT US</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="layout index-cont" style="background-color: #f8f8f8">
+    <div class="cx-cont cx-fex-column cx-fex-itemsc cx-fex-l">
+        <h2 class="index-ztitle ll-bold" data-scroll-reveal="enter bottom,move 50px">{$wormedit.cptitle|raw|default=''}</h2>
+        <span class="cx-text-f18 ll-bold ll-color" data-scroll-reveal="enter bottom,move 50px,after 0.1s">{$wormedit.cpfutitle|raw|default=''}</span>
+        <div class="layout cx-mag-t30 cx-fex-l cx-pad-a10 ll-mag0 ll-pad-0" data-scroll-reveal="enter bottom,move 50px,after 0.2s">
+            {$wormedit.cplist|raw|default=''}
+        </div>
+    </div>
+</div>
+
+<div class="layout index-cont">
+    <div class="cx-cont cx-fex-column cx-fex-itemsc cx-fex-l">
+        <h2 class="index-ztitle ll-bold cx-text-center cx-text-lh ll-text-color" data-scroll-reveal="enter bottom,move 50px">{$wormedit.tdtitle|raw|default=''}</h2>
+        <span class="cx-text-f18 ll-bold ll-color" data-scroll-reveal="enter bottom,move 50px,after 0.1s">{$wormedit.tdfutitle|raw|default=''}</span>
+        <div class="layout cx-pos-r cx-fex cx-fex-itemsc cx-mag-t30">
+            <div class="cx-xl2 cx-hidden-l swiper-button-next leftpre my-button-disabled cx-fex-l cx-text-black-6" style="font-weight: bold;font-size: 6rem;"></div>
+            <!--左箭头。如果放置在swiper-container外面，需要自定义样式。-->
+            <div class="swiper-container cx-xs20 cx-xl24  swiper-container-initialized swiper-container-horizontal" id="gallery">
+                <div class="swiper-wrapper cx-fex-nowrap cx-pos-r" style="width:1000%; transition-duration: 0ms; transform: translate3d(0px, 0px, 0px)">
+                    <div class="swiper-slide blue-slide swiper-slide-active cx-mag-r10" style="float: left;">
+                        <div class="layout cx-fex last-child-remove-line cx-pad-a10">
+                            {$wormedit.newslist|raw|default=''}
+                        </div>
+                    </div>
+                    <div class="swiper-slide blue-slide swiper-slide-active cx-mag-r10" style="float: left;">
+                        <div class="layout cx-fex last-child-remove-line">
+                            {$wormedit.newslist1|raw|default=''}
+                        </div>
+                    </div>
+                </div>
+                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+            </div>
+            <div class="swiper-button-prev cx-xl2 cx-hidden-l rightpre my-button-disabled cx-fex-r cx-text-black-6" style="font-weight: bold;font-size: 6rem;"></div>
+            <!--右箭头。如果放置在swiper-container外面，需要自定义样式。-->
+        </div>
+    </div>
+</div>
+
+<div class="layout cx-pos-r" style="height: 600px">
+    {$wormedit.lianxi_bg|raw|default=''}
+    <div class="cx-pos-a cx-fex-c cx-fex-column cx-fex-itemsc index-cont" style="background-image: url(__IMAGES__/grid-10.png);background-color: rgba(0,147,250,0.9);top: 0;right: 0;left: 0;bottom: 0;z-index: 9;">
+        <div class="cx-cont" style="height: 100%;">
+            <div class="layout cx-fex-l cx-fex-column cx-fex-itemsc cx-text-lh cx-text-reverse">
+                <h2 class="index-ztitle ll-bold" data-scroll-reveal="enter bottom,move 50px">{$wormedit.lxtitle|raw|default=''}</h2>
+                <span class="cx-text-f18 ll-bold" data-scroll-reveal="enter bottom,move 50px,after 0.1s">{$wormedit.lxfutitle|raw|default=''}</span>
+            </div>
+            <div class="layout cx-fex-c cx-fex-itemsc cx-mag-t50 ll-mag-t30" style="">
+                <div class="layout cx-fex-l">
+                    <div class="cx-xs5 cx-xl24 cx-hidden-l cx-text-reverse">
+                        <div class="cx-text-f18">{$wormedit.gongsi_name|raw|default='XX食品有限公司'}</div>
+                        <ul class="cx-text-lh cx-mag-t30">
+                            <li class="cx-mag-t20">{$wormedit.dianhua_name|raw|default='电话：021-86868686'}</li>
+                            <li class="cx-mag-t20">{$wormedit.dizhi_name|raw|default='地址：上海市浦东新区康意路521号'}</li>
+                            <li class="cx-mag-t20">{$wormedit.qq_name|raw|default='QQ：586868686'}</li>
+                            <li class="cx-mag-t20">{$wormedit.wx_name|raw|default='微信：13100000000'}</li>
+                            <li class="cx-mag-t20">{$wormedit.youxiang_name|raw|default='邮箱：xcnnx@163.com'}</li>
+                        </ul>
+                    </div>
+                    <div class="cx-xs19 cx-xl24 cx-pad-l30 ll-pad-0">
+                        <form action="/api/form/article/save.html?mid=1" class="layout layui-form ll-liuyan-form">
+                            <div class="layout cx-fex-l indexbiaodan">
+                            </div>
+                            <input type="hidden" name="mid" value="1">
+                            <button class="layout cx-button-b cx-bg-white cx-mag-t50 ll-mag-t30" lay-submit lay-filter="formDemo">提交信息</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layout index-cont">
+    <div class="cx-cont  cx-fex-column cx-fex-itemsc cx-fex-l">
+        <h2 class="index-ztitle ll-bold cx-text-center cx-text-lh ll-text-color" data-scroll-reveal="enter bottom,move 50px">{$wormedit.hztitle|raw|default=''}</h2>
+        <span class="cx-text-f18 ll-bold ll-color" data-scroll-reveal="enter bottom,move 50px,after 0.1s">{$wormedit.hzfutitle|raw|default=''}</span>
+        <ul class="layout cx-pad-a10 cx-fex-l">
+            {volist name='$LinkList.1.data' id='cx'}
+            {notempty name='cx.logo'}
+            <li class="cx-xs4 cx-xl8 ll-pad-a5" data-scroll-reveal="enter bottom,move 50px,after 0.2s">
+                <a href="{$cx.uri}" title="{$cx.title}" target="_blank class="layout cx-pad-a10">
+                    <div class="cx-bg-img4x3">
+                        <div class="cx-bg-img cx-fex-c cx-fex-itemsc cx-bg-white">
+                            <img src="{$cx.logo}" onerror="this.src='/public/wormcms/img/imgnone.jpg'" class="cx-img-responsive" alt="">
+                        </div>
+                    </div>
+                </a>
+            </li>
+            {/notempty}
+            {/volist}
+        </ul>
+
+    </div>
+
+</div>
+<script>
+    function postUrl (url, data = '', fun = '') {
+        $.post(url, data, function (res) {
+            if (typeof fun == "function") {
+                fun(res);
+            } else {
+                if (res.code == '1') {
+                    return true;
+                } else if (res.code == '0') {
+                    return false;
+                }
+            }
+        }).fail(function () {
+
+        });
+    }
+    postUrl('/api/form/article/create.html?mid=1','', function(res) {
+        $.each(res.data,(index,item) => {
+            let itext_type = `<div class="cx-xs8 cx-xl24 cx-form-group cx-pad-lr10 ll-mag-t30"><div class="cx-form-item cx-borbottom cx-bor-white"><input class="cx-ipt-b cx-text-reverse" type="text" name="${item.file}" lay-verify="required" placeholder="${item.title}"></div></div>`,
+                ieditor_type = `<div class="layout cx-form-group cx-pad-lr10 cx-mag-t50 ll-mag-t30"><div class="cx-form-item cx-borbottom cx-bor-white cx-pad-tb10"><textarea placeholder="${item.title}" lay-verify="required" class="layout cx-ipt cx-text-reverse" name="${item.file}" id="" cols="30" rows="4" style="background: transparent;box-shadow: none;border: none;font-size: 1.6rem"></textarea></div></div>`,
+                text_type = `<div class="cx-xs8 cx-xl24 cx-form-group cx-pad-lr10 ll-mag-t30"><div class="cx-form-item cx-borbottom ll-bor-color"><input class="cx-ipt-b" lay-verify="required" type="text" name="${item.file}" placeholder="${item.title}"></div></div>`,
+                editor_type = `<div class="layout cx-form-group cx-pad-lr10 cx-mag-t50"><div class="cx-form-item cx-borbottom ll-bor-color cx-pad-tb10"><textarea placeholder="${item.title}" lay-verify="required" class="layout cx-ipt" name="${item.file}" id="" cols="30" rows="4" style="background: transparent;box-shadow: none;border: none;font-size: 1.6rem"></textarea></div></div>`;
+            if(item.type=='text'&&item.type_edit!=='hidden') {
+                $('.indexbiaodan').append(itext_type);
+                $('.biaodan').append(text_type);
+            }else if(item.type=='editor') {
+                $('.indexbiaodan').append(ieditor_type);
+                $('.biaodan').append(editor_type)
+            }
+        })
+    });
+</script>
+{/block}
